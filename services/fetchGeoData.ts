@@ -19,14 +19,15 @@ export async function fetchGeoData(
 
     const geoData: SearchGeoData = await geoRes.json();
 
-    if (!geoData.results) {
+    if (!geoData.results || geoData.results.length === 0) {
       throw new AppError("GEOCODING_FAILED", `City ${city} not found...`);
     }
+    console.log(geoData);
 
     return geoData;
   } catch (error) {
-    if (signal?.aborted) throw error;
-    if (error instanceof AppError) throw Error;
+    if (error instanceof Error && error.name === "AbortError") throw error;
+    if (error instanceof AppError) throw error;
     const message =
       error instanceof Error ? error.message : "Unexpected error...";
     throw new AppError("UNKNOWN_ERROR", message);
