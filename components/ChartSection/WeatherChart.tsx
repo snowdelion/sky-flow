@@ -4,6 +4,7 @@ import type {
 } from "@/types/api/WeatherData";
 import { calculateAverageTemps } from "@/utils/calculateAverageTemps";
 import { formatDayOfWeek } from "@/utils/formatDay";
+import groupByDay from "@/utils/groupByDay";
 import {
   Area,
   AreaChart,
@@ -20,15 +21,28 @@ export interface WeatherChartProps {
   currentTab: "daily" | "hourly";
 }
 
-export function WeatherChart({ dailyData, hourlyData }: WeatherChartProps) {
-  const chartData = dailyData.time.map((time, index) => {
+export function WeatherChart({
+  dailyData,
+  hourlyData,
+  currentTab,
+}: WeatherChartProps) {
+  const chartDailyData = dailyData.time.map((time, index) => {
     const min = dailyData.temperature_2m_min[index];
     const max = dailyData.temperature_2m_max[index];
     const date = new Date(time);
-
     return {
       day: formatDayOfWeek(date),
       temp: calculateAverageTemps(min, max),
+    };
+  });
+
+  const filteredDays = groupByDay(hourlyData);
+  console.log(filteredDays);
+
+  const chartHourlyData = filteredDays[1].hours.map((item, index) => {
+    return {
+      hour: item.hour,
+      temp: item.temp,
     };
   });
 
@@ -40,15 +54,20 @@ export function WeatherChart({ dailyData, hourlyData }: WeatherChartProps) {
     return ticks;
   };
 
-  const allTicks = generateTicks(
-    Math.min(...chartData.map((item) => item.temp)) - 3,
-    Math.max(...chartData.map((item) => item.temp)) + 3,
+  const dailyTicks = generateTicks(
+    Math.min(...chartDailyData.map((item) => item.temp)) - 3,
+    Math.max(...chartDailyData.map((item) => item.temp)) + 3,
+  );
+
+  const hourlyTicks = generateTicks(
+    Math.min(...chartHourlyData.map((item) => item.temp)) - 3,
+    Math.max(...chartHourlyData.map((item) => item.temp)) + 3,
   );
 
   return (
     <ResponsiveContainer>
       <AreaChart
-        data={chartData}
+        data={currentTab === "daily" ? chartDailyData : chartHourlyData}
         margin={{ top: 5, right: 50, left: 0, bottom: 0 }}
       >
         <CartesianGrid
@@ -58,7 +77,7 @@ export function WeatherChart({ dailyData, hourlyData }: WeatherChartProps) {
         />
 
         <XAxis
-          dataKey="day"
+          dataKey={currentTab === "daily" ? "day" : "hour"}
           fontSize={12}
           tickLine={false}
           axisLine={false}
@@ -69,11 +88,15 @@ export function WeatherChart({ dailyData, hourlyData }: WeatherChartProps) {
           dataKey="temp"
           unit="°C"
           fontSize={12}
-          ticks={allTicks}
-          interval={0}
+          ticks={currentTab === "daily" ? dailyTicks : hourlyTicks}
+          interval={currentTab === "daily" ? 1 : 0}
           tickLine={false}
           axisLine={false}
-          domain={["dataMin - 3", "dataMax + 3"]}
+          domain={
+            currentTab === "daily"
+              ? ["dataMin - 3", "dataMax + 3"]
+              : ["auto", "auto"]
+          }
         />
 
         <Tooltip
