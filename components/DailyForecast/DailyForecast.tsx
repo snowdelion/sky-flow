@@ -26,8 +26,8 @@ export default function DailyForecast({ dailyData }: DailyForecastProps) {
     return {
       day: formatDayOfWeek(date),
       weatherCode: weatherCode?.[index] || 0,
-      temp: `${calculateAverageTemps(tempMin[index], tempMax[index], tempMax)[index]}°`,
-      feelsLike: `${calculateAverageTemps(apparentTempMin[index], apparentTempMax[index], tempMax)[index]}°`,
+      temp: `${calculateAverageTemps(tempMin[index], tempMax[index])}°`,
+      feelsLike: `${calculateAverageTemps(apparentTempMin[index], apparentTempMax[index])}°`,
       date: dateStr,
       image,
     };
