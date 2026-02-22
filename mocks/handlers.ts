@@ -54,4 +54,23 @@ export const handlers = [
 
     return new HttpResponse(null, { status: 404 });
   }),
+
+  http.get("https://api.open-meteo.com", ({ request }) => {
+    const url = new URL(request.url);
+    const lat = url.searchParams.get("latitude");
+    const lon = url.searchParams.get("longitude");
+
+    if (lat === "53.9" && lon === "27.56667") {
+      return HttpResponse.json({
+        current: {
+          city: "Minsk",
+          latitude: 53.9,
+          longitude: 27.56667,
+        },
+        hourly: {},
+        daily: {},
+        forecastUnits: {},
+      });
+    }
+  }),
 ];
