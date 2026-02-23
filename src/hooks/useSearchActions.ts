@@ -1,4 +1,4 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useShallow } from "zustand/shallow";
 
@@ -6,6 +6,7 @@ import type { ActiveTab } from "@/components/SearchSection/SearchField.types";
 import { fetchGeoData } from "@/services/fetchGeoData";
 import { useSearchStore } from "@/stores/useSearchStore";
 import type { CityData } from "@/types/api/CityData";
+import { capitalizeString } from "@/utils/formatters";
 
 import type { UseSearchActionsReturn } from "./useSearchActions.types";
 import { useSearchHistory } from "./useSearchHistory";
@@ -35,7 +36,6 @@ export function useSearchActions(): UseSearchActionsReturn {
 
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const handleChangeTab = (value: ActiveTab): void => {
     setCurrentTab(value);
@@ -56,9 +56,9 @@ export function useSearchActions(): UseSearchActionsReturn {
     const latStr = cityData.lat.toString();
     const lonStr = cityData.lon.toString();
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("city", cityData.city);
-    params.set("country", cityData.country);
+    const params = new URLSearchParams();
+    params.set("city", capitalizeString(cityData.city));
+    params.set("country", capitalizeString(cityData.country));
     params.set("lat", latStr);
     params.set("lon", lonStr);
     router.push(`${pathname}?${params.toString()}`);

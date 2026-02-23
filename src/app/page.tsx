@@ -13,7 +13,7 @@ interface WeatherPageProps {
 export default async function WeatherPage({ searchParams }: WeatherPageProps) {
   const params = await searchParams;
   if (!params.city)
-    redirect("/?city=Minsk&lat=53.9&lon=27.56667&country=Belarus");
+    redirect("/?city=Minsk&country=Belarus&lat=53.9&lon=27.56667");
 
   return (
     <>

@@ -19,3 +19,7 @@ export function getHourNumber(hour: string): number | undefined {
     return parseInt(hour) + 12;
   }
 }
+
+export function capitalizeString(value: string): string {
+  return value[0].toUpperCase() + value.slice(1).toLowerCase();
+}
