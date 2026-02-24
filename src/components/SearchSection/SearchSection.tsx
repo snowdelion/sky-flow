@@ -1,15 +1,18 @@
 "use client";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/shallow";
 
 import { useSearchActions } from "@/hooks/useSearchActions";
 import { useSearchHistory } from "@/hooks/useSearchHistory";
+import { useWeatherQuery } from "@/hooks/useWeatherQuery";
 import { useSearchStore } from "@/stores/useSearchStore";
+import type { CityData } from "@/types/api/CityData";
 
-import { SearchField } from "./SearchField";
+import { SearchBar } from "./SearchBar";
+import { SearchDropdown } from "./SearchDropdown";
 
-export default function SearchSection() {
+export default function SearchSection({ cityData }: { cityData: CityData }) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const { searchCityWithName } = useSearchActions();
   const { inputValue, _hasHydrated, setIsOpen } = useSearchStore(
     useShallow((state) => ({
@@ -19,24 +22,21 @@ export default function SearchSection() {
     })),
   );
   const { addCity } = useSearchHistory();
-  const searchParams = useSearchParams();
+
+  const { isError, error } = useWeatherQuery(cityData);
 
   const isSync = useRef(false);
 
   useEffect(() => {
     if (isSync.current || !_hasHydrated) return;
 
-    const lat = searchParams.get("lat");
-    const lon = searchParams.get("lon");
-    const city = searchParams.get("city");
-    const country = searchParams.get("country");
-
-    if (lat && lon && city && country) {
+    if (cityData) {
       setIsOpen(false);
-      addCity({ city, country, lat: +lat, lon: +lon });
+      addCity({ ...cityData });
     }
+
     isSync.current = true;
-  }, [addCity, searchParams, _hasHydrated, setIsOpen]);
+  }, [addCity, cityData, _hasHydrated, setIsOpen]);
 
   return (
     <section className="mb-10">
@@ -51,7 +51,15 @@ export default function SearchSection() {
         }}
         className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto"
       >
-        <SearchField />
+        <div
+          role="group"
+          aria-label="Search input group"
+          className={`relative grid w-full items-center flex-1 group bg-[hsl(243,27%,20%)] hover:bg-[hsl(243,27%,20%)]/80 focus-within:bg-[hsl(243,27%,20%)]/80 focus-within:ring-2 focus-within:ring-[hsl(233,67%,56%)] transition duration-75 rounded-xl px-4 py-3 ${isError ? "ring-1 ring-red-500/50" : ""}`}
+        >
+          <SearchBar inputRef={inputRef} error={error} />
+          <SearchDropdown inputRef={inputRef} />
+        </div>
+
         <button className="bg-[hsl(233,67%,56%)] text-white font-medium py-3 px-6 rounded-xl text-base sm:text-lg whitespace-nowrap hover:opacity-90 transition-opacity">
           Search
         </button>

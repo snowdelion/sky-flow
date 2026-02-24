@@ -1,4 +1,4 @@
-import type { ActiveTab } from "../SearchSection/SearchField.types";
+import type { ActiveTab } from "@/types/history";
 
 export function FavoriteIcon({
   className,
