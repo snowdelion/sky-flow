@@ -18,7 +18,7 @@ import { getChartDailyData, getChartHourlyData, getTicks } from "./chart-utils";
 export interface WeatherChartProps {
   dailyData: WeatherDataDaily;
   hourlyData: WeatherDataHourly;
-  currentTab: "daily" | "hourly";
+  currentTab: string;
 }
 
 export function WeatherChart({
