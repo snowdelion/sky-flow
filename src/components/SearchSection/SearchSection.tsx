@@ -1,42 +1,28 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { useShallow } from "zustand/shallow";
+
+import { useRef } from "react";
 
 import { useSearchActions } from "@/hooks/useSearchActions";
-import { useSearchHistory } from "@/hooks/useSearchHistory";
 import { useWeatherQuery } from "@/hooks/useWeatherQuery";
 import { useSearchStore } from "@/stores/useSearchStore";
 import type { CityData } from "@/types/api/CityData";
 
 import { SearchBar } from "./SearchBar";
 import { SearchDropdown } from "./SearchDropdown";
+import { useSyncSearch } from "./useSyncSearch";
 
 export default function SearchSection({ cityData }: { cityData: CityData }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { searchCityWithName } = useSearchActions();
-  const { inputValue, _hasHydrated, setIsOpen } = useSearchStore(
-    useShallow((state) => ({
-      inputValue: state.inputValue,
-      _hasHydrated: state._hasHydrated,
-      setIsOpen: state.setIsOpen,
-    })),
-  );
-  const { addCity } = useSearchHistory();
-
   const { isError, error } = useWeatherQuery(cityData);
+  const inputValue = useSearchStore((state) => state.inputValue);
 
-  const isSync = useRef(false);
+  useSyncSearch(cityData);
 
-  useEffect(() => {
-    if (isSync.current || !_hasHydrated) return;
-
-    if (cityData) {
-      setIsOpen(false);
-      addCity({ ...cityData });
-    }
-
-    isSync.current = true;
-  }, [addCity, cityData, _hasHydrated, setIsOpen]);
+  const handleSubmit = (e: React.SubmitEvent) => {
+    e.preventDefault();
+    searchCityWithName(inputValue);
+  };
 
   return (
     <section className="mb-10">
@@ -45,10 +31,7 @@ export default function SearchSection({ cityData }: { cityData: CityData }) {
       </h1>
 
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          searchCityWithName(inputValue);
-        }}
+        onSubmit={handleSubmit}
         className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto"
       >
         <div
