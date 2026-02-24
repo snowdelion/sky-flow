@@ -17,7 +17,7 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
   const tabData = ["Daily", "Hourly"];
 
   return (
-    <section className="flex flex-col gap-5 w-full h-150 xl:max-w-304 mx-auto bg-[hsl(243,27%,20%)]  p-4 rounded-xl border border-white/10 items-center overflow-hidden">
+    <section className="relative flex flex-col gap-5 w-full h-150 xl:max-w-304 mx-auto bg-[hsl(243,27%,20%)]  p-4 rounded-xl border border-white/10 items-center overflow-hidden">
       {/* daily/hourly tabs */}
       <ul
         role="tablist"
@@ -30,7 +30,7 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
             aria-selected={currentTab === tab.toLowerCase()}
             aria-label={`${tab} chart`}
             onClick={() => setCurrentTab(tab.toLowerCase())}
-            className={`flex-1 gap-1.5 transition relative cursor-pointer hover:opacity-80 flex items-center h-full justify-center mx-auto text-xl font-bold tracking-wider rounded-xl`}
+            className="flex-1 gap-1.5 transition relative cursor-pointer hover:opacity-80 flex items-center h-full justify-center mx-auto text-xl font-bold tracking-wider rounded-xl"
           >
             <span
               className={`
@@ -49,12 +49,14 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
       </ul>
 
       {/* chart */}
-      <div className="w-full h-full">
-        <WeatherChart
-          currentTab={currentTab}
-          dailyData={dailyData}
-          hourlyData={hourlyData}
-        />
+      <div className="relative w-full h-full">
+        <div className="absolute left-0 right-0 top-0 bottom-0">
+          <WeatherChart
+            currentTab={currentTab}
+            dailyData={dailyData}
+            hourlyData={hourlyData}
+          />
+        </div>
       </div>
     </section>
   );

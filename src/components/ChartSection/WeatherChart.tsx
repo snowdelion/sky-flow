@@ -8,6 +8,7 @@ import {
   YAxis,
 } from "recharts";
 
+import { useSettingsStore } from "@/stores/useSettingsStore";
 import type {
   WeatherDataDaily,
   WeatherDataHourly,
@@ -26,6 +27,9 @@ export function WeatherChart({
   hourlyData,
   currentTab,
 }: WeatherChartProps) {
+  const tempUnit = useSettingsStore((state) => state.units.temperature);
+  const currentUnit = tempUnit === "celsius" ? "°C" : "°F";
+
   const chartDailyData = getChartDailyData(dailyData);
   const chartHourlyData = getChartHourlyData(hourlyData);
 
@@ -36,7 +40,7 @@ export function WeatherChart({
     <ResponsiveContainer>
       <AreaChart
         data={currentTab === "daily" ? chartDailyData : chartHourlyData}
-        margin={{ top: 5, right: 50, left: 0, bottom: 0 }}
+        margin={{ top: 10, right: 10, left: -25, bottom: 0 }}
       >
         <CartesianGrid
           strokeDasharray={"7 7"}
@@ -54,7 +58,7 @@ export function WeatherChart({
         />
         <YAxis
           dataKey="temp"
-          unit="°C"
+          unit={currentUnit}
           fontSize={12}
           ticks={currentTab === "daily" ? dailyTicks : hourlyTicks}
           interval={currentTab === "daily" ? 0 : 0}
@@ -83,7 +87,7 @@ export function WeatherChart({
             strokeWidth: 2,
             strokeDasharray: "10 10",
           }}
-          formatter={(value) => [`${value}°C`, "Temperature"]}
+          formatter={(value) => [`${value}${currentUnit}`, "Temperature"]}
         />
 
         <Area
