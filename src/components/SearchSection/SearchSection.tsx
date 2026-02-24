@@ -40,7 +40,7 @@ export default function SearchSection({ cityData }: { cityData: CityData }) {
 
   return (
     <section className="mb-10">
-      <h1 className="text-5xl bg-linear-to-b from-[#F0F9FF] via-[#6366F1] to-[#312E81] bg-clip-text text-transparent max-w-80 sm:max-w-full leading-tight justify-self-center sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-15">
+      <h1 className="text-5xl bg-linear-to-b from-[#F0F9FF] via-[#9d9fff] to-[#413dac] bg-clip-text text-transparent max-w-80 sm:max-w-full leading-tight justify-self-center sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-15">
         How&apos;s the sky looking today?
       </h1>
 
