@@ -9,7 +9,7 @@ import {
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { SearchInput } from "@/components/SearchSection/SearchBar";
+import { SearchInput } from "@/components/SearchSection/SearchBar/SearchInput";
 import { useSearchStore } from "@/stores/useSearchStore";
 
 import { useSearchActions } from "./useSearchActions";

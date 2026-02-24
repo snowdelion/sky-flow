@@ -12,8 +12,9 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/vitest";
 import { favoriteStore, recentStore } from "@/hooks/useSearchHistory";
 import { useSearchStore } from "@/stores/useSearchStore";
+import type { CityData } from "@/types/api/CityData";
+import type { HistoryItem } from "@/types/history";
 
-import type { HistoryItem } from "./SearchHistory.types";
 import SearchSection from "./SearchSection";
 
 const mockPush = vi.fn();
@@ -59,6 +60,7 @@ const renderWithClient = (element: React.ReactElement) => {
 describe("SearchSection integration", () => {
   let user: ReturnType<typeof userEvent.setup>;
   let mockData: HistoryItem[];
+  let cityData: CityData;
 
   beforeEach(() => {
     window.localStorage.clear();
@@ -119,10 +121,17 @@ describe("SearchSection integration", () => {
         longitude: 27.56667,
       },
     ];
+
+    cityData = {
+      city: "Minsk",
+      country: "Belarus",
+      lat: 12,
+      lon: 34,
+    };
   });
 
   it("should update URL with city name", async () => {
-    renderWithClient(<SearchSection />);
+    renderWithClient(<SearchSection cityData={cityData} />);
     const input = screen.getByPlaceholderText("Search for a place...");
 
     const { result } = renderHook(() => useSearchStore());
@@ -144,7 +153,7 @@ describe("SearchSection integration", () => {
       recentStore.reset();
       useSearchStore.getState().reset();
     });
-    renderWithClient(<SearchSection />);
+    renderWithClient(<SearchSection cityData={cityData} />);
     const input = screen.getByPlaceholderText(/search for a place/i);
     await user.click(input);
 
@@ -171,7 +180,7 @@ describe("SearchSection integration", () => {
       favoriteStore.reset();
       useSearchStore.getState().reset();
     });
-    renderWithClient(<SearchSection />);
+    renderWithClient(<SearchSection cityData={cityData} />);
     await waitFor(() => useSearchStore.setState({ isOpen: true }));
 
     const favoritesTab = await screen.findByRole("tab", {
@@ -201,7 +210,7 @@ describe("SearchSection integration", () => {
       recentStore.reset();
       useSearchStore.getState().reset();
     });
-    renderWithClient(<SearchSection />);
+    renderWithClient(<SearchSection cityData={cityData} />);
     await waitFor(() => useSearchStore.setState({ isOpen: true }));
 
     const cityOption = screen.getByRole("option", { name: "Berlin, Germany" });
@@ -233,7 +242,7 @@ describe("SearchSection integration", () => {
       recentStore.reset();
       useSearchStore.getState().reset();
     });
-    renderWithClient(<SearchSection />);
+    renderWithClient(<SearchSection cityData={cityData} />);
     await waitFor(() => useSearchStore.setState({ isOpen: true }));
 
     const cityOption = screen.getByRole("option", { name: "Berlin, Germany" });
@@ -257,7 +266,7 @@ describe("SearchSection integration", () => {
       favoriteStore.reset();
       useSearchStore.getState().reset();
     });
-    renderWithClient(<SearchSection />);
+    renderWithClient(<SearchSection cityData={cityData} />);
     await waitFor(() =>
       useSearchStore.setState({ isOpen: true, currentTab: "favorites" }),
     );
