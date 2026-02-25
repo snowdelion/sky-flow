@@ -17,7 +17,7 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
   const tabData = ["Daily", "Hourly"];
 
   return (
-    <section className="relative flex flex-col gap-5 w-full h-150 xl:max-w-304 mx-auto bg-[hsl(243,27%,20%)]  p-4 rounded-xl border border-white/10 items-center overflow-hidden">
+    <section className="relative flex flex-col gap-5 w-full max-w-100 sm:max-w-184 md:max-w-full xl:max-w-304 min-h-70 h-auto mx-auto bg-[hsl(243,27%,20%)] px-4 pb-4 pt-2 rounded-xl border border-white/10 items-center overflow-hidden">
       {/* daily/hourly tabs */}
       <ul
         role="tablist"
@@ -34,7 +34,7 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
           >
             <span
               className={`
-              text-sm sm:text-lg lg:text-xl whitespace-nowrap border-b-2 pb-3 px-10
+              text-sm sm:text-lg lg:text-xl whitespace-nowrap border-b-2 pb-3 px-5 sm:px-6 md:px-10
                ${
                  currentTab === tab.toLowerCase()
                    ? "text-[hsl(233,100%,70%)] border-b-2 border-[hsl(233,100%,70%)]"
@@ -50,13 +50,11 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
 
       {/* chart */}
       <div className="relative w-full h-full">
-        <div className="absolute left-0 right-0 top-0 bottom-0">
-          <WeatherChart
-            currentTab={currentTab}
-            dailyData={dailyData}
-            hourlyData={hourlyData}
-          />
-        </div>
+        <WeatherChart
+          currentTab={currentTab}
+          dailyData={dailyData}
+          hourlyData={hourlyData}
+        />
       </div>
     </section>
   );

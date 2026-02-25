@@ -1,11 +1,15 @@
-import type { WeatherDataDaily } from "@/types/api/WeatherData";
-import type { WeatherDataHourly } from "@/types/api/WeatherData";
-import { formatDayOfWeek } from "@/utils/formatters";
-import { calculateAverageTemps, groupByDay } from "@/utils/weather";
-
 function generateTicks(min: number, max: number): number[] {
   const ticks = [];
-  for (let i = Math.floor(min); i <= Math.ceil(max); i += 2) {
+  const start = Math.floor(min / 2) * 2;
+  const end = Math.ceil(max / 2) * 2;
+
+  const diff = end - start;
+  let step = 1;
+
+  if (diff > 20) step = 5;
+  else if (diff > 10) step = 2;
+
+  for (let i = start; i <= end; i += step) {
     ticks.push(i);
   }
   return ticks;
@@ -18,27 +22,8 @@ export function getTicks(chartData: { temp: number }[]): number[] {
   );
 }
 
-export function getChartDailyData(
-  dailyData: WeatherDataDaily,
-): { day: string; temp: number }[] {
-  return dailyData.time.map((time, index) => {
-    const min = dailyData.temperature_2m_min[index];
-    const max = dailyData.temperature_2m_max[index];
-    const date = new Date(time);
-    return {
-      day: formatDayOfWeek(date),
-      temp: calculateAverageTemps(min, max),
-    };
-  });
-}
-
-export function getChartHourlyData(
-  hourlyData: WeatherDataHourly,
-): { hour: string; temp: number }[] {
-  const filteredDays = groupByDay(hourlyData);
-
-  return filteredDays[1].hours.map((item) => ({
-    hour: item.hour,
-    temp: item.temp,
-  }));
-}
+export const getAspect = (isM: boolean, isT: boolean): number => {
+  if (isM) return 21 / 14;
+  if (isT) return 21 / 10.5;
+  return 21 / 8.75;
+};

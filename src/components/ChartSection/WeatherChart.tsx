@@ -1,3 +1,4 @@
+import { useMediaQuery } from "react-responsive";
 import {
   Area,
   AreaChart,
@@ -14,7 +15,8 @@ import type {
   WeatherDataHourly,
 } from "@/types/api/WeatherData";
 
-import { getChartDailyData, getChartHourlyData, getTicks } from "./chart-utils";
+import { getAspect, getTicks } from "./chart-utils";
+import { useChartData, useResponsiveHourlyData } from "./hooks";
 
 export interface WeatherChartProps {
   dailyData: WeatherDataDaily;
@@ -27,20 +29,32 @@ export function WeatherChart({
   hourlyData,
   currentTab,
 }: WeatherChartProps) {
+  const { getChartDailyData, getChartHourlyData } = useChartData();
   const tempUnit = useSettingsStore((state) => state.units.temperature);
   const currentUnit = tempUnit === "celsius" ? "°C" : "°F";
 
+  const isMobile = useMediaQuery({ maxWidth: 640 });
+  const isTablet = useMediaQuery({ maxWidth: 768 });
+  const isDesk = useMediaQuery({ minWidth: 1025 });
+
   const chartDailyData = getChartDailyData(dailyData);
-  const chartHourlyData = getChartHourlyData(hourlyData);
+  const chartHourlyData = useResponsiveHourlyData(
+    getChartHourlyData(hourlyData),
+  );
 
   const dailyTicks = getTicks(chartDailyData);
   const hourlyTicks = getTicks(chartHourlyData);
 
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer width="100%" aspect={getAspect(isMobile, isTablet)}>
       <AreaChart
         data={currentTab === "daily" ? chartDailyData : chartHourlyData}
-        margin={{ top: 10, right: 10, left: -25, bottom: 0 }}
+        margin={{
+          top: 10,
+          right: isMobile ? 10 : 30,
+          left: isMobile ? -25 : 0,
+          bottom: 0,
+        }}
       >
         <CartesianGrid
           strokeDasharray={"7 7"}
@@ -54,14 +68,19 @@ export function WeatherChart({
           tickLine={false}
           axisLine={false}
           tick={{ fill: "#94a3b8" }}
+          interval={0}
           dy={10}
+          tickFormatter={(value) => {
+            if (isDesk) return value.replace(" AM", "AM").replace(" PM", "PM");
+            if (!isDesk) return value.replace(" AM", "A").replace(" PM", "P");
+          }}
         />
         <YAxis
           dataKey="temp"
           unit={currentUnit}
           fontSize={12}
           ticks={currentTab === "daily" ? dailyTicks : hourlyTicks}
-          interval={currentTab === "daily" ? 0 : 0}
+          interval={currentTab === "daily" ? 0 : 1}
           tickLine={false}
           axisLine={false}
           domain={

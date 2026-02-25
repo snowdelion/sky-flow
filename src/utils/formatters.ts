@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
-export function formatDayOfWeek(date: Date): string {
-  return dayjs(date).format("dddd");
+export function formatDayOfWeek(date: Date, format?: string): string {
+  return dayjs(date).format(format || "dddd");
 }
 
 export function formatHourOfDay(date: Date): string {
