@@ -33,7 +33,7 @@ export default function HourlyForecast({
   return (
     <section
       aria-label="Hourly Forecast"
-      className="lg:w-96 w-full max-h-full md:max-w-full"
+      className="lg:max-w-90 xl:max-w-96 w-full max-h-full"
     >
       <div className="bg-[hsl(243,27%,20%)] max-h-full p-5 sm:p-6 rounded-2xl border border-white/10 sticky top-6">
         <div className="flex justify-between items-center mb-6">
