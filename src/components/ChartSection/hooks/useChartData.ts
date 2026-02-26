@@ -1,5 +1,3 @@
-import { useMediaQuery } from "react-responsive";
-
 import { useSettingsStore } from "@/stores/useSettingsStore";
 import type {
   WeatherDataDaily,
@@ -7,6 +5,8 @@ import type {
 } from "@/types/api/WeatherData";
 import { formatDayOfWeek } from "@/utils/formatters";
 import { calculateAverageTemps, groupByDay } from "@/utils/weather";
+
+import { useDeviceType } from "./useDeviceType";
 
 export interface UseChartDataReturn {
   getChartDailyData: (
@@ -18,8 +18,7 @@ export interface UseChartDataReturn {
 }
 
 export function useChartData(): UseChartDataReturn {
-  const isMobile = useMediaQuery({ maxWidth: 640 });
-  const isTablet = useMediaQuery({ maxWidth: 768 });
+  const { isMobile, isTablet } = useDeviceType();
   const hourFormat = useSettingsStore((state) => state.units.time);
   const shouldReduce = isMobile ? "dd" : isTablet ? "ddd" : "dddd";
 
