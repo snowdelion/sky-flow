@@ -20,20 +20,22 @@ export default function DailyForecast({ dailyData }: DailyForecastProps) {
     apparent_temperature_max: apparentTempMax,
   } = dailyData;
 
-  const DailyForecast = time.map((dateStr: string, index: number) => {
-    const date = new Date(dateStr);
-    const code = getWeatherCode(weatherCode[index]);
-    const image = GET_ICON_BY_WEATHER_CODE[code];
+  const DailyForecast = time
+    .map((dateStr: string, index: number) => {
+      const date = new Date(dateStr);
+      const code = getWeatherCode(weatherCode[index]);
+      const image = GET_ICON_BY_WEATHER_CODE[code];
 
-    return {
-      day: formatDayOfWeek(date),
-      weatherCode: weatherCode?.[index] || 0,
-      temp: `${calculateAverageTemps(tempMin[index], tempMax[index])}°`,
-      feelsLike: `${calculateAverageTemps(apparentTempMin[index], apparentTempMax[index])}°`,
-      date: dateStr,
-      image,
-    };
-  });
+      return {
+        day: formatDayOfWeek(date, "dddd"),
+        weatherCode: weatherCode?.[index] || 0,
+        temp: `${calculateAverageTemps(tempMin[index], tempMax[index])}°`,
+        feelsLike: `${calculateAverageTemps(apparentTempMin[index], apparentTempMax[index])}°`,
+        date: dateStr,
+        image,
+      };
+    })
+    .slice(0, 7);
 
   return (
     <section aria-label="Daily Forecast" className="mb-10">

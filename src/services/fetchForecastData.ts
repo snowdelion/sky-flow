@@ -23,7 +23,8 @@ export async function fetchForecastData(
         daily:
           "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min",
 
-        forecast_days: "7",
+        forecast_days: "8",
+        timezone: "auto",
         temperature_unit: units.temperature,
         wind_speed_unit: units.speed,
         precipitation_unit: units.precipitation,
@@ -55,6 +56,7 @@ export async function fetchForecastData(
         temperature: forecastData.current_units.apparent_temperature,
         speed: forecastData.current_units.wind_speed_10m,
         precipitation: forecastData.current_units.precipitation,
+        time: "24",
       },
     };
   } catch (error) {

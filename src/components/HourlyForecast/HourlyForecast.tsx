@@ -20,7 +20,9 @@ export default function HourlyForecast({
   const hoursRef = useRef<HTMLUListElement>(null);
 
   const days = useMemo(() => {
-    return groupByDay(hourlyData, { hourFormat, dayFormat: "dddd" }).slice(1);
+    return groupByDay(hourlyData, { hourFormat, dayFormat: "dddd" })
+      .slice(1)
+      .filter((day) => day.hours.length === 24);
   }, [hourlyData, hourFormat]);
 
   const selectedDay = days[selectedDayIndex] || {
