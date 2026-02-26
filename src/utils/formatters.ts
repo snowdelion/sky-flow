@@ -2,12 +2,16 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
-export function formatDayOfWeek(date: Date, format?: string): string {
-  return dayjs(date).format(format || "dddd");
+export function formatDayOfWeek(date: Date, dayFormat: string): string {
+  return dayjs(date).format(dayFormat || "dddd");
 }
 
-export function formatHourOfDay(date: Date): string {
-  return dayjs(date).format("h A");
+export function formatHourOfDay(date: Date, format: "12" | "24"): string {
+  if (format === "12") {
+    return dayjs(date).format("h A");
+  } else {
+    return dayjs(date).format("HH:mm");
+  }
 }
 
 export function getHourNumber(hour: string): number | undefined {

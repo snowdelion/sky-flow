@@ -66,7 +66,18 @@ export function getWeatherCode(code: number): string {
   return WEATHER_CODE_TO_ICON[code] ?? "sunny";
 }
 
-export function groupByDay(data?: WeatherDataHourly): DailyForecast[] {
+export interface format {
+  hourFormat: "12" | "24";
+  dayFormat: "dd" | "ddd" | "dddd";
+}
+
+export function groupByDay(
+  data?: WeatherDataHourly,
+  format?: format,
+): DailyForecast[] {
+  if (!format) format = { hourFormat: "12", dayFormat: "dddd" };
+  const { hourFormat, dayFormat } = format;
+
   const days: DailyForecast[] = [];
   if (!data?.time?.length) return days;
   let currentDay = "";
@@ -81,14 +92,14 @@ export function groupByDay(data?: WeatherDataHourly): DailyForecast[] {
 
       days.push({
         date: dateKey,
-        dayName: formatDayOfWeek(date),
+        dayName: formatDayOfWeek(date, dayFormat),
         hours: [],
       });
     }
 
     const code = getWeatherCode(data.weather_code[index]);
     const hourItem: HourlyItem = {
-      hour: formatHourOfDay(date),
+      hour: formatHourOfDay(date, hourFormat),
       temp: data.temperature_2m[index],
       weatherCode: data.weather_code[index],
       image: GET_ICON_BY_WEATHER_CODE[code],
@@ -99,11 +110,15 @@ export function groupByDay(data?: WeatherDataHourly): DailyForecast[] {
 
   days.forEach((day) => {
     day.hours.sort((a, b) => {
-      let hourA = getHourNumber(a.hour);
-      let hourB = getHourNumber(b.hour);
-      if (!hourA) hourA = 0;
-      if (!hourB) hourB = 0;
-      return hourA - hourB;
+      if (hourFormat === "12") {
+        let hourA = getHourNumber(a.hour);
+        let hourB = getHourNumber(b.hour);
+        if (!hourA) hourA = 0;
+        if (!hourB) hourB = 0;
+        return hourA - hourB;
+      } else {
+        return parseInt(a.hour) - parseInt(b.hour);
+      }
     });
   });
 

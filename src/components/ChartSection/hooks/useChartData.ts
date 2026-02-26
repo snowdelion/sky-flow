@@ -1,5 +1,6 @@
 import { useMediaQuery } from "react-responsive";
 
+import { useSettingsStore } from "@/stores/useSettingsStore";
 import type {
   WeatherDataDaily,
   WeatherDataHourly,
@@ -19,6 +20,8 @@ export interface UseChartDataReturn {
 export function useChartData(): UseChartDataReturn {
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const isTablet = useMediaQuery({ maxWidth: 768 });
+  const hourFormat = useSettingsStore((state) => state.units.time);
+  const shouldReduce = isMobile ? "dd" : isTablet ? "ddd" : "dddd";
 
   const getChartDailyData = (
     dailyData: WeatherDataDaily,
@@ -27,8 +30,6 @@ export function useChartData(): UseChartDataReturn {
       const min = dailyData.temperature_2m_min[index];
       const max = dailyData.temperature_2m_max[index];
       const date = new Date(time);
-
-      const shouldReduce = isMobile || isTablet ? "ddd" : "dddd";
 
       return {
         day: formatDayOfWeek(date, shouldReduce),
@@ -40,7 +41,10 @@ export function useChartData(): UseChartDataReturn {
   const getChartHourlyData = (
     hourlyData: WeatherDataHourly,
   ): { hour: string; temp: number }[] => {
-    const filteredDays = groupByDay(hourlyData);
+    const filteredDays = groupByDay(hourlyData, {
+      hourFormat,
+      dayFormat: shouldReduce,
+    });
 
     return filteredDays[1].hours.map((item) => ({
       hour: item.hour,

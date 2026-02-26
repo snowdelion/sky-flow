@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
 
+import { useSettingsStore } from "@/stores/useSettingsStore";
 import { groupByDay } from "@/utils/weather";
 
 import ChangeSelectedDay from "./ChangeSelectedDay";
@@ -12,11 +13,12 @@ export default function HourlyForecast({
   forecastUnits,
 }: HourlyForecastProps) {
   const [selectedDayIndex, setSelectedDayIndex] = useState<number>(0);
+  const hourFormat = useSettingsStore((state) => state.units.time);
   const hoursRef = useRef<HTMLUListElement>(null);
 
   const days = useMemo(() => {
-    return groupByDay(hourlyData).slice(1);
-  }, [hourlyData]);
+    return groupByDay(hourlyData, { hourFormat, dayFormat: "dddd" }).slice(1);
+  }, [hourlyData, hourFormat]);
 
   const selectedDay = days[selectedDayIndex] || {
     date: "",
@@ -61,7 +63,7 @@ export default function HourlyForecast({
                   alt={`${hour} weather`}
                   className="object-contain relative w-8 h-8"
                 />
-                <span className="font-medium text-sm lg:text-base">{hour}</span>
+                <span className="font-medium text-sm lg:text-lg">{hour}</span>
               </div>
 
               <div className="flex items-center gap-1">
