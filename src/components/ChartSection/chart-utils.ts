@@ -31,14 +31,14 @@ export const getAspect = (isM: boolean, isT: boolean): number => {
 export function getXTickFormatter(
   value: string,
   data: {
-    currentTab: string;
+    currentChartTab: string;
     isDesk: boolean;
     isSmallDesk: boolean;
     hourUnit: "12" | "24";
   },
 ): string {
-  const { currentTab, isDesk, isSmallDesk, hourUnit } = data;
-  if (currentTab === "daily") return value;
+  const { currentChartTab, isDesk, isSmallDesk, hourUnit } = data;
+  if (currentChartTab === "daily") return value;
   if (!isDesk || isSmallDesk) {
     if (hourUnit === "12") {
       return value.replace(" AM", "A").replace(" PM", "P");

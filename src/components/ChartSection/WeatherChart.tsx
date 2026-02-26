@@ -16,7 +16,7 @@ import type { WeatherChartProps } from "./WeatherChart.types";
 export function WeatherChart({
   dailyData,
   hourlyData,
-  currentTab,
+  currentChartTab,
 }: WeatherChartProps) {
   const { isMobile, isTablet, isDesk, isSmallDesk } = useDeviceType();
   const {
@@ -28,11 +28,13 @@ export function WeatherChart({
     hourlyTicks,
   } = useWeatherChartLogic(dailyData, hourlyData);
 
+  const isDailyTab = currentChartTab === "daily";
+
   return (
     <ResponsiveContainer width="100%" aspect={getAspect(isMobile, isTablet)}>
       <AreaChart
         tabIndex={-1}
-        data={currentTab === "daily" ? chartDailyData : chartHourlyData}
+        data={isDailyTab ? chartDailyData : chartHourlyData}
         margin={{
           top: 10,
           right: isMobile ? 10 : 30,
@@ -49,7 +51,7 @@ export function WeatherChart({
 
         <XAxis
           tabIndex={-1}
-          dataKey={currentTab === "daily" ? "day" : "hour"}
+          dataKey={isDailyTab ? "day" : "hour"}
           fontSize={12}
           tickLine={false}
           axisLine={false}
@@ -58,13 +60,13 @@ export function WeatherChart({
           dy={10}
           dx={-5}
           tickFormatter={(value) => {
-            if (currentTab === "daily") {
+            if (isDailyTab) {
               if (isMobile) return value.slice(0, 2);
               if (isTablet) return value.slice(0, 3);
               return value;
             }
-            getXTickFormatter(value, {
-              currentTab,
+            return getXTickFormatter(value, {
+              currentChartTab,
               isDesk,
               isSmallDesk,
               hourUnit,
@@ -76,12 +78,12 @@ export function WeatherChart({
           dataKey="temp"
           unit={currentUnit}
           fontSize={12}
-          ticks={currentTab === "daily" ? dailyTicks : hourlyTicks}
-          interval={currentTab === "daily" ? 0 : 1}
+          ticks={currentChartTab ? dailyTicks : hourlyTicks}
+          interval={isDailyTab ? 0 : 1}
           tickLine={false}
           axisLine={false}
           domain={
-            currentTab === "daily"
+            isDailyTab
               ? [dailyTicks[0], dailyTicks[dailyTicks.length - 1]]
               : [hourlyTicks[0], hourlyTicks[hourlyTicks.length - 1]]
           }

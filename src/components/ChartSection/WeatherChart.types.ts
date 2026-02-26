@@ -6,5 +6,5 @@ import type {
 export interface WeatherChartProps {
   dailyData: WeatherDataDaily;
   hourlyData: WeatherDataHourly;
-  currentTab: string;
+  currentChartTab: string;
 }

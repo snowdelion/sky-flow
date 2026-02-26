@@ -13,7 +13,7 @@ export interface ChartSectionProps {
 }
 
 export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
-  const [currentTab, setCurrentTab] = useState("daily");
+  const [currentChartTab, setCurrentChartTab] = useState("daily");
   const tabData = ["Daily", "Hourly"];
 
   return (
@@ -27,16 +27,16 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
           <li
             key={`${tab}-${index}`}
             role="tab"
-            aria-selected={currentTab === tab.toLowerCase()}
+            aria-selected={currentChartTab === tab.toLowerCase()}
             aria-label={`${tab} chart`}
-            onClick={() => setCurrentTab(tab.toLowerCase())}
+            onClick={() => setCurrentChartTab(tab.toLowerCase())}
             className="flex-1 gap-1.5 transition relative cursor-pointer hover:opacity-80 flex items-center h-full justify-center mx-auto text-xl font-bold tracking-wider rounded-xl"
           >
             <span
               className={`
               text-sm sm:text-lg lg:text-xl whitespace-nowrap border-b-2 pb-3 px-5 sm:px-6 md:px-10
                ${
-                 currentTab === tab.toLowerCase()
+                 currentChartTab === tab.toLowerCase()
                    ? "text-[hsl(233,100%,70%)] border-b-2 border-[hsl(233,100%,70%)]"
                    : "text-white border-white/70"
                }
@@ -51,7 +51,7 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
       {/* chart */}
       <div className="relative w-full h-full chart-no-focus">
         <WeatherChart
-          currentTab={currentTab}
+          currentChartTab={currentChartTab}
           dailyData={dailyData}
           hourlyData={hourlyData}
         />
