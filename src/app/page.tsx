@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { Header } from "@/components/Header";
+import { HeaderSection } from "@/components/HeaderSection";
 import { SearchSection } from "@/components/SearchSection";
 import { WeatherContent } from "@/components/WeatherContent";
 import { fetchGeoData } from "@/services/fetchGeoData";
@@ -29,7 +29,7 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
 
   return (
     <>
-      <Header />
+      <HeaderSection />
 
       <main className="min-h-screen min-w-62.5 px-4 py-8 md:px-6 lg:px-8 mx-auto">
         <SearchSection cityData={cityData} />
