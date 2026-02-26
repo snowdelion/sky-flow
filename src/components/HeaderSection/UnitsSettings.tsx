@@ -13,6 +13,7 @@ export const DEFAULT_UNITS: WeatherDataUnits = {
   temperature: "celsius",
   speed: "kmh",
   precipitation: "mm",
+  time: "12",
 };
 
 export default function UnitsSettings() {
@@ -51,6 +52,15 @@ export default function UnitsSettings() {
       value1: "mm",
       option2: "Inches (in)",
       value2: "inch",
+    },
+    {
+      id: 4,
+      title: "Time Format",
+      unit: "time" as keyof WeatherDataUnits,
+      option1: "12-hour",
+      value1: "12",
+      option2: "24-hour",
+      value2: "24",
     },
   ];
 

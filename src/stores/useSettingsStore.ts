@@ -21,6 +21,7 @@ export const useSettingsStore = create<SettingsStore>()(
         temperature: "celsius",
         speed: "kmh",
         precipitation: "mm",
+        time: "12",
       },
 
       setUnits: (
@@ -41,6 +42,7 @@ export const useSettingsStore = create<SettingsStore>()(
             temperature: "celsius",
             speed: "kmh",
             precipitation: "mm",
+            time: "12",
           },
         }),
     }),

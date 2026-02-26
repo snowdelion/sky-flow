@@ -9,6 +9,7 @@ export interface WeatherDataUnits {
   temperature: "celsius" | "fahrenheit";
   speed: "kmh" | "mph";
   precipitation: "mm" | "inch";
+  time: "12" | "24";
 }
 
 export interface WeatherDataCurrent {
