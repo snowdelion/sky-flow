@@ -57,14 +57,19 @@ export function WeatherChart({
           interval={0}
           dy={10}
           dx={-5}
-          tickFormatter={(value) =>
+          tickFormatter={(value) => {
+            if (currentTab === "daily") {
+              if (isMobile) return value.slice(0, 2);
+              if (isTablet) return value.slice(0, 3);
+              return value;
+            }
             getXTickFormatter(value, {
               currentTab,
               isDesk,
               isSmallDesk,
               hourUnit,
-            })
-          }
+            });
+          }}
         />
         <YAxis
           tabIndex={-1}

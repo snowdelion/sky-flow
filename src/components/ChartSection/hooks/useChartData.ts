@@ -8,16 +8,12 @@ import type {
 import { formatDayOfWeek } from "@/utils/formatters";
 import { calculateAverageTemps, groupByDay } from "@/utils/weather";
 
-import { useDeviceType } from "./useDeviceType";
-
 export function useChartData(
   dailyData: WeatherDataDaily,
   hourlyData: WeatherDataHourly,
 ): UseChartDataReturn {
-  const { isMobile, isTablet } = useDeviceType();
   const selectedDayIndex = useSettingsStore((state) => state.selectedDayIndex);
   const hourFormat = useSettingsStore((state) => state.units.time);
-  const shouldReduce = isMobile ? "dd" : isTablet ? "ddd" : "dddd";
 
   const chartDailyData = useMemo(
     () =>
@@ -27,24 +23,24 @@ export function useChartData(
         const date = new Date(time);
 
         return {
-          day: formatDayOfWeek(date, shouldReduce),
+          day: formatDayOfWeek(date, "dddd"),
           temp: calculateAverageTemps(min, max),
         };
       }),
-    [dailyData, shouldReduce],
+    [dailyData],
   );
 
   const chartHourlyData = useMemo(() => {
     const filteredDays = groupByDay(hourlyData, {
       hourFormat,
-      dayFormat: shouldReduce,
+      dayFormat: "dddd",
     }).slice(1);
 
     return filteredDays[selectedDayIndex].hours.map((item) => ({
       hour: item.hour,
       temp: item.temp,
     }));
-  }, [hourlyData, hourFormat, shouldReduce, selectedDayIndex]);
+  }, [hourlyData, hourFormat, selectedDayIndex]);
 
   return useMemo(
     () => ({
