@@ -1,10 +1,9 @@
 "use client";
-import Image from "next/image";
 
 import { WeatherDataHourly, WeatherDataUnits } from "@/types/api/WeatherData";
 
 import ChangeSelectedDay from "./ChangeSelectedDay";
-import { getHour } from "./hourly-utils";
+import HourlyItem from "./HourlyItem";
 import { useHourlyForecast } from "./useHourlyForecast";
 
 export default function HourlyForecast({
@@ -41,29 +40,13 @@ export default function HourlyForecast({
           className="space-y-2.5 overflow-auto max-h-136 px-1 custom-scrollbar"
           ref={hoursRef}
         >
-          {hours.map(({ hour, image, temp }, index) => (
-            <li
-              key={`${hour}-${index}`}
-              className="flex items-center justify-between bg-[hsl(243,23%,24%)] hover:opacity-75 py-1 md:py-1.5 px-3 lg:py-1.75 xl:p-3 rounded-lg border border-white/10"
-            >
-              <div className="flex items-center gap-3">
-                <Image
-                  src={image}
-                  alt={`${hour} weather`}
-                  className="object-contain relative w-8 h-8"
-                />
-                {getHour(hour, hourFormat)}
-              </div>
-
-              <div className="flex items-center gap-1">
-                <span className="text-md xl:text-xl font-bold">
-                  {temp.toFixed(1)}
-                </span>
-                <span className="text-white/70 text-base xl:text-lg">
-                  {forecastUnits.temperature}
-                </span>
-              </div>
-            </li>
+          {hours.map((hour, index) => (
+            <HourlyItem
+              key={`${hour.hour}-${index}`}
+              hour={hour}
+              hourFormat={hourFormat}
+              tempUnit={forecastUnits.temperature}
+            />
           ))}
         </ul>
       </div>
@@ -71,7 +54,7 @@ export default function HourlyForecast({
   );
 }
 
-export interface HourlyForecastProps {
+interface HourlyForecastProps {
   hourlyData: WeatherDataHourly;
   forecastUnits: WeatherDataUnits;
 }
