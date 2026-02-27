@@ -16,6 +16,8 @@ function generateTicks(min: number, max: number): number[] {
 }
 
 export function getTicks(chartData: { temp: number }[]): number[] {
+  if (!chartData || chartData.length === 0) return [0, 10, 20, 30];
+
   return generateTicks(
     Math.min(...chartData.map((item) => item.temp)) - 3,
     Math.max(...chartData.map((item) => item.temp)) + 3,

@@ -5,28 +5,22 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import Image from "next/image";
-import { useState } from "react";
 
 import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
-import type { ChangeSelectedDayProps } from "@/components/HourlyForecast/ChangeSelectedDay.types";
+import type { DailyForecast } from "@/types/api/WeatherHourly";
 
 export default function ChangeSelectedDay({
   days,
-  setSelectedDayIndex,
+  selectedDayIndex,
+  handleChangeDay,
 }: ChangeSelectedDayProps) {
-  const [selectedDay, setSelectedDay] = useState<string>(days[0].dayName);
-
-  const handleChange = (value: string) => {
-    setSelectedDay(value);
-    const index = days.findIndex((day) => day.dayName === value);
-    setSelectedDayIndex(index);
-  };
+  const currentDay = days[selectedDayIndex]?.dayName || days[0].dayName;
 
   return (
-    <Listbox value={selectedDay} onChange={handleChange}>
+    <Listbox value={selectedDayIndex} onChange={handleChangeDay}>
       <div className="border border-white/0 active:border-white/20 rounded-lg">
         <ListboxButton className="group flex items-center justify-center gap-2 focus:outline-none bg-[hsl(243,23%,30%)] border border-white/10 hover:opacity-80 px-3 sm:px-5 py-2 rounded-lg transition-opacity">
-          <span>{selectedDay}</span>
+          <span>{currentDay}</span>
           <Image
             src={dropdownIcon}
             className="w-3 h-3 sm:w-4 sm:h-4 group-data-open:rotate-180 transition-transform duration-200"
@@ -44,7 +38,7 @@ export default function ChangeSelectedDay({
         {days.map(({ dayName }, index) => (
           <ListboxOption
             key={`${dayName}-${index}`}
-            value={dayName}
+            value={index}
             className="hover:bg-[hsl(243,23%,30%)] rounded-xl mx-2 px-3 my-2 py-3 cursor-pointer"
           >
             {dayName}
@@ -53,4 +47,10 @@ export default function ChangeSelectedDay({
       </ListboxOptions>
     </Listbox>
   );
+}
+
+interface ChangeSelectedDayProps {
+  days: DailyForecast[];
+  selectedDayIndex: number;
+  handleChangeDay: (index: number) => void;
 }

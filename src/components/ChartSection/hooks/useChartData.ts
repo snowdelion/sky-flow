@@ -36,7 +36,7 @@ export function useChartData(
       dayFormat: "dddd",
     }).slice(1);
 
-    return filteredDays[selectedDayIndex].hours.map((item) => ({
+    return filteredDays[selectedDayIndex]?.hours.map((item) => ({
       hour: item.hour,
       temp: item.temp,
     }));

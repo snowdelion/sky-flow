@@ -1,66 +1,24 @@
 "use client";
 import Image from "next/image";
-import { useMemo, useRef } from "react";
 
-import { useSettingsStore } from "@/stores/useSettingsStore";
-import { groupByDay } from "@/utils/weather";
+import { WeatherDataHourly, WeatherDataUnits } from "@/types/api/WeatherData";
 
 import ChangeSelectedDay from "./ChangeSelectedDay";
-import type { HourlyForecastProps } from "./HourlyForecast.types";
+import { getHour } from "./hourly-utils";
+import { useHourlyForecast } from "./useHourlyForecast";
 
 export default function HourlyForecast({
   hourlyData,
   forecastUnits,
 }: HourlyForecastProps) {
-  const selectedDayIndex = useSettingsStore((state) => state.selectedDayIndex);
-  const setSelectedDayIndex = useSettingsStore(
-    (state) => state.setSelectedDayIndex,
-  );
-  const hourFormat = useSettingsStore((state) => state.units.time);
-  const hoursRef = useRef<HTMLUListElement>(null);
-
-  const days = useMemo(() => {
-    return groupByDay(hourlyData, { hourFormat, dayFormat: "dddd" })
-      .slice(1)
-      .filter((day) => day.hours.length === 24);
-  }, [hourlyData, hourFormat]);
-
-  const selectedDay = days[selectedDayIndex] || {
-    date: "",
-    dayName: "",
-    hours: [],
-  };
-  const hours = selectedDay.hours;
-
-  const handleChangeDay = (index: number) => {
-    setSelectedDayIndex(index);
-    hoursRef.current?.scrollTo({ top: 0 });
-  };
-
-  const getHour = (hour: string) => {
-    if (hourFormat === "12") {
-      const hours = hour.replace(/[a-z]/gi, "");
-      const chars = hour.replace(/[0-9]/g, "");
-      return (
-        <div className="flex items-center gap-1 font-medium text-sm lg:text-lg">
-          <span>{hours}</span>
-          <span className=" text-white/50">{chars}</span>
-        </div>
-      );
-    } else {
-      const [h, m] = hour.split(":");
-
-      return (
-        <div className="flex items-center gap-0.75 text-sm lg:text-lg">
-          <div className="flex items-center gap-0.5 font-medium">
-            <span>{`${h[0] === "0" ? h.replace("0", "") : h}`}</span>
-            <span>:</span>
-          </div>
-          <span className=" text-white/50 font-normal">{m}</span>
-        </div>
-      );
-    }
-  };
+  const {
+    hoursRef,
+    days,
+    hours,
+    handleChangeDay,
+    hourFormat,
+    selectedDayIndex,
+  } = useHourlyForecast(hourlyData);
 
   return (
     <section
@@ -74,7 +32,8 @@ export default function HourlyForecast({
           </h3>
           <ChangeSelectedDay
             days={days}
-            setSelectedDayIndex={handleChangeDay}
+            selectedDayIndex={selectedDayIndex}
+            handleChangeDay={handleChangeDay}
           />
         </div>
 
@@ -93,7 +52,7 @@ export default function HourlyForecast({
                   alt={`${hour} weather`}
                   className="object-contain relative w-8 h-8"
                 />
-                {getHour(hour)}
+                {getHour(hour, hourFormat)}
               </div>
 
               <div className="flex items-center gap-1">
@@ -110,4 +69,9 @@ export default function HourlyForecast({
       </div>
     </section>
   );
+}
+
+export interface HourlyForecastProps {
+  hourlyData: WeatherDataHourly;
+  forecastUnits: WeatherDataUnits;
 }
