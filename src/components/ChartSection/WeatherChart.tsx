@@ -8,10 +8,11 @@ import {
   YAxis,
 } from "recharts";
 
+import { WeatherDataDaily, WeatherDataHourly } from "@/types/api/WeatherData";
+
 import { getAspect, getXTickFormatter } from "./chart-utils";
 import { useWeatherChartLogic } from "./hooks";
 import { useDeviceType } from "./hooks/useDeviceType";
-import type { WeatherChartProps } from "./WeatherChart.types";
 
 export function WeatherChart({
   dailyData,
@@ -137,4 +138,10 @@ export function WeatherChart({
       </AreaChart>
     </ResponsiveContainer>
   );
+}
+
+interface WeatherChartProps {
+  dailyData: WeatherDataDaily;
+  hourlyData: WeatherDataHourly;
+  currentChartTab: string;
 }
