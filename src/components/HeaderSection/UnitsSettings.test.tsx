@@ -80,6 +80,7 @@ describe("UnitsSettings integration", () => {
           temperature: "fahrenheit",
           speed: "mph",
           precipitation: "inch",
+          time: "24",
         },
       }),
     );
@@ -96,5 +97,6 @@ describe("UnitsSettings integration", () => {
     expect(useSettingsStore.getState().units.temperature).toBe("celsius");
     expect(useSettingsStore.getState().units.speed).toBe("kmh");
     expect(useSettingsStore.getState().units.precipitation).toBe("mm");
+    expect(useSettingsStore.getState().units.time).toBe("12");
   });
 });

@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 
-import type { CityData } from "@/types/api/CityData";
 import type { WeatherData } from "@/types/api/WeatherData";
 import { AppError } from "@/types/errors";
+import type { CityData } from "@/types/location";
 
 import { useWeatherQuery } from "./useWeatherQuery";
 
@@ -60,7 +60,7 @@ describe("useWeatherQuery", () => {
         temperature_2m: [-2],
       },
       forecastUnits: {
-        temperature: "celsius",
+        temperature: "°C",
       },
     } as WeatherData;
   });
