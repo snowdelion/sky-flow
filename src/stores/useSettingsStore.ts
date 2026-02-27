@@ -48,3 +48,10 @@ export const useSettingsStore = create<SettingsStore>()(
     },
   ),
 );
+
+export const DEFAULT_UNITS: Units = {
+  temperature: "celsius",
+  speed: "kmh",
+  precipitation: "mm",
+  time: "12",
+};

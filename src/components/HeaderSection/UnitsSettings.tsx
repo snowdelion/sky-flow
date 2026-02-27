@@ -1,69 +1,19 @@
 "use client";
+
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Image from "next/image";
-import { useShallow } from "zustand/shallow";
 
 import checkmarkIcon from "@/../public/icons/icon-checkmark.svg";
 import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
 import unitsIcon from "@/../public/icons/icon-units.svg";
 import { useSettingsStore } from "@/stores/useSettingsStore";
-import type { WeatherDataUnits } from "@/types/api/WeatherData";
-import type { Units } from "@/types/weather";
 
-export const DEFAULT_UNITS: Units = {
-  temperature: "celsius",
-  speed: "kmh",
-  precipitation: "mm",
-  time: "12",
-};
+import { MENU_OPTIONS } from "./UnitsSettings.constants";
 
 export default function UnitsSettings() {
-  const { units, setUnits, reset } = useSettingsStore(
-    useShallow((state) => ({
-      units: state.units,
-      setUnits: state.setUnits,
-      reset: state.reset,
-    })),
-  );
-
-  const menuOptions = [
-    {
-      id: 1,
-      title: "Temperature",
-      unit: "temperature" as keyof WeatherDataUnits,
-      option1: "Celsius (°C)",
-      value1: "celsius",
-      option2: "Fahrenheit (°F)",
-      value2: "fahrenheit",
-    },
-    {
-      id: 2,
-      title: "Wind Speed",
-      unit: "speed" as keyof WeatherDataUnits,
-      option1: "Kilometers (km)",
-      value1: "kmh",
-      option2: "Miles (mi)",
-      value2: "mph",
-    },
-    {
-      id: 3,
-      title: "Precipitation",
-      unit: "precipitation" as keyof WeatherDataUnits,
-      option1: "Millimeters (mm)",
-      value1: "mm",
-      option2: "Inches (in)",
-      value2: "inch",
-    },
-    {
-      id: 4,
-      title: "Time Format",
-      unit: "time" as keyof WeatherDataUnits,
-      option1: "12-hour",
-      value1: "12",
-      option2: "24-hour",
-      value2: "24",
-    },
-  ];
+  const units = useSettingsStore((state) => state.units);
+  const setUnits = useSettingsStore((state) => state.setUnits);
+  const reset = useSettingsStore((state) => state.reset);
 
   return (
     <Menu>
@@ -98,47 +48,32 @@ export default function UnitsSettings() {
           </div>
         </MenuItem>
 
-        {menuOptions.map((option) => (
+        {MENU_OPTIONS.map((group) => (
           <div
-            key={option.id}
+            key={group.id}
             className="mt-4 mx-2 border-b border-white/10 last:border-b-0"
           >
-            <h2 className="text-sm text-white/70 ml-3">{option.title}</h2>
-            <MenuItem>
-              <div
-                aria-label={`${option.value1} option`}
-                aria-selected="false"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setUnits({ [option.unit]: option.value1 });
-                }}
-                className="flex justify-between items-center hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl px-3 my-2 py-3 cursor-pointer"
-              >
-                <span>{option.option1}</span>
-                {units[option.unit] === option.value1 && (
-                  <Image src={checkmarkIcon} alt="Checked" />
-                )}
-              </div>
-            </MenuItem>
+            <h2 className="text-sm text-white/70 ml-3">{group.title}</h2>
 
-            <MenuItem>
-              <div
-                aria-label={`${option.value2} option`}
-                aria-selected="false"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setUnits({ [option.unit]: option.value2 });
-                }}
-                className="flex justify-between items-center hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl px-3 my-2 py-3 cursor-pointer"
-              >
-                <span>{option.option2}</span>
-                {units[option.unit] === option.value2 && (
-                  <Image src={checkmarkIcon} alt="Checked" />
-                )}
-              </div>
-            </MenuItem>
+            {group.options.map((option) => (
+              <MenuItem key={option.value}>
+                <div
+                  aria-label={`${option.value} option`}
+                  aria-selected="false"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setUnits({ [group.unit]: option.value });
+                  }}
+                  className="flex justify-between items-center hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl px-3 my-2 py-3 cursor-pointer"
+                >
+                  <span>{option.label}</span>
+                  {units[group.unit] === option.value && (
+                    <Image src={checkmarkIcon} alt="Checked" />
+                  )}
+                </div>
+              </MenuItem>
+            ))}
           </div>
         ))}
       </MenuItems>

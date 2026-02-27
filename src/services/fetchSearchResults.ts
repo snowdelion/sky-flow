@@ -1,4 +1,4 @@
-import { DEFAULT_UNITS } from "@/components/HeaderSection/UnitsSettings";
+import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import { ForecastResponse } from "@/types/api/ForecastResponse";
 import { SearchDataItem } from "@/types/api/SearchData";
 import { AppError } from "@/types/errors";

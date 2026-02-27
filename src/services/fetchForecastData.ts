@@ -1,4 +1,4 @@
-import { DEFAULT_UNITS } from "@/components/HeaderSection/UnitsSettings";
+import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import type { CityData } from "@/types/api/CityData";
 import type { WeatherData } from "@/types/api/WeatherData";
 import { AppError } from "@/types/errors";
