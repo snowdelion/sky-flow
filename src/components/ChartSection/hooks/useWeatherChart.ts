@@ -11,10 +11,10 @@ import { getTicks } from "../chart-utils";
 import { useChartData } from "./useChartData";
 import { useResponsiveHourlyData } from "./useResponsiveHourlyData";
 
-export function useWeatherChartLogic(
+export function useWeatherChart(
   dailyData: WeatherDataDaily,
   hourlyData: WeatherDataHourly,
-): UseWeatherChartLogicReturn {
+): UseWeatherChartReturn {
   const { chartDailyData, chartHourlyData: fullHourlyData } = useChartData(
     dailyData,
     hourlyData,
@@ -50,7 +50,7 @@ export function useWeatherChartLogic(
   );
 }
 
-interface UseWeatherChartLogicReturn {
+interface UseWeatherChartReturn {
   hourUnit: "12" | "24";
   currentUnit: "°C" | "°F";
   chartDailyData: {

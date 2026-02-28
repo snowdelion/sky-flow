@@ -1,3 +1,3 @@
 export * from "./useChartData";
 export * from "./useResponsiveHourlyData";
-export * from "./useWeatherChartLogic";
+export * from "./useWeatherChart";

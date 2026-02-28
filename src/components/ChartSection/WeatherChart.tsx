@@ -11,7 +11,7 @@ import {
 import { WeatherDataDaily, WeatherDataHourly } from "@/types/api/WeatherData";
 
 import { getAspect, getXTickFormatter } from "./chart-utils";
-import { useWeatherChartLogic } from "./hooks";
+import { useWeatherChart } from "./hooks";
 import { useDeviceType } from "./hooks/useDeviceType";
 
 export function WeatherChart({
@@ -27,7 +27,7 @@ export function WeatherChart({
     chartHourlyData,
     dailyTicks,
     hourlyTicks,
-  } = useWeatherChartLogic(dailyData, hourlyData);
+  } = useWeatherChart(dailyData, hourlyData);
 
   const isDailyTab = currentChartTab === "daily";
 
