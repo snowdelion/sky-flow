@@ -6,8 +6,6 @@ import { useSettingsStore } from "@/stores/useSettingsStore";
 
 import UnitsSettings from "./UnitsSettings";
 
-import "@testing-library/jest-dom/vitest";
-
 vi.mock("next/image", () => ({
   default: (props: Partial<React.ImgHTMLAttributes<HTMLImageElement>>) => (
     <img
