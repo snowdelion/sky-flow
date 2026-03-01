@@ -23,8 +23,8 @@ export function useHourlyForecast(
   const days = useMemo(
     () =>
       groupByDay(hourlyData, { hourFormat, dayFormat: "dddd" })
-        .slice(1)
-        .filter((day) => day.hours.length === 24),
+        .filter((day) => day.hours.length === 24)
+        .slice(0, 7),
     [hourlyData, hourFormat],
   );
 
