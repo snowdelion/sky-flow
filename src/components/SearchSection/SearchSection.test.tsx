@@ -142,9 +142,7 @@ describe("SearchSection integration", () => {
     await user.type(input, "Berlin{enter}");
     await waitFor(() =>
       expect(mockPush).toHaveBeenCalledWith(
-        expect.stringContaining(
-          "city=Berlin&country=Germany&lat=52.52437&lon=13.41053",
-        ),
+        "/?city=Berlin&country=Germany&lat=52.52437&lon=13.41053",
       ),
     );
   });
