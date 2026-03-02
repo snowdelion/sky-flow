@@ -55,7 +55,7 @@ export function useSearchHistory(): UseSearchHistoryReturn {
       if (targetItem) {
         favoriteStore.update((prev) => {
           if (targetItem.isFavorite)
-            return [...prev.filter((item) => item.id !== id), targetItem];
+            return [targetItem, ...prev.filter((item) => item.id !== id)];
           return prev.filter((item) => item.id !== id);
         });
       }
