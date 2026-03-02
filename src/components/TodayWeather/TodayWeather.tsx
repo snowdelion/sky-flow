@@ -40,7 +40,7 @@ export default function TodayWeather({
               <span>{currentData.country}</span>
             </h2>
             <p className="text-white/70 text-lg">
-              {dayjs().format("dddd, MMM D, YYYY")}
+              {dayjs(currentData.time).format("dddd, MMM D, YYYY")}
             </p>
           </div>
 
