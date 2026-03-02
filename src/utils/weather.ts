@@ -47,7 +47,7 @@ const WEATHER_CODE_TO_ICON: Record<number, string> = {
   99: "storm",
 };
 
-export const GET_ICON_BY_WEATHER_CODE: Record<string, StaticImageData> = {
+const GET_ICON_BY_WEATHER_CODE: Record<string, StaticImageData> = {
   sunny: sunnyIcon,
   partlyCloudy: partlyCloudyIcon,
   overcast: overcastIcon,
@@ -62,8 +62,9 @@ export function calculateAverageTemps(min: number, max: number): number {
   return Math.round((min + max) / 2);
 }
 
-export function getWeatherCode(code: number): string {
-  return WEATHER_CODE_TO_ICON[code] ?? "sunny";
+export function getWeatherIcon(code: number): StaticImageData {
+  const currentCode = WEATHER_CODE_TO_ICON[code] ?? "sunny";
+  return GET_ICON_BY_WEATHER_CODE[currentCode];
 }
 
 export interface format {
@@ -97,12 +98,13 @@ export function groupByDay(
       });
     }
 
-    const code = getWeatherCode(data.weather_code[index]);
+    const icon = getWeatherIcon(data.weather_code[index]);
+
     const hourItem: HourlyItem = {
       hour: formatHourOfDay(date, hourFormat),
       temp: data.temperature_2m[index],
       weatherCode: data.weather_code[index],
-      image: GET_ICON_BY_WEATHER_CODE[code],
+      image: icon,
     };
 
     days[currentDayIndex].hours.push(hourItem);

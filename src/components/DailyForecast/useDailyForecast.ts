@@ -3,11 +3,7 @@ import { useMemo } from "react";
 
 import type { WeatherDataDaily } from "@/types/api/WeatherData";
 import { formatDayOfWeek } from "@/utils/formatters";
-import {
-  GET_ICON_BY_WEATHER_CODE,
-  getWeatherCode,
-  calculateAverageTemps,
-} from "@/utils/weather";
+import { getWeatherIcon, calculateAverageTemps } from "@/utils/weather";
 
 export function useDailyForecast(
   dailyData: WeatherDataDaily,
@@ -24,8 +20,7 @@ export function useDailyForecast(
 
     return time.slice(0, 7).map((dateStr: string, index: number) => {
       const date = new Date(dateStr);
-      const code = getWeatherCode(weatherCode[index]);
-      const image = GET_ICON_BY_WEATHER_CODE[code];
+      const icon = getWeatherIcon(weatherCode[index]);
 
       return {
         day: formatDayOfWeek(date, "dddd"),
@@ -33,7 +28,7 @@ export function useDailyForecast(
         temp: `${calculateAverageTemps(tempMin[index], tempMax[index])}°`,
         feelsLike: `${calculateAverageTemps(apparentTempMin[index], apparentTempMax[index])}°`,
         date: dateStr,
-        image,
+        image: icon,
       };
     });
   }, [dailyData]);

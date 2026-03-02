@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 
 import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
 import type { SearchDataItem } from "@/components/SearchSection/types/SearchData";
-import { GET_ICON_BY_WEATHER_CODE, getWeatherCode } from "@/utils/weather";
+import { getWeatherIcon } from "@/utils/weather";
 
 export function useSearchResultCity(
   data: SearchDataItem,
@@ -19,10 +19,7 @@ export function useSearchResultCity(
   } = data;
   const { searchSelectedCity } = useSearchActions();
 
-  const icon = useMemo(() => {
-    const code = getWeatherCode(weatherCode);
-    return GET_ICON_BY_WEATHER_CODE[code];
-  }, [weatherCode]);
+  const icon = useMemo(() => getWeatherIcon(weatherCode), [weatherCode]);
 
   const handleClick = useCallback(() => {
     searchSelectedCity({

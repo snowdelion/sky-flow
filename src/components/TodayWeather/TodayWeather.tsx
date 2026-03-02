@@ -7,14 +7,13 @@ import type {
   WeatherDataCurrent,
   WeatherDataUnits,
 } from "@/types/api/WeatherData";
-import { GET_ICON_BY_WEATHER_CODE, getWeatherCode } from "@/utils/weather";
+import { getWeatherIcon } from "@/utils/weather";
 
 export default function TodayWeather({
   currentData,
   forecastUnits,
 }: TodayWeatherProps) {
-  const code = getWeatherCode(currentData.weather_code);
-  const icon = GET_ICON_BY_WEATHER_CODE[code];
+  const icon = getWeatherIcon(currentData.weather_code);
 
   return (
     <section

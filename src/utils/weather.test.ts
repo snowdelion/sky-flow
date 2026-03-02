@@ -1,10 +1,9 @@
-
 import fogIcon from "@/../public/icons/icon-fog.webp";
 import overcastIcon from "@/../public/icons/icon-overcast.webp";
 import sunnyIcon from "@/../public/icons/icon-sunny.webp";
 
 import { groupByDay } from "./weather";
-import { GET_ICON_BY_WEATHER_CODE, getWeatherCode } from "./weather";
+import { getWeatherIcon } from "./weather";
 
 describe("weather", () => {
   describe("groupByDay", () => {
@@ -38,16 +37,9 @@ describe("weather", () => {
       const overcastCode = 3;
       const fogCode = 45;
 
-      const getSunny = getWeatherCode(sunnyCode);
-      const getOvercast = getWeatherCode(overcastCode);
-      const getFog = getWeatherCode(fogCode);
-      expect(getSunny).toBe("sunny");
-      expect(getOvercast).toBe("overcast");
-      expect(getFog).toBe("fog");
-
-      const getSunnySrc = GET_ICON_BY_WEATHER_CODE[getSunny];
-      const getOvercastSrc = GET_ICON_BY_WEATHER_CODE[getOvercast];
-      const getFogSrc = GET_ICON_BY_WEATHER_CODE[getFog];
+      const getSunnySrc = getWeatherIcon(sunnyCode);
+      const getOvercastSrc = getWeatherIcon(overcastCode);
+      const getFogSrc = getWeatherIcon(fogCode);
       expect(getSunnySrc).toBe(sunnyIcon);
       expect(getOvercastSrc).toBe(overcastIcon);
       expect(getFogSrc).toBe(fogIcon);
