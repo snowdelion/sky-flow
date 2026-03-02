@@ -7,6 +7,7 @@ import {
 import Image from "next/image";
 import React from "react";
 
+import checkmarkIcon from "@/../public/icons/icon-checkmark.svg";
 import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
 import type { DailyForecast } from "@/types/weather";
 
@@ -40,9 +41,12 @@ export default React.memo(function ChangeSelectedDay({
           <ListboxOption
             key={`${dayName}-${index}`}
             value={index}
-            className="hover:bg-[hsl(243,23%,30%)] rounded-xl mx-2 px-3 my-2 py-3 cursor-pointer"
+            className="hover:bg-[hsl(243,23%,30%)] flex justify-between items-center rounded-xl mx-2 px-3 my-2 py-3 cursor-pointer"
           >
-            {dayName}
+            <span>{dayName}</span>
+            {dayName === days[selectedDayIndex].dayName && (
+              <Image src={checkmarkIcon} alt="Checked" />
+            )}
           </ListboxOption>
         ))}
       </ListboxOptions>
