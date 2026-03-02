@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import type { HistoryItem } from "@/types/history";
 
 export class WeatherStore {
@@ -14,11 +16,9 @@ export class WeatherStore {
     try {
       const saved = localStorage.getItem(this.storageKey);
       const parsed = saved ? JSON.parse(saved) : [];
-      if (Array.isArray(parsed)) {
-        this.data = parsed;
-      } else {
-        this.data = [];
-      }
+
+      const result = z.array(HistoryItemSchema).safeParse(parsed);
+      this.data = result.success ? result.data : [];
     } catch {
       this.data = [];
     }
@@ -36,11 +36,13 @@ export class WeatherStore {
   update(
     newData: HistoryItem[] | ((prev: HistoryItem[]) => HistoryItem[]),
   ): void {
-    if (typeof newData === "function") {
-      this.data = newData(this.data);
-    } else {
-      this.data = newData;
-    }
+    const rawData =
+      typeof newData === "function" ? newData(this.data) : newData;
+    const validatedData = Array.isArray(rawData)
+      ? rawData.filter((item) => HistoryItemSchema.safeParse(item).success)
+      : [];
+
+    this.data = validatedData;
     localStorage.setItem(this.storageKey, JSON.stringify(this.data));
     this.listeners.forEach((listener) => listener());
   }
@@ -50,3 +52,17 @@ export class WeatherStore {
     this.listeners.forEach((listener) => listener());
   }
 }
+
+const HistoryItemSchema = z.object({
+  id: z
+    .string()
+    .includes("-")
+    .transform((value) => value.toLowerCase()),
+
+  city: z.string().trim().min(2),
+  country: z.string().trim().min(2),
+  isFavorite: z.boolean(),
+  timestamp: z.number().positive(),
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+});
