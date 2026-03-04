@@ -1,4 +1,5 @@
 import { AppError } from "@/types/errors";
+import { throwResponseErrors } from "@/utils/fetchThrowErrors";
 
 export async function fetchGeoData(
   city: string,
@@ -10,10 +11,9 @@ export async function fetchGeoData(
 
     if (!geoRes.ok) {
       signal?.throwIfAborted();
-      throw new AppError(
-        "GEOCODING_FAILED",
-        "Check your network connection...",
-      );
+
+      if (geoRes.status === 404) return { results: [] };
+      throwResponseErrors(geoRes.status, "geocoding");
     }
 
     const geoData: SearchGeoData = await geoRes.json();

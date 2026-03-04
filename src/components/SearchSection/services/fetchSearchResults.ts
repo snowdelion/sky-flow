@@ -2,6 +2,7 @@ import { SearchDataItem } from "@/components/SearchSection/types/SearchData";
 import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import { AppError } from "@/types/errors";
 import type { Units } from "@/types/weather";
+import { throwResponseErrors } from "@/utils/fetchThrowErrors";
 
 import { fetchGeoData } from "../../../services/fetchGeoData";
 
@@ -35,10 +36,7 @@ export const fetchSearchResults = async (
 
     if (!forecastRes.ok) {
       signal?.throwIfAborted();
-      throw new AppError(
-        "FORECAST_FAILED",
-        "Server is temporarily unavailable...",
-      );
+      throwResponseErrors(forecastRes.status, "forecast");
     }
 
     const forecastData: ForecastResponse[] = await forecastRes.json();

@@ -3,6 +3,7 @@ import type { WeatherData } from "@/types/api/WeatherData";
 import { AppError } from "@/types/errors";
 import { isFoundCity, type CityData } from "@/types/location";
 import type { Units } from "@/types/weather";
+import { throwResponseErrors } from "@/utils/fetchThrowErrors";
 
 export async function fetchForecastData(
   cityData: CityData,
@@ -45,10 +46,7 @@ export async function fetchForecastData(
 
     if (!forecastRes.ok) {
       signal?.throwIfAborted();
-      throw new AppError(
-        "FORECAST_FAILED",
-        "Server is temporarily unavailable...",
-      );
+      throwResponseErrors(forecastRes.status, "forecast");
     }
 
     const forecastData = await forecastRes.json();
