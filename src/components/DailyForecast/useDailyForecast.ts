@@ -1,6 +1,7 @@
 import type { StaticImageData } from "next/image";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
+import { useSettingsStore } from "@/stores/useSettingsStore";
 import type { WeatherDataDaily } from "@/types/api/WeatherData";
 import { formatDayOfWeek } from "@/utils/formatters";
 import { getWeatherIcon, calculateAverageTemps } from "@/utils/weather";
@@ -8,6 +9,8 @@ import { getWeatherIcon, calculateAverageTemps } from "@/utils/weather";
 export function useDailyForecast(
   dailyData: WeatherDataDaily,
 ): UseDailyForecastReturn {
+  const setSelectedDayIndex = useSettingsStore((s) => s.setSelectedDayIndex);
+
   const formattedDays = useMemo(() => {
     const {
       temperature_2m_min: tempMin,
@@ -33,7 +36,14 @@ export function useDailyForecast(
     });
   }, [dailyData]);
 
-  return { formattedDays };
+  const handleClick = useCallback(
+    (index: number): void => {
+      setSelectedDayIndex(index);
+    },
+    [setSelectedDayIndex],
+  );
+
+  return { formattedDays, handleClick };
 }
 
 interface UseDailyForecastReturn {
@@ -45,4 +55,5 @@ interface UseDailyForecastReturn {
     date: string;
     image: StaticImageData;
   }[];
+  handleClick: (index: number) => void;
 }

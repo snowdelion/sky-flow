@@ -6,7 +6,7 @@ import type { WeatherDataDaily } from "@/types/api/WeatherData";
 import { useDailyForecast } from "./useDailyForecast";
 
 export default function DailyForecast({ dailyData }: DailyForecastProps) {
-  const { formattedDays } = useDailyForecast(dailyData);
+  const { formattedDays, handleClick } = useDailyForecast(dailyData);
 
   return (
     <section aria-label="Daily Forecast" className="mb-10">
@@ -15,7 +15,8 @@ export default function DailyForecast({ dailyData }: DailyForecastProps) {
         {formattedDays.map(({ day, image, temp, feelsLike }, index) => (
           <li
             key={`${day}-${index}`}
-            className="bg-[hsl(243,27%,20%)] hover:opacity-75 transition duration-75 p-4 rounded-xl border border-white/10 flex flex-col items-center"
+            onClick={() => handleClick(index)}
+            className="bg-[hsl(243,27%,20%)] hover:opacity-75 transition duration-75 p-4 rounded-xl border border-white/10 cursor-pointer flex flex-col items-center"
           >
             <p className="font-medium mb-3 lg:text-sm">{day}</p>
             <div className="relative w-12 h-12 mb-3">
