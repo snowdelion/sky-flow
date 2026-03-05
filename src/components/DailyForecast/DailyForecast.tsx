@@ -9,7 +9,7 @@ export default function DailyForecast({ dailyData }: DailyForecastProps) {
   const { formattedDays, handleClick } = useDailyForecast(dailyData);
 
   return (
-    <section aria-label="Daily Forecast" className="mb-10">
+    <section aria-label="Daily Forecast">
       <h3 className="text-xl sm:text-2xl font-bold mb-5">Daily forecast</h3>
       <ul className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
         {formattedDays.map(({ day, image, temp, feelsLike }, index) => (
