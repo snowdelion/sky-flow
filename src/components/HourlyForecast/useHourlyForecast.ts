@@ -1,10 +1,19 @@
-import { type RefObject, useCallback, useMemo, useRef } from "react";
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useShallow } from "zustand/shallow";
 
 import { useSettingsStore } from "@/stores/useSettingsStore";
 import type { WeatherDataHourly } from "@/types/api/WeatherData";
 import type { DailyForecast, HourlyItem } from "@/types/weather";
 import { groupByDay } from "@/utils/weather";
+
+import { useDeviceType } from "../ChartSection/hooks/useDeviceType";
 
 export function useHourlyForecast(
   hourlyData: WeatherDataHourly,
@@ -44,6 +53,13 @@ export function useHourlyForecast(
     [setSelectedDayIndex],
   );
 
+  const [isHourlyOpen, setIsHourlyOpen] = useState<boolean>(true);
+  const { isDesk } = useDeviceType();
+
+  useEffect(() => {
+    if (isDesk && !isHourlyOpen) setIsHourlyOpen(true);
+  }, [isDesk, isHourlyOpen]);
+
   return {
     hoursRef,
     days,
@@ -52,6 +68,9 @@ export function useHourlyForecast(
     hourFormat,
     selectedDayIndex,
     setSelectedDayIndex,
+    isHourlyOpen,
+    setIsHourlyOpen,
+    isDesk,
   };
 }
 
@@ -63,4 +82,7 @@ interface UseHourlyForecastReturn {
   hourFormat: "12" | "24";
   selectedDayIndex: number;
   setSelectedDayIndex: (day: number) => void;
+  isHourlyOpen: boolean;
+  setIsHourlyOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDesk: boolean;
 }

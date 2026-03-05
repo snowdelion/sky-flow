@@ -11,18 +11,22 @@ import checkmarkIcon from "@/../public/icons/icon-checkmark.svg";
 import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
 import type { DailyForecast } from "@/types/weather";
 
+import { useDeviceType } from "../ChartSection/hooks/useDeviceType";
+
 export default React.memo(function ChangeSelectedDay({
   days,
   selectedDayIndex,
   handleChangeDay,
 }: ChangeSelectedDayProps) {
   const currentDay = days[selectedDayIndex]?.dayName || days[0].dayName;
+  const { isDesk } = useDeviceType();
+  const currentAnchor = isDesk ? "bottom end" : "bottom";
 
   return (
     <Listbox value={selectedDayIndex} onChange={handleChangeDay}>
       <div className="border border-white/0 active:border-white/20 rounded-lg">
         <ListboxButton className="group flex items-center justify-center gap-2 focus:outline-none bg-[hsl(243,23%,30%)] border border-white/10 hover:opacity-80 px-3 sm:px-5 py-2 rounded-lg transition-opacity">
-          <span>{currentDay}</span>
+          <span className="text- sm:text-base">{currentDay}</span>
           <Image
             src={dropdownIcon}
             className="w-3 h-3 sm:w-4 sm:h-4 group-data-open:rotate-180 transition-transform duration-200"
@@ -35,7 +39,7 @@ export default React.memo(function ChangeSelectedDay({
         className="bg-[hsl(243,27%,20%)] [--anchor-gap:10px] focus:outline-none border border-white/10 rounded-xl w-55 justify-self-center shadow-[0_10px_12px_black]/25 transition-transform duration-150  data-closed:opacity-0 data-closed:scale-95 data-closed:-translate-y-2"
         modal={false}
         transition
-        anchor="bottom end"
+        anchor={currentAnchor}
       >
         {days.map(({ dayName }, index) => (
           <ListboxOption
