@@ -27,14 +27,16 @@ function renderHookWithClient<T>(hook: () => T) {
 
 describe("useSearchQuery", () => {
   let searchResult: string;
-  let mockSearchResults: {
-    city: string;
-    country: string;
-    id: number;
-    latitude: number;
-    longitude: number;
-    temperature: number;
-  }[];
+  const mockSearchResults = [
+    {
+      city: "Berlin",
+      country: "Germany",
+      id: 123,
+      latitude: 10,
+      longitude: 20,
+      temperature: -2,
+    },
+  ];
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -42,17 +44,6 @@ describe("useSearchQuery", () => {
     testQueryClient.clear();
 
     searchResult = "Berlin";
-
-    mockSearchResults = [
-      {
-        city: "Berlin",
-        country: "Germany",
-        id: 123,
-        latitude: 10,
-        longitude: 20,
-        temperature: -2,
-      },
-    ];
   });
 
   it("should fetch data", async () => {
@@ -63,24 +54,36 @@ describe("useSearchQuery", () => {
     expect(result.current.data).toEqual(mockSearchResults);
   });
 
-  it("shouldn't retry when not found or aborted", async () => {
-    const notFoundError = new AppError(
-      "GEOCODING_FAILED",
-      `City ${searchResult} not found...`,
+  it("should return empty array when city not found", async () => {
+    mockFetchSearchResults.mockResolvedValue([]);
+    const { result } = renderHookWithClient(() =>
+      useSearchQuery("nonExist123"),
     );
-    mockFetchSearchResults.mockRejectedValue(notFoundError);
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(result.current.data).toEqual([]);
+    expect(mockFetchSearchResults).toHaveBeenCalledTimes(1);
+    expect(result.current.isError).toBe(false);
+  });
+
+  it("should handle API error", async () => {
+    const error = new AppError(
+      "FORECAST_FAILED",
+      "Server is temporarily unaavailable...",
+    );
+    mockFetchSearchResults.mockRejectedValue(error);
     const { result } = renderHookWithClient(() => useSearchQuery(searchResult));
 
     await waitFor(() => expect(result.current.isError).toBe(true));
+    expect(result.current.error).toBe(error);
+    expect(mockFetchSearchResults).toHaveBeenCalledTimes(3);
+  });
 
-    expect(result.current.error).toBe(notFoundError);
+  it("should not fetch when search result less than 2 character", async () => {
+    const { result } = renderHookWithClient(() => useSearchQuery("A"));
 
-    expect((result.current.error as AppError).code).toBe("GEOCODING_FAILED");
-    expect((result.current.error as AppError).message).toBe(
-      `City ${searchResult} not found...`,
-    );
-
-    expect(result.current.failureCount).toBe(1);
-    expect(mockFetchSearchResults).toHaveBeenCalledTimes(1);
+    expect(mockFetchSearchResults).not.toHaveBeenCalled();
+    expect(result.current.fetchStatus).toBe("idle");
   });
 });

@@ -25,7 +25,7 @@ export function useSearchQuery(
       return await fetchSearchResults(queryValue, units, combinedSignal);
     },
 
-    enabled: !!queryValue && queryValue.trim().length > 0,
+    enabled: !!queryValue && queryValue.trim().length >= 2,
 
     retry: (failureCount) => failureCount < 2,
 
