@@ -4,11 +4,10 @@ import searchIcon from "@/../public/icons/icon-search.svg";
 import { XIcon } from "@/components/icons";
 import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
 import { useSearchStore } from "@/stores/useSearchStore";
-import { AppError } from "@/types/errors";
 
 import { SearchInput } from "./SearchInput";
 
-export function SearchBar({ inputRef, error }: SearchBarProps) {
+export function SearchBar({ inputRef, isError }: SearchBarProps) {
   const { searchCityWithName } = useSearchActions();
   const inputValue = useSearchStore((state) => state.inputValue);
   const setInputValue = useSearchStore((state) => state.setInputValue);
@@ -24,9 +23,7 @@ export function SearchBar({ inputRef, error }: SearchBarProps) {
       <SearchInput
         ref={inputRef}
         placeholder={
-          error?.message === "GEOCODING_FAILED"
-            ? "City not found..."
-            : "Search for a place..."
+          isError ? "Something went wrong..." : "Search for a place..."
         }
       />
 
@@ -45,5 +42,5 @@ export function SearchBar({ inputRef, error }: SearchBarProps) {
 
 interface SearchBarProps {
   inputRef: React.RefObject<HTMLInputElement | null>;
-  error: AppError | null;
+  isError: boolean;
 }
