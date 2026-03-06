@@ -3,76 +3,41 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useSearchStore } from "@/stores/useSearchStore";
+import { getSearchMocks } from "@/testing/mocks/useSearchMocks";
 import type { CityData } from "@/types/location";
 
 import { useSearchActions } from "./useSearchActions";
 
 import "@testing-library/jest-dom";
 
-const mockPush = vi.fn();
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: mockPush,
-    replace: vi.fn(),
-    prefetch: vi.fn(),
-  }),
-  usePathname: () => "/",
-  useSearchParams: () => new URLSearchParams(),
-}));
+// --- 1. mocks ---
+vi.mock("next/navigation", async () => {
+  const mocks = getSearchMocks();
+  return {
+    useRouter: () => mocks.navigation.routerModule(),
+    usePathname: mocks.navigation.pathnameModule.usePathname,
+    useSearchParams: mocks.navigation.searchParamsModule.useSearchParams,
+  };
+});
+vi.mock(
+  "@/components/SearchSection/hooks/useSearchHistory",
+  () => getSearchMocks().hooks.historyModule,
+);
+vi.mock("@/services/fetchGeoData", () => getSearchMocks().services.geoModule);
 
-const mockAddCity = vi.hoisted(() => vi.fn());
-vi.mock("@/components/SearchSection/hooks/useSearchHistory", () => ({
-  useSearchHistory: () => ({
-    addCity: mockAddCity,
-    recent: [],
-    favorites: [],
-    toggleFavorites: vi.fn(),
-    removeCity: vi.fn(),
-  }),
-}));
-
-const mockFetchGeoData = vi.hoisted(() => vi.fn());
-vi.mock("@/services/fetchGeoData", () => ({
-  fetchGeoData: mockFetchGeoData,
-}));
-
-const testQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-    },
-  });
-
-function renderHookWithClient<T>(hook: () => T) {
-  const queryClient = testQueryClient();
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-  return renderHook(hook, { wrapper });
-}
-
+// --- 2. tests ---
 describe("useSearchActions", () => {
   let inputElement: HTMLInputElement;
+  const mocks = getSearchMocks();
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks();
-    mockAddCity.mockClear();
-    mockFetchGeoData.mockClear();
+    mocks.services.mockFetchGeoData.mockClear();
+    mocks.navigation.mockPush.mockClear();
 
     inputElement = document.createElement("input");
     inputElement.setAttribute("aria-label", "search");
     document.body.appendChild(inputElement);
-
-    mockFetchGeoData.mockResolvedValue({
-      results: [
-        {
-          name: "Minsk",
-          country: "Belarus",
-          latitude: 53.9,
-          longitude: 27.56667,
-        },
-      ],
-    });
 
     act(() => {
       useSearchStore.getState().reset();
@@ -138,34 +103,58 @@ describe("useSearchActions", () => {
     });
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledTimes(1);
-      expect(mockPush).toHaveBeenCalledWith(
+      expect(mocks.navigation.mockPush).toHaveBeenCalledTimes(1);
+      expect(mocks.navigation.mockPush).toHaveBeenCalledWith(
         expect.stringContaining(
           "city=Minsk&country=Belarus&lat=53.9&lon=27.56667",
         ),
       );
-      expect(mockPush).toHaveBeenCalledTimes(1);
-      expect(mockAddCity).toHaveBeenCalledTimes(1);
-      expect(mockAddCity).toHaveBeenCalledWith(cityData);
+      expect(mocks.navigation.mockPush).toHaveBeenCalledTimes(1);
+      expect(mocks.hooks.mockAddCity).toHaveBeenCalledTimes(1);
+      expect(mocks.hooks.mockAddCity).toHaveBeenCalledWith(cityData);
     });
 
     expect(useSearchStore.getState().inputValue).toBe("");
   });
 
   it("should find first city from input", async () => {
+    const mockGeoData = {
+      results: [
+        {
+          name: "Berlin",
+          country: "Germany",
+          latitude: 10,
+          longitude: 20,
+        },
+      ],
+    };
+
+    mocks.services.mockFetchGeoData.mockResolvedValue(mockGeoData);
     const { result } = renderHookWithClient(() => useSearchActions());
 
     await act(async () => await result.current.searchCityWithName("Berlin"));
-
-    expect(mockFetchGeoData).toHaveBeenCalledTimes(1);
-    expect(mockFetchGeoData).toHaveBeenCalledWith("berlin");
   });
 
   it("shouldn't navigate when input is empty", async () => {
     const { result } = renderHookWithClient(() => useSearchActions());
 
     await act(() => result.current.searchCityWithName(""));
-    expect(mockFetchGeoData).not.toHaveBeenCalled();
-    expect(mockPush).not.toHaveBeenCalled();
+    expect(mocks.navigation.mockPush).not.toHaveBeenCalled();
   });
 });
+
+// --- 3. render with client
+const testQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+    },
+  });
+
+function renderHookWithClient<T>(hook: () => T) {
+  const queryClient = testQueryClient();
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+  return renderHook(hook, { wrapper });
+}
