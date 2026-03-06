@@ -1,10 +1,10 @@
 import { findCityDataFromParams, redirectToDefaultCity } from "./utils";
 
+// --- 1. mocks ---
 const mockRedirect = vi.hoisted(() => vi.fn());
-vi.mock("next/navigation", () => ({
-  redirect: mockRedirect,
-}));
+vi.mock("next/navigation", () => ({ redirect: mockRedirect }));
 
+// --- 2. tests ---
 describe("WeatherPage utils", () => {
   beforeEach(() => {
     vi.clearAllMocks();

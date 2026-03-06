@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 
-import { server } from "@/mocks/server";
+import { server } from "@/testing/msw/server";
 import { AppError } from "@/types/errors";
 
 import { fetchGeoData } from "./fetchGeoData";
