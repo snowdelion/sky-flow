@@ -1,26 +1,14 @@
 import { act, renderHook } from "@testing-library/react";
 
 import { useSettingsStore } from "@/stores/useSettingsStore";
-import type {
-  WeatherDataDaily,
-  WeatherDataHourly,
-} from "@/types/api/WeatherData";
+import {
+  mockDailyData,
+  mockHourlyData,
+} from "@/testing/mocks/factories/weather";
 
 import { useWeatherChart } from "./useWeatherChart";
 
 describe("useWeatherChart", () => {
-  const mockDailyData = {
-    temperature_2m_min: [-0],
-    temperature_2m_max: [-8],
-    time: ["2026-02-28"],
-    weather_code: [0],
-  } as unknown as WeatherDataDaily;
-  const mockHourlyData = {
-    temperature_2m: [0, -2],
-    time: ["2026-02-28T00:00", "2026-02-28T14:00"],
-    weather_code: [0, 0],
-  } as unknown as WeatherDataHourly;
-
   beforeEach(() => {
     vi.clearAllMocks();
     useSettingsStore.getState().reset();
@@ -31,12 +19,25 @@ describe("useWeatherChart", () => {
       useWeatherChart(mockDailyData, mockHourlyData),
     );
 
-    expect(result.current.chartDailyData).toEqual([
-      { day: "Saturday", temp: -4 },
-    ]);
-    expect(result.current.chartHourlyData).toEqual([
-      { hour: "2 PM", temp: -2 },
-    ]);
+    expect(result.current.chartDailyData).toHaveLength(7);
+    expect(result.current.chartDailyData[0]).toEqual({
+      day: "Sunday",
+      temp: 1,
+    });
+    expect(result.current.chartDailyData[6]).toEqual({
+      day: "Saturday",
+      temp: 7,
+    });
+
+    expect(result.current.chartHourlyData).toHaveLength(24);
+    expect(result.current.chartHourlyData[0]).toEqual({
+      hour: "12 AM",
+      temp: 21,
+    });
+    expect(result.current.chartHourlyData[23]).toEqual({
+      hour: "11 PM",
+      temp: 20,
+    });
   });
 
   it("should show correct units", () => {
@@ -61,8 +62,6 @@ describe("useWeatherChart", () => {
       useWeatherChart(mockDailyData, mockHourlyData),
     );
 
-    expect(result.current.dailyTicks).toEqual([
-      -8, -7, -6, -5, -4, -3, -2, -1, 0,
-    ]);
+    expect(result.current.dailyTicks).toEqual([-2, +0, 2, 4, 6, 8, 10]);
   });
 });
