@@ -8,11 +8,11 @@ import {
   YAxis,
 } from "recharts";
 
+import { useDeviceType } from "@/hooks/useDeviceType";
 import { WeatherDataDaily, WeatherDataHourly } from "@/types/api/WeatherData";
 
 import { getAspect, getXTickFormatter } from "./chart-utils";
 import { useWeatherChart } from "./hooks";
-import { useDeviceType } from "./hooks/useDeviceType";
 
 export function WeatherChart({
   dailyData,

@@ -9,9 +9,8 @@ import React from "react";
 
 import checkmarkIcon from "@/../public/icons/icon-checkmark.svg";
 import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
+import { useDeviceType } from "@/hooks/useDeviceType";
 import type { DailyForecast } from "@/types/weather";
-
-import { useDeviceType } from "../ChartSection/hooks/useDeviceType";
 
 export default React.memo(function ChangeSelectedDay({
   days,

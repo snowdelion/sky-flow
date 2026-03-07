@@ -8,12 +8,11 @@ import {
 } from "react";
 import { useShallow } from "zustand/shallow";
 
+import { useDeviceType } from "@/hooks/useDeviceType";
 import { useSettingsStore } from "@/stores/useSettingsStore";
 import type { WeatherDataHourly } from "@/types/api/WeatherData";
 import type { DailyForecast, HourlyItem } from "@/types/weather";
 import { groupByDay } from "@/utils/weather";
-
-import { useDeviceType } from "../ChartSection/hooks/useDeviceType";
 
 export function useHourlyForecast(
   hourlyData: WeatherDataHourly,

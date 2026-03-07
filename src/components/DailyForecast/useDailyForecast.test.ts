@@ -1,12 +1,14 @@
 import { renderHook } from "@testing-library/react";
 
-import { mockDailyData } from "@/testing/mocks/factories/weather";
+import { createWeatherDataMocks } from "@/testing/mocks/factories/weather";
 
 import { useDailyForecast } from "./useDailyForecast";
 
 describe("useDailyForecast", () => {
+  const { dailyData } = createWeatherDataMocks();
+
   it("should correct format days", () => {
-    const { result } = renderHook(() => useDailyForecast(mockDailyData));
+    const { result } = renderHook(() => useDailyForecast(dailyData));
 
     expect(result.current.formattedDays[0].temp).toBe("1°");
     expect(result.current.formattedDays[0].day).toBe("Sunday");

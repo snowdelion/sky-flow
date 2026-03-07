@@ -1,23 +1,20 @@
 import { act, renderHook } from "@testing-library/react";
 
 import { useSettingsStore } from "@/stores/useSettingsStore";
-import {
-  mockDailyData,
-  mockHourlyData,
-} from "@/testing/mocks/factories/weather";
+import { createWeatherDataMocks } from "@/testing/mocks/factories/weather";
 
 import { useChartData } from "./useChartData";
 
 describe("useChartData", () => {
+  const { dailyData, hourlyData } = createWeatherDataMocks();
+
   beforeEach(() => {
     vi.clearAllMocks();
     useSettingsStore.getState().reset();
   });
 
   it("should return formatted chart data", () => {
-    const { result } = renderHook(() =>
-      useChartData(mockDailyData, mockHourlyData),
-    );
+    const { result } = renderHook(() => useChartData(dailyData, hourlyData));
 
     expect(result.current.chartDailyData).toHaveLength(7);
     expect(result.current.chartDailyData[0]).toEqual({
@@ -41,9 +38,7 @@ describe("useChartData", () => {
   });
 
   it("should change selected day index", async () => {
-    const { result } = renderHook(() =>
-      useChartData(mockDailyData, mockHourlyData),
-    );
+    const { result } = renderHook(() => useChartData(dailyData, hourlyData));
 
     expect(result.current.chartHourlyData[0]).toEqual({
       hour: "12 AM",
@@ -66,9 +61,7 @@ describe("useChartData", () => {
       }),
     );
 
-    const { result } = renderHook(() =>
-      useChartData(mockDailyData, mockHourlyData),
-    );
+    const { result } = renderHook(() => useChartData(dailyData, hourlyData));
 
     expect(result.current.chartHourlyData).toHaveLength(24);
     expect(result.current.chartHourlyData[0].hour).toBe("00:00");

@@ -1,26 +1,23 @@
 import { act, renderHook } from "@testing-library/react";
 
-import { mockHourlyData } from "@/testing/mocks/factories/weather";
+import { createWeatherDataMocks } from "@/testing/mocks/factories/weather";
 
 import { useHourlyForecast } from "./useHourlyForecast";
 
 const mockUseDeviceType = vi.fn();
-vi.mock("@/components/ChartSection/hooks/useDeviceType", () => ({
+vi.mock("@/hooks/useDeviceType", () => ({
   useDeviceType: () => mockUseDeviceType(),
 }));
 
 describe("useHourlyForecast", () => {
+  const { hourlyData } = createWeatherDataMocks();
+
   beforeEach(() => {
-    vi.setSystemTime(new Date("2026-02-28T12:00:00Z"));
     mockUseDeviceType.mockReturnValue({ isMobile: true });
   });
 
-  afterAll(() => {
-    vi.useRealTimers();
-  });
-
   it("should get days", () => {
-    const { result } = renderHook(() => useHourlyForecast(mockHourlyData));
+    const { result } = renderHook(() => useHourlyForecast(hourlyData));
 
     expect(result.current.days).toHaveLength(2);
 
@@ -33,7 +30,7 @@ describe("useHourlyForecast", () => {
 
   it("should immediately open hourly forecast on desktop when closed", () => {
     mockUseDeviceType.mockReturnValue({ isDesk: true });
-    const { result } = renderHook(() => useHourlyForecast(mockHourlyData));
+    const { result } = renderHook(() => useHourlyForecast(hourlyData));
 
     expect(result.current.isHourlyOpen).toBe(true);
 
@@ -43,7 +40,7 @@ describe("useHourlyForecast", () => {
 
   it("should stay closed on mobile", () => {
     mockUseDeviceType.mockReturnValue({ isMobile: true });
-    const { result } = renderHook(() => useHourlyForecast(mockHourlyData));
+    const { result } = renderHook(() => useHourlyForecast(hourlyData));
 
     act(() => result.current.setIsHourlyOpen(false));
     expect(result.current.isHourlyOpen).toBe(false);
