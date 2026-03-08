@@ -11,28 +11,7 @@ export default function WeatherDetails({
   forecastUnits,
 }: WeatherDetailsProps) {
   const weatherDetails = useMemo(
-    () => [
-      {
-        title: "Feels Like",
-        value: currentData.apparent_temperature.toFixed(1),
-        unit: forecastUnits.temperature,
-      },
-      {
-        title: "Humidity",
-        value: currentData.relative_humidity_2m.toString(),
-        unit: "%",
-      },
-      {
-        title: "Wind",
-        value: currentData.wind_speed_10m.toString(),
-        unit: forecastUnits.speed,
-      },
-      {
-        title: "Precipitation",
-        value: currentData.precipitation.toString(),
-        unit: forecastUnits.precipitation,
-      },
-    ],
+    () => formatWeatherDetails(currentData, forecastUnits),
     [currentData, forecastUnits],
   );
 
@@ -56,6 +35,32 @@ export default function WeatherDetails({
     </section>
   );
 }
+
+const formatWeatherDetails = (
+  data: WeatherDataCurrent,
+  units: WeatherDataUnits,
+) => [
+  {
+    title: "Feels Like",
+    value: data.apparent_temperature.toFixed(1),
+    unit: units.temperature,
+  },
+  {
+    title: "Humidity",
+    value: data.relative_humidity_2m.toString(),
+    unit: "%",
+  },
+  {
+    title: "Wind",
+    value: data.wind_speed_10m.toString(),
+    unit: units.speed,
+  },
+  {
+    title: "Precipitation",
+    value: data.precipitation.toString(),
+    unit: units.precipitation,
+  },
+];
 
 interface WeatherDetailsProps {
   currentData: WeatherDataCurrent;
