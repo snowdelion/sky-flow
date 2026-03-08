@@ -65,7 +65,6 @@ export async function fetchForecastData(
         temperature: forecastData.current_units.apparent_temperature,
         speed: forecastData.current_units.wind_speed_10m,
         precipitation: forecastData.current_units.precipitation,
-        time: "24",
       },
     };
   } catch (error) {
