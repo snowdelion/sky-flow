@@ -3,8 +3,9 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useSearchStore } from "@/stores/useSearchStore";
+import { createCityDataMocks } from "@/testing/mocks/factories/cityData";
+import { createGeoData } from "@/testing/mocks/factories/location";
 import { getSearchMocks } from "@/testing/mocks/useSearchMocks";
-import type { CityData } from "@/types/location";
 
 import { useSearchActions } from "./useSearchActions";
 
@@ -90,17 +91,13 @@ describe("useSearchActions", () => {
   it("should change URL", async () => {
     const { result } = renderHookWithClient(() => useSearchActions());
 
-    const cityData = {
-      status: "found",
-      city: "Minsk",
-      country: "Belarus",
-      lat: 53.9,
-      lon: 27.56667,
-    } as CityData;
+    const { minskCityData } = createCityDataMocks();
 
-    result.current.searchSelectedCity(cityData, {
-      current: inputElement,
-    });
+    act(() =>
+      result.current.searchSelectedCity(minskCityData, {
+        current: inputElement,
+      }),
+    );
 
     await waitFor(() => {
       expect(mocks.navigation.mockPush).toHaveBeenCalledTimes(1);
@@ -111,25 +108,16 @@ describe("useSearchActions", () => {
       );
       expect(mocks.navigation.mockPush).toHaveBeenCalledTimes(1);
       expect(mocks.hooks.mockAddCity).toHaveBeenCalledTimes(1);
-      expect(mocks.hooks.mockAddCity).toHaveBeenCalledWith(cityData);
+      expect(mocks.hooks.mockAddCity).toHaveBeenCalledWith(minskCityData);
     });
 
     expect(useSearchStore.getState().inputValue).toBe("");
   });
 
   it("should find first city from input", async () => {
-    const mockGeoData = {
-      results: [
-        {
-          name: "Berlin",
-          country: "Germany",
-          latitude: 10,
-          longitude: 20,
-        },
-      ],
-    };
+    const geoData = createGeoData();
 
-    mocks.services.mockFetchGeoData.mockResolvedValue(mockGeoData);
+    mocks.services.mockFetchGeoData.mockResolvedValue(geoData);
     const { result } = renderHookWithClient(() => useSearchActions());
 
     await act(async () => await result.current.searchCityWithName("Berlin"));
