@@ -14,7 +14,7 @@ vi.mock("@/components/SearchSection/services/fetchSearchResults", () => ({
 
 // --- 2. tests ---
 describe("useSearchQuery", () => {
-  const searchResults = createResultsMocks();
+  const [searchResults] = createResultsMocks();
 
   beforeEach(() => {
     vi.clearAllMocks();

@@ -1,5 +1,7 @@
 import { http, HttpResponse } from "msw";
 
+import { CITY_BASE_DATA } from "../mocks/data/cities";
+
 export const handlers = [
   http.get("https://geocoding-api.open-meteo.com/v1/search", ({ request }) => {
     const url = new URL(request.url);
@@ -11,9 +13,10 @@ export const handlers = [
       (key) => key.toLowerCase() === name.toLowerCase(),
     );
 
-    if (cityKey) return HttpResponse.json({ results: CITY_RESPONSES[cityKey] });
-
-    return HttpResponse.json({ results: [] }, { status: 200 });
+    return HttpResponse.json(
+      { results: cityKey ? CITY_RESPONSES[cityKey] : [] },
+      { status: 200 },
+    );
   }),
 
   http.get("https://api.open-meteo.com/v1/forecast", ({ request }) => {
@@ -73,72 +76,32 @@ export const handlers = [
   }),
 ];
 
-const CITY_RESPONSES: Record<string, mockCityResponse[]> = {
-  Minsk: [
-    {
-      id: 625144,
-      name: "Minsk",
-      country: "Belarus",
-      latitude: 53.9,
-      longitude: 27.56667,
-      timezone: "Europe/Minsk",
-    },
-    {
-      id: 2019920,
-      name: "Minsk",
-      country: "Russia",
-      latitude: 57.0989,
-      longitude: 93.33372,
-      timezone: "Asia/Krasnoyarsk",
-    },
-    ...Array(6).fill({
-      id: 625144,
-      name: "Minsk",
-      country: "Belarus",
-      latitude: 53.9,
-      longitude: 27.56667,
-      timezone: "Europe/Minsk",
-    }),
-  ],
-
-  Berlin: [
-    ...Array(7).fill({
-      id: 2950159,
-      name: "Berlin",
-      country: "Germany",
-      latitude: 52.52437,
-      longitude: 13.41053,
-      timezone: "Europe/Berlin",
-    }),
-    {
-      id: 4557666,
-      name: "East Berlin",
-      country: "United States",
-      latitude: 39.9376,
-      longitude: -76.97859,
-      timezone: "America/New_York",
-    },
-  ],
-
-  Warsaw: [
-    ...Array(7).fill({
-      id: 756135,
-      name: "Warsaw",
-      country: "Poland",
-      latitude: 52.22977,
-      longitude: 21.01178,
-      timezone: "Europe/Warsaw",
-    }),
-    {
-      id: 4915533,
-      name: "Warsaw",
-      country: "United States",
-      latitude: 40.35921,
-      longitude: -91.4346,
-      timezone: "America/Chicago",
-    },
-  ],
-};
+const CITY_RESPONSES: Record<string, mockCityResponse[]> = Object.entries(
+  CITY_BASE_DATA,
+).reduce(
+  (acc, [name, data]) => ({
+    ...acc,
+    [name]: [
+      ...Array(7).fill({
+        id: data.first.id,
+        name: data.first.city,
+        country: data.first.country,
+        latitude: data.first.lat,
+        longitude: data.first.lon,
+        timezone: data.first.timezone,
+      }),
+      {
+        id: data.last.id,
+        name: data.last.city,
+        country: data.last.country,
+        latitude: data.last.lat,
+        longitude: data.last.lon,
+        timezone: data.last.timezone,
+      },
+    ],
+  }),
+  {},
+);
 
 interface mockCityResponse {
   id: number;

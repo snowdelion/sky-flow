@@ -1,17 +1,14 @@
+import { createResultsMocks } from "@/testing/mocks/factories/search";
+
 import { fetchSearchResults } from "./fetchSearchResults";
 
 describe("fetchSearchResults", () => {
   it("should fetch city with search result", async () => {
-    const result = await fetchSearchResults("Minsk");
+    const [searchResults] = createResultsMocks();
+    const result = await fetchSearchResults("Berlin");
 
-    expect(result?.[0].city).toBe("Minsk");
-    expect(result?.[0].country).toBe("Belarus");
-    expect(result?.[0].latitude).toBe(53.9);
-    expect(result?.[0].longitude).toBe(27.56667);
+    expect(result[0]).toEqual(searchResults[0]);
 
-    expect(result?.[1].city).toBe("Minsk");
-    expect(result?.[1].country).toBe("Russia");
-    expect(result?.[1].latitude).toBe(57.0989);
-    expect(result?.[1].longitude).toBe(93.33372);
+    expect(result.at(-1)).toEqual(searchResults.at(-1));
   });
 });
