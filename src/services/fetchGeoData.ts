@@ -1,10 +1,11 @@
+import type { GeoData } from "@/types/api/GeoData";
 import { AppError } from "@/types/errors";
 import { throwResponseErrors } from "@/utils/fetchThrowErrors";
 
 export async function fetchGeoData(
   city: string,
   signal?: AbortSignal,
-): Promise<SearchGeoData> {
+): Promise<GeoData> {
   try {
     const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=8&language=en`;
     const geoRes = await fetch(geoUrl, { signal });
@@ -16,7 +17,7 @@ export async function fetchGeoData(
       throwResponseErrors(geoRes.status, "geocoding");
     }
 
-    const geoData: SearchGeoData = await geoRes.json();
+    const geoData: GeoData = await geoRes.json();
 
     if (!geoData.results || geoData.results.length === 0)
       return { results: [] };
@@ -29,15 +30,4 @@ export async function fetchGeoData(
       error instanceof Error ? error.message : "Unexpected error...";
     throw new AppError("UNKNOWN_ERROR", message);
   }
-}
-
-interface SearchGeoData {
-  results: {
-    latitude: number;
-    longitude: number;
-    timezone: string;
-    name: string;
-    country: string;
-    id: number;
-  }[];
 }
