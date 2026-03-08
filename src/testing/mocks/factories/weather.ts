@@ -1,7 +1,8 @@
-import type { SearchDataItem } from "@/components/SearchSection/types/SearchData";
 import type {
+  WeatherDataCurrent,
   WeatherDataDaily,
   WeatherDataHourly,
+  WeatherDataUnits,
 } from "@/types/api/WeatherData";
 
 // --- 1.1 weather data factories ---
@@ -52,44 +53,47 @@ const getHourlyData = (): WeatherDataHourly => ({
   weather_code: [...Array(24).fill(0), ...Array(24).fill(1)],
 });
 
-// --- 2.1 search results factories ---
-export const createResultsMocks = (
-  overrides: Partial<SearchDataItem> = {},
-): SearchDataItem[] => {
-  return [
-    ...Array(7).fill({
-      ...getFirstSearchResults(),
-      ...overrides,
-    }),
-
-    {
-      ...getLastSearchResults(),
-      ...overrides,
-    },
-  ];
+// --- 2.1 current weather factory ---
+export const createCurrentWeatherMocks = (
+  overrides: Partial<WeatherDataCurrent> = {},
+): WeatherDataCurrent => {
+  return {
+    ...getCurrentWeather(),
+    ...overrides,
+  };
 };
 
-// --- 2.2 search results items ---
-const getFirstSearchResults = (): SearchDataItem => ({
+// --- 2.2 current weather item ---
+const getCurrentWeather = (): WeatherDataCurrent => ({
+  apparent_temperature: -4,
   city: "Berlin",
   country: "Germany",
-  id: 2950159,
+  interval: 900,
   latitude: 52.52437,
   longitude: 13.41053,
-  temperature: 11.5,
-  temperatureUnit: "°C",
-  weatherCode: 3,
+  precipitation: 0,
+  relative_humidity_2m: 40,
+  temperature_2m: -2,
+  time: "2026-03-01T14:00",
+  weather_code: 3,
+  wind_speed_10m: 10,
 });
 
-const getLastSearchResults = (): SearchDataItem => ({
-  city: "East Berlin",
-  country: "United States",
-  id: 4557666,
-  latitude: 39.9376,
-  longitude: -76.97859,
-  temperature: 11,
-  temperatureUnit: "°C",
-  weatherCode: 3,
+// --- 3.1 forecast units factory
+export const createForecastUnits = (
+  overrides: Partial<WeatherDataUnits> = {},
+): WeatherDataUnits => {
+  return {
+    ...getUnits(),
+    ...overrides,
+  };
+};
+
+// --- 3.2 forecast units item ---
+const getUnits = (): WeatherDataUnits => ({
+  precipitation: "mm",
+  speed: "km/h",
+  temperature: "°C",
 });
 
 interface WeatherOverrides {

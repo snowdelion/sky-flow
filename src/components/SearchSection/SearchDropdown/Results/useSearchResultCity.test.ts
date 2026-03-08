@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react";
 
 import overcastIcon from "@/../public/icons/icon-overcast.webp";
-import { createResultsMocks } from "@/testing/mocks/factories/weather";
+import { createResultsMocks } from "@/testing/mocks/factories/search";
 
 import { useSearchResultCity } from "./useSearchResultCity";
 
