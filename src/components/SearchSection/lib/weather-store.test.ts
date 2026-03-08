@@ -1,18 +1,11 @@
+import { createHistoryCity } from "@/testing/mocks/factories/historyData";
 import { HistoryItem } from "@/types/history";
 
 import { WeatherStore } from "./weather-store";
 
 describe("WeatherStore", () => {
   const storageKey = "test-key";
-  const mockNewData: HistoryItem = {
-    id: "minsk-belarus",
-    city: "Minsk",
-    country: "Belarus",
-    isFavorite: false,
-    timestamp: 1,
-    latitude: 53.9,
-    longitude: 27.56667,
-  };
+  const historyData = createHistoryCity();
 
   beforeEach(() => {
     localStorage.clear();
@@ -29,10 +22,10 @@ describe("WeatherStore", () => {
     const listener = vi.fn();
 
     store.subscribe(listener);
-    store.update([mockNewData] as HistoryItem[]);
+    store.update(historyData);
 
-    expect(store.getSnapshot()).toEqual([mockNewData]);
-    expect(localStorage.getItem(storageKey)).toContain("Minsk");
+    expect(store.getSnapshot()).toEqual(historyData);
+    expect(localStorage.getItem(storageKey)).toContain("Warsaw");
     expect(listener).toHaveBeenCalledTimes(1);
   });
 
@@ -41,12 +34,9 @@ describe("WeatherStore", () => {
     const listener = vi.fn();
 
     store.subscribe(listener);
-    store.update([
-      mockNewData,
-      { city: "invalid data" },
-    ] as unknown as HistoryItem[]);
+    store.update([...historyData, { city: "invalid data" } as HistoryItem]);
 
     expect(store.getSnapshot().length).toBe(1);
-    expect(store.getSnapshot()).toEqual([mockNewData]);
+    expect(store.getSnapshot()).toEqual(historyData);
   });
 });
