@@ -21,10 +21,10 @@ describe("useHourlyForecast", () => {
 
     expect(result.current.days).toHaveLength(2);
 
-    expect(result.current.days[0].hours[0].temp).toBe(21);
+    expect(result.current.days[0].hours[0].temp).toBe(0);
     expect(result.current.days[0].hours[0].hour).toBe("12 AM");
 
-    expect(result.current.days[1].hours[0].temp).toBe(22);
+    expect(result.current.days[1].hours[0].temp).toBe(1);
     expect(result.current.days[1].hours[1].hour).toBe("1 AM");
   });
 

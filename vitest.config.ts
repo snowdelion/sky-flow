@@ -14,3 +14,5 @@ export default defineConfig({
     },
   },
 });
+
+process.env.TZ = "UTC";

@@ -29,11 +29,11 @@ describe("useWeatherChart", () => {
     expect(result.current.chartHourlyData).toHaveLength(24);
     expect(result.current.chartHourlyData[0]).toEqual({
       hour: "12 AM",
-      temp: 21,
+      temp: 0,
     });
     expect(result.current.chartHourlyData[23]).toEqual({
       hour: "11 PM",
-      temp: 20,
+      temp: 23,
     });
   });
 
