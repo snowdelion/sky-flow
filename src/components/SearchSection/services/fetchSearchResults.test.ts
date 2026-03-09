@@ -11,4 +11,10 @@ describe("fetchSearchResults", () => {
 
     expect(result.at(-1)).toEqual(searchResults.at(-1));
   });
+
+  it("should return empty array if no results", async () => {
+    const results = await fetchSearchResults("notFound123");
+
+    expect(results).toEqual([]);
+  });
 });
