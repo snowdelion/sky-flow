@@ -10,6 +10,8 @@
     "t": "vitest",
     "t:ui": "vitest --ui",
     "t:cov": "vitest --coverage",
+    "t:run": "vitest run",
+    "t:rel": "vitest related",
     "prepare": "husky"
   },
   "dependencies": {
