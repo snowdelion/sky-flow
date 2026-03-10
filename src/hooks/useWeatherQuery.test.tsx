@@ -5,12 +5,14 @@ import {
 } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 
-import type { WeatherData } from "@/types/api/WeatherData";
+import { createCityData } from "@/testing/mocks/factories/cityData";
+import { createWeatherData } from "@/testing/mocks/factories/weather";
 import { AppError } from "@/types/errors";
 import type { CityData } from "@/types/location";
 
 import { useWeatherQuery } from "./useWeatherQuery";
 
+// --- 1. mocks ---
 vi.mock("@tanstack/react-query", async () => {
   const actual = await vi.importActual<typeof import("@tanstack/react-query")>(
     "@tanstack/react-query",
@@ -32,29 +34,10 @@ vi.mock("@/services/fetchForecastData", () => ({
   fetchForecastData: mockFetchForecastData,
 }));
 
+// --- 2. tests ---
 describe("useWeatherQuery", () => {
-  const cityData = {
-    status: "found",
-    lat: 53.9,
-    lon: 27.56667,
-    city: "Minsk",
-    country: "Belarus",
-  } as CityData;
-  const mockWeatherData: WeatherData = {
-    current: {
-      city: "Minsk",
-      country: "Belarus",
-    },
-    daily: {
-      temperature_2m_max: [-2],
-    },
-    hourly: {
-      temperature_2m: [-2],
-    },
-    forecastUnits: {
-      temperature: "°C",
-    },
-  } as WeatherData;
+  const { minskCityData } = createCityData();
+  const weatherData = createWeatherData();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -63,11 +46,13 @@ describe("useWeatherQuery", () => {
   });
 
   it("should fetch data", async () => {
-    mockFetchForecastData.mockResolvedValue(mockWeatherData);
-    const { result } = renderHookWithClient(() => useWeatherQuery(cityData));
+    mockFetchForecastData.mockResolvedValue(weatherData);
+    const { result } = renderHookWithClient(() =>
+      useWeatherQuery(minskCityData),
+    );
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
-    expect(result.current.data).toEqual(mockWeatherData);
+    expect(result.current.data).toEqual(weatherData);
   });
 
   it("should handle API errors", async () => {
@@ -77,7 +62,9 @@ describe("useWeatherQuery", () => {
     );
     mockFetchForecastData.mockRejectedValue(error);
 
-    const { result } = renderHookWithClient(() => useWeatherQuery(cityData));
+    const { result } = renderHookWithClient(() =>
+      useWeatherQuery(minskCityData),
+    );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
     expect(result.current.error).toBe(error);
@@ -92,7 +79,9 @@ describe("useWeatherQuery", () => {
     );
     mockFetchForecastData.mockRejectedValue(error);
 
-    const { result } = renderHookWithClient(() => useWeatherQuery(cityData));
+    const { result } = renderHookWithClient(() =>
+      useWeatherQuery(minskCityData),
+    );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
     expect((result.current.error as AppError).code).toBe("UNKNOWN_ERROR");
@@ -100,8 +89,13 @@ describe("useWeatherQuery", () => {
   });
 
   it("shouldn't fetch when city is not found", async () => {
-    const cityData: CityData = { status: "not-found", city: "nonExist123" };
-    const { result } = renderHookWithClient(() => useWeatherQuery(cityData));
+    const notFoundCityData: CityData = {
+      status: "not-found",
+      city: "nonExist123",
+    };
+    const { result } = renderHookWithClient(() =>
+      useWeatherQuery(notFoundCityData),
+    );
 
     expect(mockFetchForecastData).not.toHaveBeenCalled();
     expect(result.current.isFetching).toBe(false);
@@ -114,13 +108,16 @@ describe("useWeatherQuery", () => {
     abortError.name = "AbortError";
     mockFetchForecastData.mockRejectedValue(abortError);
 
-    const { result } = renderHookWithClient(() => useWeatherQuery(cityData));
+    const { result } = renderHookWithClient(() =>
+      useWeatherQuery(minskCityData),
+    );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
     expect(result.current.error).toBe(abortError);
   });
 });
 
+// --- 3. render with client ---
 const testQueryClient = new QueryClient({
   defaultOptions: {
     queries: {

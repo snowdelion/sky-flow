@@ -1,4 +1,4 @@
-import { useSettingsStore } from "./useSettingsStore";
+import { DEFAULT_UNITS, useSettingsStore } from "./useSettingsStore";
 
 describe("useSettingsStore", () => {
   beforeEach(() => {
@@ -18,12 +18,7 @@ describe("useSettingsStore", () => {
       speed: "kmh",
     });
 
-    expect(useSettingsStore.getState().units).toEqual({
-      temperature: "celsius",
-      speed: "kmh",
-      precipitation: "mm",
-      time: "12",
-    });
+    expect(useSettingsStore.getState().units).toEqual(DEFAULT_UNITS);
   });
 
   it("should reset to default values", () => {
@@ -38,11 +33,6 @@ describe("useSettingsStore", () => {
 
     useSettingsStore.getState().reset();
 
-    expect(useSettingsStore.getState().units).toEqual({
-      temperature: "celsius",
-      speed: "kmh",
-      precipitation: "mm",
-      time: "12",
-    });
+    expect(useSettingsStore.getState().units).toEqual(DEFAULT_UNITS);
   });
 });
