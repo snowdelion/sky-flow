@@ -3,7 +3,7 @@ import type { WeatherData } from "@/types/api/WeatherData";
 import { AppError } from "@/types/errors";
 import { isFoundCity, type CityData } from "@/types/location";
 import type { Units } from "@/types/weather";
-import { throwResponseErrors } from "@/utils/fetchThrowErrors";
+import { throwResponseErrors } from "@/utils/throwResponseErrors";
 
 export async function fetchForecastData(
   cityData: CityData,

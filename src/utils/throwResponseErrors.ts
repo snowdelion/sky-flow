@@ -38,12 +38,16 @@ type ApiType = "geocoding" | "forecast";
 
 const API_NAMES: Record<
   ApiType,
-  { code: string; name: string; dataName: string }
+  {
+    code: "GEOCODING_FAILED" | "FORECAST_FAILED";
+    name: string;
+    dataName: string;
+  }
 > = {
   geocoding: {
     code: "GEOCODING_FAILED",
     name: "Geocoding",
-    dataName: "city data",
+    dataName: "city",
   },
   forecast: { code: "FORECAST_FAILED", name: "Forecast", dataName: "weather" },
 };

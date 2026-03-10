@@ -2,7 +2,7 @@ import { SearchDataItem } from "@/components/SearchSection/types/SearchData";
 import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import { AppError } from "@/types/errors";
 import type { Units } from "@/types/weather";
-import { throwResponseErrors } from "@/utils/fetchThrowErrors";
+import { throwResponseErrors } from "@/utils/throwResponseErrors";
 
 import { fetchGeoData } from "../../../services/fetchGeoData";
 

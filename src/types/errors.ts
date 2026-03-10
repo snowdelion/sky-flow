@@ -1,6 +1,6 @@
 export class AppError extends Error {
   constructor(
-    public code: string,
+    public code: "GEOCODING_FAILED" | "FORECAST_FAILED" | "UNKNOWN_ERROR",
     message: string,
   ) {
     super(message);
