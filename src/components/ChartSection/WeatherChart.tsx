@@ -32,7 +32,12 @@ export function WeatherChart({
   const isDailyTab = currentChartTab === "daily";
 
   return (
-    <ResponsiveContainer width="100%" aspect={getAspect(isMobile, isTablet)}>
+    <ResponsiveContainer
+      width="100%"
+      minHeight={200}
+      aspect={getAspect(isMobile, isTablet)}
+      initialDimension={{ width: 1, height: 1 }}
+    >
       <AreaChart
         tabIndex={-1}
         data={isDailyTab ? chartDailyData : chartHourlyData}
@@ -79,8 +84,8 @@ export function WeatherChart({
           dataKey="temp"
           unit={currentUnit}
           fontSize={12}
-          ticks={currentChartTab ? dailyTicks : hourlyTicks}
-          interval={isDailyTab ? 0 : 1}
+          ticks={isDailyTab ? dailyTicks : hourlyTicks}
+          interval={0}
           tickLine={false}
           axisLine={false}
           domain={

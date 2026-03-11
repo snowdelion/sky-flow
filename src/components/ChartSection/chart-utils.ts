@@ -1,14 +1,14 @@
+const STEPS = [1, 2, 5];
+
 export function generateTicks(min: number, max: number): number[] {
+  const avg = max - min;
+  const rawStep = avg / 8;
+  const step = STEPS.find((item) => item >= rawStep) ?? STEPS[STEPS.length - 1];
+
+  const start = Math.floor(min / step) * step;
+  const end = Math.ceil(max / step) * step;
+
   const ticks = [];
-  const start = Math.floor(min / 2) * 2;
-  const end = Math.ceil(max / 2) * 2;
-
-  const diff = end - start;
-  let step = 1;
-
-  if (diff > 20) step = 5;
-  else if (diff > 10) step = 2;
-
   for (let i = start; i <= end; i += step) {
     ticks.push(i);
   }
@@ -20,16 +20,15 @@ export function getTicks(
 ): number[] {
   if (!chartData || chartData.length === 0) return [0, 10, 20, 30];
 
-  return generateTicks(
-    Math.min(...chartData.map((item) => item.temp)) - 3,
-    Math.max(...chartData.map((item) => item.temp)) + 3,
-  );
+  const dataMin = Math.min(...chartData.map((item) => item.temp));
+  const dataMax = Math.max(...chartData.map((item) => item.temp));
+  return generateTicks(dataMin - 3, dataMax + 3);
 }
 
 export const getAspect = (isM: boolean, isT: boolean): number => {
-  if (isM) return 21 / 14;
-  if (isT) return 21 / 10.5;
-  return 21 / 8.75;
+  if (isM) return 21 / 16;
+  if (isT) return 21 / 11;
+  return 21 / 9;
 };
 
 export function getXTickFormatter(

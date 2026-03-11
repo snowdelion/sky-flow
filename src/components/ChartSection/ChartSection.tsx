@@ -49,7 +49,7 @@ export function ChartSection({ dailyData, hourlyData }: ChartSectionProps) {
       </ul>
 
       {/* chart */}
-      <div className="relative w-full h-full chart-no-focus">
+      <div className="relative w-full min-h-50 chart-no-focus">
         <WeatherChart
           currentChartTab={currentChartTab}
           dailyData={dailyData}

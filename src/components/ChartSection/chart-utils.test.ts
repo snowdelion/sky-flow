@@ -12,7 +12,7 @@ describe("chart-utils", () => {
       { min: 0, max: 14, expected: 2 },
       { min: 0, max: 22, expected: 5 },
     ])(
-      "should return 1, 2 and 5 steps depending on diff",
+      "should return 1, 2 or 5 step depending on diff",
       ({ min, max, expected }) => {
         const result = generateTicks(min, max);
         expect(result[1] - result[0]).toBe(expected);
@@ -24,7 +24,7 @@ describe("chart-utils", () => {
     test.each([
       {
         data: [{ temp: 0 }, { temp: 2 }, { temp: 4 }],
-        expected: [-4, -2, +0, 2, 4, 6, 8],
+        expected: [-4, -2, 0, 2, 4, 6, 8],
       },
       { data: null, expected: [0, 10, 20, 30] },
     ])(
@@ -37,9 +37,9 @@ describe("chart-utils", () => {
 
   describe("getAspect", () => {
     test.each([
-      { isM: true, isT: false, expected: 21 / 14 },
-      { isM: false, isT: true, expected: 21 / 10.5 },
-      { isM: false, isT: false, expected: 21 / 8.75 },
+      { isM: true, isT: false, expected: 21 / 16 },
+      { isM: false, isT: true, expected: 21 / 11 },
+      { isM: false, isT: false, expected: 21 / 9 },
     ])(
       "should return expected for every device type",
       ({ isM, isT, expected }) => {

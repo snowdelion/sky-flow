@@ -25,10 +25,7 @@ export function useWeatherChart(
   const chartHourlyData = useResponsiveHourlyData(fullHourlyData);
 
   const dailyTicks = useMemo(() => getTicks(chartDailyData), [chartDailyData]);
-  const hourlyTicks = useMemo(
-    () => getTicks(chartHourlyData),
-    [chartHourlyData],
-  );
+  const hourlyTicks = useMemo(() => getTicks(fullHourlyData), [fullHourlyData]);
 
   return useMemo(
     () => ({
