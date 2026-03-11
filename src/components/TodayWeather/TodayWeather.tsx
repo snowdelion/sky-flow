@@ -20,13 +20,13 @@ export default function TodayWeather({
       aria-label="Current Weather"
       className="relative rounded-2xl py-8 overflow-hidden mb-8"
     >
-      <div className="absolute inset-0 -z-100 w-full h-full">
+      <div className="absolute inset-0 -z-10 w-full h-full">
         <Image
           src={bgTodayDesktop}
           alt="Today background"
-          loading="eager"
-          fetchPriority="high"
           fill
+          priority
+          fetchPriority="high"
           sizes="(max-width: 800px) 100vw, 800px"
           className="object-cover object-[center_top] md:object-center"
         />
