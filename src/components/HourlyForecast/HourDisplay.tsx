@@ -9,9 +9,9 @@ export function HourDisplay({
     const hours = hourItem.replace(/[a-z]/gi, "").trim();
     const chars = hourItem.replace(/[0-9]/g, "").trim();
     return (
-      <div className="flex items-center gap-1 font-medium text-sm lg:text-lg">
+      <div className="flex items-center gap-1.5 text-lg">
         <span>{hours}</span>
-        <span className=" text-white/50">{chars}</span>
+        <span className="text-white/50">{chars}</span>
       </div>
     );
   } else {
@@ -19,11 +19,12 @@ export function HourDisplay({
     const currentHour = parseInt(h, 10).toString();
 
     return (
-      <div className="flex items-center gap-0.75 text-sm lg:text-lg">
-        <div className="flex items-center gap-0.5 font-medium">
+      <div className="flex items-center gap-0.75 text-lg">
+        <div className="flex items-center gap-0.5">
           <span>{currentHour}</span>
           <span>:</span>
         </div>
+
         <span className="text-white/50 font-normal">{min}</span>
       </div>
     );
