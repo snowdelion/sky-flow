@@ -2,23 +2,40 @@ import { redirect } from "next/navigation";
 
 import type { CityData } from "@/types/location";
 
+import { DEFAULT_CITY_DATA } from "./constants";
+
 export function redirectToDefaultCity(params: WeatherParams): void {
   const { city, country, lat, lon } = params;
 
-  if (!city && !country && !lat && !lon)
-    redirect("weather/?city=Minsk&country=Belarus&lat=53.9&lon=27.56667");
+  if (!city && !country && !lat && !lon) {
+    const {
+      city: defCity,
+      country: defCountry,
+      lat: defLat,
+      lon: defLon,
+    } = DEFAULT_CITY_DATA;
+
+    const params = new URLSearchParams({
+      city: defCity,
+      country: defCountry,
+      lat: defLat.toString(),
+      lon: defLon.toString(),
+    });
+
+    redirect(`weather/?${params}`);
+  }
 }
 
 export function findCityDataFromParams(params: WeatherParams): CityData {
   const {
-    city: cityParam,
+    city = "Unknown",
     country: countryParam,
     lat: latParam,
     lon: lonParam,
   } = params;
 
-  const city = cityParam || "Minsk";
-  const hasValidParams = latParam && lonParam && countryParam;
+  const hasValidParams =
+    latParam !== undefined && lonParam !== undefined && countryParam;
 
   if (hasValidParams) {
     const lat = +latParam;
@@ -37,8 +54,8 @@ export function findCityDataFromParams(params: WeatherParams): CityData {
 }
 
 interface WeatherParams {
-  city?: string | undefined;
-  country?: string | undefined;
-  lat?: string | undefined;
-  lon?: string | undefined;
+  city?: string;
+  country?: string;
+  lat?: string;
+  lon?: string;
 }
