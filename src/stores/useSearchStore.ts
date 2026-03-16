@@ -21,14 +21,18 @@ export interface SearchStore {
   reset: () => void;
 }
 
+const initialState = {
+  inputValue: "",
+  currentTab: "recent" as const,
+  isOpen: false,
+  _hasHydrated: false,
+  lastValidatedCity: DEFAULT_CITY_DATA,
+};
+
 export const useSearchStore = create<SearchStore>()(
   persist(
     (set) => ({
-      inputValue: "",
-      currentTab: "recent",
-      isOpen: false,
-      _hasHydrated: false,
-      lastValidatedCity: DEFAULT_CITY_DATA,
+      ...initialState,
 
       setInputValue: (value: string) => set({ inputValue: value }),
       setCurrentTab: (tab: ActiveTab) => set({ currentTab: tab }),
@@ -40,17 +44,14 @@ export const useSearchStore = create<SearchStore>()(
         set({ lastValidatedCity: cityData });
       },
 
-      reset: () =>
-        set({
-          inputValue: "",
-          currentTab: "recent",
-          isOpen: false,
-          _hasHydrated: false,
-          lastValidatedCity: DEFAULT_CITY_DATA,
-        }),
+      reset: () => set(initialState),
     }),
     {
       name: "search-hydration",
+      partialize: (s) => ({
+        lastValidatedCity: s.lastValidatedCity,
+        currentTab: s.currentTab,
+      }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },
