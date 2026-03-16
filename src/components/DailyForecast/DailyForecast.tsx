@@ -17,7 +17,7 @@ export default function DailyForecast({ dailyData }: DailyForecastProps) {
           <li
             key={`${day}-${index}`}
             onClick={() => handleClick(index)}
-            className="flex flex-col gap-3 lg:gap-5 xl:gap-4 items-center bg-[hsl(243,27%,20%)] py-4 px-3 lg:h-37.5 border border-white/10 cursor-pointer hover:opacity-75 transition duration-75 rounded-xl"
+            className="flex flex-col gap-3 lg:gap-4 items-center bg-[hsl(243,27%,20%)] py-4 px-3 lg:h-37.5 border border-white/10 cursor-pointer hover:opacity-75 transition duration-75 rounded-xl"
           >
             <p className="font-medium text-sm sm:text-base md:text-sm lg:text-xs xl:text-sm">
               {day}
@@ -29,11 +29,15 @@ export default function DailyForecast({ dailyData }: DailyForecastProps) {
                 className="object-contain"
               />
             </div>
-            <div className="flex items-center self-center justify-center gap-4 xl:gap-7 w-full">
-              <span className="font-bold lg:text-sm xl:text-base">{temp}</span>
-              <span className="text-white/70 lg:text-sm xl:text-base">
-                {feelsLike}
-              </span>
+            <div
+              className="flex items-center self-center justify-between
+              w-full max-w-20
+              sm:max-w-22 sm:text-lg
+              md:text-base md:max-w-18
+              lg:text-sm lg:max-w-16"
+            >
+              <span className="font-bold">{temp}</span>
+              <span className="text-white/70">{feelsLike}</span>
             </div>
           </li>
         ))}
