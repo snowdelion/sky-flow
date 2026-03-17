@@ -13,10 +13,10 @@ import {
   favoriteStore,
   recentStore,
 } from "@/components/SearchSection/hooks/useSearchHistory";
+import type { HistoryItem } from "@/components/SearchSection/types/history";
 import { useSearchStore } from "@/stores/useSearchStore";
 import { createCityData } from "@/testing/mocks/factories/cityData";
 import { createHistoryCity } from "@/testing/mocks/factories/historyData";
-import type { HistoryItem } from "@/types/history";
 
 import SearchSection from "./SearchSection";
 

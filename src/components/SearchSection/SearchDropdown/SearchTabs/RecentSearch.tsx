@@ -4,7 +4,7 @@ import { XIcon } from "@/components/icons";
 import { FavoriteIcon } from "@/components/icons";
 import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
 import { useSearchHistory } from "@/components/SearchSection/hooks/useSearchHistory";
-import type { SearchTabProps } from "@/types/history";
+import type { SearchTabProps } from "@/components/SearchSection/types/history";
 import { isFoundCity } from "@/types/location";
 import { capitalizeString } from "@/utils/formatters";
 

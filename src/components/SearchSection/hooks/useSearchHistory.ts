@@ -1,8 +1,11 @@
 import { useCallback, useMemo, useSyncExternalStore } from "react";
 
 import { WeatherStore } from "@/components/SearchSection/lib/weather-store";
+import type {
+  HistoryData,
+  HistoryItem,
+} from "@/components/SearchSection/types/history";
 import { useSearchStore } from "@/stores/useSearchStore";
-import type { HistoryData, HistoryItem } from "@/types/history";
 import { isFoundCity, type CityData } from "@/types/location";
 
 export const recentStore = new WeatherStore("weather-recent");

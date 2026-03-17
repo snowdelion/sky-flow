@@ -1,4 +1,4 @@
-import type { HistoryItem } from "@/types/history";
+import type { HistoryItem } from "@/components/SearchSection/types/history";
 
 export const createHistoryCity = (
   overrides: Partial<HistoryItem> = {},
