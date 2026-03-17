@@ -7,7 +7,7 @@ import {
 import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import { AppError } from "@/types/errors";
 import type { Units } from "@/types/weather";
-import { throwResponseErrors } from "@/utils/throwResponseErrors";
+import { throwResponseErrors } from "@/utils/errors";
 
 import { fetchGeoData } from "../../../services/fetchGeoData";
 

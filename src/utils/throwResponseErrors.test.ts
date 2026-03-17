@@ -1,6 +1,6 @@
 import { AppError } from "@/types/errors";
 
-import { throwResponseErrors } from "./throwResponseErrors";
+import { throwResponseErrors } from "./errors";
 
 describe("throwResponseErrors", () => {
   const cases: TestCase[] = [

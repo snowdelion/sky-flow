@@ -5,7 +5,7 @@ import { WeatherDataSchema, type WeatherData } from "@/types/api/WeatherData";
 import { AppError } from "@/types/errors";
 import { isFoundCity, type CityData } from "@/types/location";
 import type { Units } from "@/types/weather";
-import { throwResponseErrors } from "@/utils/throwResponseErrors";
+import { throwResponseErrors } from "@/utils/errors";
 
 export async function fetchForecastData(
   cityData: CityData,

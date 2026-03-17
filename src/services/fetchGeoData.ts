@@ -2,7 +2,7 @@ import { ZodError } from "zod";
 
 import { GeoDataSchema, type GeoData } from "@/types/api/GeoData";
 import { AppError } from "@/types/errors";
-import { throwResponseErrors } from "@/utils/throwResponseErrors";
+import { throwResponseErrors } from "@/utils/errors";
 
 export async function fetchGeoData(
   city: string,
