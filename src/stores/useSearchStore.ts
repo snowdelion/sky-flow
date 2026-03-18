@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 import { DEFAULT_CITY_DATA } from "@/app/weather/constants";
 import type { ActiveTab } from "@/components/SearchSection/types/history";
-import { isNotFoundCity, type CityData } from "@/types/location";
+import { FoundCitySchema, type CityData } from "@/types/location";
 
 export interface SearchStore {
   inputValue: string;
@@ -40,8 +40,8 @@ export const useSearchStore = create<SearchStore>()(
       setHasHydrated: (state) => set({ _hasHydrated: state }),
 
       setLastValidatedCity: (cityData) => {
-        if (isNotFoundCity(cityData)) return;
-        set({ lastValidatedCity: cityData });
+        const { data, success } = FoundCitySchema.safeParse(cityData);
+        if (success) set({ lastValidatedCity: data });
       },
 
       reset: () => set(initialState),

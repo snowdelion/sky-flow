@@ -1,6 +1,6 @@
-import type { CityData } from "@/types/location";
+import type { FoundCity } from "@/types/location";
 
-export const DEFAULT_CITY_DATA: Extract<CityData, { status: "found" }> = {
+export const DEFAULT_CITY_DATA: FoundCity = {
   status: "found",
   city: "Minsk",
   country: "Belarus",

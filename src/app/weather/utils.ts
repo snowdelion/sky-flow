@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import type { CityData } from "@/types/location";
+import { FoundCitySchema, type CityData } from "@/types/location";
 
 import { DEFAULT_CITY_DATA } from "./constants";
 
@@ -22,7 +22,7 @@ export function redirectToDefaultCity(params: WeatherParams): void {
       lon: defLon.toString(),
     });
 
-    redirect(`weather/?${params}`);
+    redirect(`/weather/?${params}`);
   }
 }
 
@@ -34,22 +34,16 @@ export function findCityDataFromParams(params: WeatherParams): CityData {
     lon: lonParam,
   } = params;
 
-  const hasValidParams =
-    latParam !== undefined && lonParam !== undefined && countryParam;
+  const { success, data } = FoundCitySchema.safeParse({
+    status: "found",
+    city,
+    country: countryParam,
+    lat: Number(latParam),
+    lon: Number(lonParam),
+  });
 
-  if (hasValidParams) {
-    const lat = +latParam;
-    const lon = +lonParam;
+  if (success) return data;
 
-    if (!isNaN(lat) && !isNaN(lon))
-      return {
-        status: "found",
-        city,
-        country: countryParam,
-        lat,
-        lon,
-      };
-  }
   return { status: "not-found", city };
 }
 
