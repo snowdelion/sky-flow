@@ -26,6 +26,7 @@ export async function fetchGeoData(
 
     return GeoDataSchema.parse(geoData);
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") throw error;
     if (error instanceof ZodError) throwZodErrors(error);
     if (error instanceof Error && error.name === "AbortError") throw error;
     if (error instanceof AppError) throw error;

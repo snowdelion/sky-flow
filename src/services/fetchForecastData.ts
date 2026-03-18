@@ -1,4 +1,4 @@
-import z from "zod";
+import { ZodError } from "zod";
 
 import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import { WeatherDataSchema, type WeatherData } from "@/types/api/WeatherData";
@@ -77,7 +77,8 @@ export async function fetchForecastData(
 
     return WeatherDataSchema.parse(rawData);
   } catch (error) {
-    if (error instanceof z.ZodError) throwZodErrors(error);
+    if (error instanceof Error && error.name === "AbortError") throw error;
+    if (error instanceof ZodError) throwZodErrors(error);
     if (error instanceof AppError) throw error;
     const message =
       error instanceof Error ? error.message : "Unexpected error...";

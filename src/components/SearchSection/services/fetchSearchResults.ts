@@ -43,7 +43,11 @@ export const fetchSearchResults = async (
       throwResponseErrors(forecastRes.status, "forecast");
     }
 
-    const forecastData = await forecastRes.json();
+    const forecastRaw = await forecastRes.json();
+    const forecastData = Array.isArray(forecastRaw)
+      ? forecastRaw
+      : [forecastRaw];
+
     const rawData = results.map((item, index) => ({
       city: item.name,
       country: item.country,
@@ -57,6 +61,7 @@ export const fetchSearchResults = async (
 
     return SearchDataSchema.parse(rawData);
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") throw error;
     if (error instanceof ZodError) throwZodErrors(error);
     if (error instanceof AppError) throw error;
     const message =
