@@ -4,13 +4,11 @@ import { HeaderSection } from "@/components/HeaderSection";
 import { SearchSection } from "@/components/SearchSection";
 import { WeatherContent } from "@/components/WeatherContent";
 
-import { findCityDataFromParams, redirectToDefaultCity } from "./utils";
+import { verifyAndGetCityData } from "./utils";
 
 export default async function WeatherPage({ searchParams }: SearchParams) {
   const params = await searchParams;
-
-  redirectToDefaultCity(params);
-  const cityData = findCityDataFromParams(params);
+  const cityData = await verifyAndGetCityData(params);
 
   return (
     <>
@@ -29,8 +27,8 @@ export async function generateMetadata({
 }: SearchParams): Promise<Metadata> {
   try {
     const { city, lat, lon } = await searchParams;
-    if (!city) return { title: "SkyFlow" };
 
+    if (!city) return { title: "SkyFlow" };
     if (city && (!lat || !lon)) return { title: "SkyFlow - Not found" };
 
     return { title: `SkyFlow - ${city}` };
