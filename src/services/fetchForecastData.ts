@@ -1,9 +1,11 @@
+import { ZodError } from "zod";
+
 import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
-import type { WeatherData } from "@/types/api/WeatherData";
+import { WeatherDataSchema, type WeatherData } from "@/types/api/WeatherData";
 import { AppError } from "@/types/errors";
 import { isFoundCity, type CityData } from "@/types/location";
 import type { Units } from "@/types/weather";
-import { throwResponseErrors } from "@/utils/throwResponseErrors";
+import { throwResponseErrors, throwZodErrors } from "@/utils/errors";
 
 export async function fetchForecastData(
   cityData: CityData,
@@ -17,9 +19,9 @@ export async function fetchForecastData(
         "Cannot fetch weather! City coords not found...",
       );
 
-    const { city, country, lat, lon } = cityData;
+    const { city, country, region, code, lat, lon } = cityData;
 
-    if (!city || !country || !lat || !lon)
+    if (!city || !lat || !lon)
       throw new AppError("FORECAST_FAILED", "Invalid city data");
 
     const url =
@@ -50,24 +52,35 @@ export async function fetchForecastData(
     }
 
     const forecastData = await forecastRes.json();
-
-    return {
+    const rawData = {
       current: {
-        ...forecastData.current,
+        apparent_temperature: forecastData?.current?.apparent_temperature,
+        precipitation: forecastData?.current?.precipitation,
+        relative_humidity_2m: forecastData?.current?.relative_humidity_2m,
+        temperature_2m: forecastData?.current?.temperature_2m,
+        weather_code: forecastData?.current?.weather_code,
+        wind_speed_10m: forecastData?.current?.wind_speed_10m,
+        time: forecastData?.current?.time,
         city,
         country,
+        region,
+        code,
         latitude: lat,
         longitude: lon,
       },
-      hourly: forecastData.hourly,
-      daily: forecastData.daily,
+      hourly: forecastData?.hourly,
+      daily: forecastData?.daily,
       forecastUnits: {
-        temperature: forecastData.current_units.apparent_temperature,
-        speed: forecastData.current_units.wind_speed_10m,
-        precipitation: forecastData.current_units.precipitation,
+        temperature: forecastData?.current_units?.temperature_2m,
+        speed: forecastData?.current_units?.wind_speed_10m,
+        precipitation: forecastData?.current_units?.precipitation,
       },
     };
+
+    return WeatherDataSchema.parse(rawData);
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") throw error;
+    if (error instanceof ZodError) throwZodErrors(error);
     if (error instanceof AppError) throw error;
     const message =
       error instanceof Error ? error.message : "Unexpected error...";

@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
 import type { SearchDataItem } from "@/components/SearchSection/types/SearchData";
 import { isFoundCity } from "@/types/location";
+import { formatCityDisplay } from "@/utils/formatters";
 import { getWeatherIcon } from "@/utils/weather";
 
 export function useSearchResultCity(
@@ -17,15 +18,30 @@ export function useSearchResultCity(
     temperatureUnit,
     latitude: lat,
     longitude: lon,
+    code,
+    region,
   } = data;
   const { searchSelectedCity } = useSearchActions();
 
   const icon = useMemo(() => getWeatherIcon(weatherCode), [weatherCode]);
+  const cityData = useMemo(
+    () => ({
+      status: "found" as const,
+      city,
+      country,
+      lat,
+      lon,
+      code,
+      region,
+    }),
+    [city, country, lat, lon, code, region],
+  );
+
+  const displayName = useMemo(() => formatCityDisplay(cityData), [cityData]);
 
   const handleClick = useCallback(() => {
-    if (isFoundCity({ status: "found", city, country, lat, lon }))
-      searchSelectedCity({ status: "found", city, country, lat, lon });
-  }, [searchSelectedCity, city, country, lat, lon]);
+    if (isFoundCity(cityData)) searchSelectedCity(cityData);
+  }, [searchSelectedCity, cityData]);
 
   return useMemo(
     () => ({
@@ -35,8 +51,17 @@ export function useSearchResultCity(
       country,
       temperature,
       temperatureUnit,
+      displayName,
     }),
-    [handleClick, icon, city, country, temperature, temperatureUnit],
+    [
+      handleClick,
+      icon,
+      city,
+      country,
+      temperature,
+      temperatureUnit,
+      displayName,
+    ],
   );
 }
 
@@ -44,7 +69,8 @@ interface UseSearchResultCityReturn {
   handleClick: () => void;
   icon: StaticImageData;
   city: string;
-  country: string;
+  country?: string;
   temperature: number;
   temperatureUnit: string;
+  displayName: string;
 }

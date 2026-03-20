@@ -3,9 +3,8 @@ import React, { useCallback, useMemo } from "react";
 import { FavoriteIcon } from "@/components/icons";
 import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
 import { useSearchHistory } from "@/components/SearchSection/hooks/useSearchHistory";
-import type { SearchTabProps } from "@/types/history";
+import type { SearchTabProps } from "@/components/SearchSection/types/history";
 import { isFoundCity } from "@/types/location";
-import { capitalizeString } from "@/utils/formatters";
 
 export const FavoritesSearch = React.memo(function FavoritesSearch({
   data,
@@ -14,35 +13,39 @@ export const FavoritesSearch = React.memo(function FavoritesSearch({
   const { searchSelectedCity } = useSearchActions();
   const { removeFavorite } = useSearchHistory();
 
-  const displayPlace = useMemo(
-    () => `${capitalizeString(data.city)}, ${capitalizeString(data.country)}`,
-    [data.city, data.country],
+  const displayName = useMemo(
+    () => data.displayName ?? `${data.city}, ${data.country}`,
+    [data.city, data.country, data.displayName],
   );
 
   const handleClick = useCallback(() => {
-    const { city, country, latitude: lat, longitude: lon } = data;
+    const cityData = {
+      status: "found" as const,
+      city: data.city,
+      country: data.country,
+      lat: data.latitude,
+      lon: data.longitude,
+      region: data.region,
+      code: data.code,
+    };
 
-    if (isFoundCity({ status: "found", city, country, lat, lon }))
-      searchSelectedCity(
-        { status: "found", city, country, lat, lon },
-        inputRef,
-      );
+    if (isFoundCity(cityData)) searchSelectedCity(cityData, inputRef);
   }, [data, searchSelectedCity, inputRef]);
 
   return (
     <li
       role="option"
       aria-selected="false"
-      aria-label={displayPlace}
+      aria-label={displayName}
       className="flex justify-between font-medium mx-2 px-5 py-3 my-3 text-white hover:bg-[hsl(243,23%,30%)] rounded-xl"
     >
       <button
         role="button"
-        aria-label={`Select ${displayPlace}`}
+        aria-label={`Select ${displayName}`}
         onClick={handleClick}
         className="flex flex-1 items-center text-start gap-1 sm:gap-2 cursor-pointer font-normal text-sm sm:text-base md:text-lg"
       >
-        {displayPlace}
+        {displayName}
       </button>
 
       <button

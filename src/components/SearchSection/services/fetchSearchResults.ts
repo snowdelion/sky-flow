@@ -1,8 +1,13 @@
-import { SearchDataItem } from "@/components/SearchSection/types/SearchData";
+import { ZodError } from "zod";
+
+import {
+  SearchDataItem,
+  SearchDataSchema,
+} from "@/components/SearchSection/types/SearchData";
 import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import { AppError } from "@/types/errors";
 import type { Units } from "@/types/weather";
-import { throwResponseErrors } from "@/utils/throwResponseErrors";
+import { throwResponseErrors, throwZodErrors } from "@/utils/errors";
 
 import { fetchGeoData } from "../../../services/fetchGeoData";
 
@@ -18,7 +23,6 @@ export const fetchSearchResults = async (
 
     const onlyLats = results.map((item) => item.latitude).join(",");
     const onlyLons = results.map((item) => item.longitude).join(",");
-    const onlyTimezones = results.map((item) => item.timezone).join(",");
 
     const forecastUrl =
       "https://api.open-meteo.com/v1/forecast?" +
@@ -28,7 +32,6 @@ export const fetchSearchResults = async (
 
         current: "temperature_2m,weather_code",
 
-        timezone: onlyTimezones.toString(),
         temperature_unit: units.temperature,
       });
 
@@ -39,43 +42,31 @@ export const fetchSearchResults = async (
       throwResponseErrors(forecastRes.status, "forecast");
     }
 
-    const forecastData: ForecastResponse[] = await forecastRes.json();
+    const forecastRaw = await forecastRes.json();
+    const forecastData = Array.isArray(forecastRaw)
+      ? forecastRaw
+      : [forecastRaw];
 
-    return results.map((item, index) => ({
+    const rawData = results.map((item, index) => ({
+      region: item?.admin1,
+      code: item?.feature_code,
       city: item.name,
-      country: item.country,
+      country: item?.country,
       id: item.id,
       latitude: item.latitude,
       longitude: item.longitude,
-      temperature: forecastData[index].current.temperature_2m,
-      temperatureUnit: forecastData[index].current_units.temperature_2m,
-      weatherCode: forecastData[index].current.weather_code,
+      temperature: forecastData?.[index]?.current?.temperature_2m,
+      temperatureUnit: forecastData?.[index]?.current_units?.temperature_2m,
+      weatherCode: forecastData?.[index]?.current?.weather_code,
     }));
+
+    return SearchDataSchema.parse(rawData);
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") throw error;
+    if (error instanceof ZodError) throwZodErrors(error);
     if (error instanceof AppError) throw error;
     const message =
       error instanceof Error ? error.message : "Unexpected error...";
     throw new AppError("UNKNOWN_ERROR", message);
   }
 };
-
-interface ForecastResponse {
-  current: {
-    interval: number;
-    temperature_2m: number;
-    time: string;
-    weather_code: number;
-  };
-  current_units: {
-    interval: string;
-    temperature_2m: string;
-    time: string;
-  };
-  elevation: number;
-  generationtime_ms: number;
-  latitude: number;
-  longitude: number;
-  timezone: string;
-  timezone_abbreviation: string;
-  utc_offset_seconds: number;
-}

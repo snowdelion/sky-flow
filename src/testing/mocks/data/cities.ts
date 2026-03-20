@@ -1,18 +1,22 @@
 export const CITY_BASE_DATA = {
   Berlin: {
     first: {
+      region: "State of Berlin",
       id: 2950159,
-      city: "Berlin",
+      name: "Berlin",
       country: "Germany",
+      code: "PPLC",
       lat: 52.52437,
       lon: 13.41053,
       temp: -2,
       timezone: "Europe/Berlin",
     },
     last: {
+      region: "Pennsylvania",
       id: 4557666,
-      city: "East Berlin",
+      name: "East Berlin",
       country: "United States",
+      code: "PPL",
       lat: 39.9376,
       lon: -76.97859,
       temp: -2,
@@ -22,8 +26,10 @@ export const CITY_BASE_DATA = {
 
   Warsaw: {
     first: {
+      region: "Masovian",
+      code: "PPLC",
       id: 756135,
-      city: "Warsaw",
+      name: "Warsaw",
       country: "Poland",
       lat: 52.22977,
       lon: 21.01178,
@@ -31,20 +37,24 @@ export const CITY_BASE_DATA = {
       timezone: "Europe/Warsaw",
     },
     last: {
+      region: "Illinois",
+      code: "PPL",
       id: 4915533,
-      city: "Warsaw",
-      country: "America/Chicago",
+      name: "Warsaw",
+      country: "United states",
       lat: 40.35921,
       lon: -91.4346,
       temp: -2,
-      timezone: "",
+      timezone: "America/Chicago",
     },
   },
 
   Minsk: {
     first: {
+      region: "Minsk City",
+      code: "PPLC",
       id: 625144,
-      city: "Minsk",
+      name: "Minsk",
       country: "Belarus",
       lat: 53.9,
       lon: 27.56667,
@@ -52,8 +62,10 @@ export const CITY_BASE_DATA = {
       timezone: "Europe/Minsk",
     },
     last: {
+      region: "Kostroma Oblast",
+      code: "PPL",
       id: 526415,
-      city: "Minskoye",
+      name: "Minskoye",
       country: "Russia",
       lat: 57.69351,
       lon: 41.02806,

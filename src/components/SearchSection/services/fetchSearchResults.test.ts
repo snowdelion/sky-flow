@@ -1,4 +1,7 @@
+import { http, HttpResponse } from "msw";
+
 import { createResultsMocks } from "@/testing/mocks/factories/search";
+import { server } from "@/testing/msw/server";
 
 import { fetchSearchResults } from "./fetchSearchResults";
 
@@ -16,5 +19,26 @@ describe("fetchSearchResults", () => {
     const results = await fetchSearchResults("notFound123");
 
     expect(results).toEqual([]);
+  });
+
+  it("should handle and format AppError when API returns invalid data", async () => {
+    server.use(
+      http.get("https://api.open-meteo.com/v1/forecast", () =>
+        HttpResponse.json([
+          {
+            current: {
+              weather_code: "NaN",
+            },
+          },
+        ]),
+      ),
+    );
+
+    const result = fetchSearchResults("Berlin");
+
+    await expect(result).rejects.toThrowError("Data validation failed:");
+    await expect(result).rejects.toThrowError(
+      "0.weatherCode: expected number, received string",
+    );
   });
 });

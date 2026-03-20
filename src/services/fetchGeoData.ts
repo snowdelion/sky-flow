@@ -1,6 +1,8 @@
-import type { GeoData } from "@/types/api/GeoData";
+import { ZodError } from "zod";
+
+import { GeoDataSchema, type GeoData } from "@/types/api/GeoData";
 import { AppError } from "@/types/errors";
-import { throwResponseErrors } from "@/utils/throwResponseErrors";
+import { throwResponseErrors, throwZodErrors } from "@/utils/errors";
 
 export async function fetchGeoData(
   city: string,
@@ -22,8 +24,10 @@ export async function fetchGeoData(
     if (!geoData.results || geoData.results.length === 0)
       return { results: [] };
 
-    return geoData;
+    return GeoDataSchema.parse(geoData);
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") throw error;
+    if (error instanceof ZodError) throwZodErrors(error);
     if (error instanceof Error && error.name === "AbortError") throw error;
     if (error instanceof AppError) throw error;
     const message =

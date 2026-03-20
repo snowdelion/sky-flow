@@ -7,6 +7,8 @@ export const createResultsMocks = (
 ): SearchDataItem[][] => {
   return Object.entries(CITY_BASE_DATA).map(([name, data]) => [
     ...Array(7).fill({
+      region: data.first.region,
+      code: data.first.code,
       id: data.first.id,
       city: name,
       country: data.first.country,
@@ -18,8 +20,10 @@ export const createResultsMocks = (
       ...overrides,
     }),
     {
+      region: data.last.region,
+      code: data.last.code,
       id: data.last.id,
-      city: data.last.city,
+      city: data.last.name,
       country: data.last.country,
       latitude: data.last.lat,
       longitude: data.last.lon,

@@ -6,7 +6,7 @@ import { WeatherContent } from "@/components/WeatherContent";
 
 import { findCityDataFromParams, redirectToDefaultCity } from "./utils";
 
-export default async function WeatherPage({ searchParams }: WeatherPageProps) {
+export default async function WeatherPage({ searchParams }: SearchParams) {
   const params = await searchParams;
 
   redirectToDefaultCity(params);
@@ -26,20 +26,12 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
 
 export async function generateMetadata({
   searchParams,
-}: {
-  searchParams: Promise<{
-    city?: string;
-    country?: string;
-    lat?: string;
-    lon?: string;
-  }>;
-}): Promise<Metadata> {
+}: SearchParams): Promise<Metadata> {
   try {
-    const { city, country, lat, lon } = await searchParams;
+    const { city, lat, lon } = await searchParams;
     if (!city) return { title: "SkyFlow" };
 
-    if (city && (!lat || !lon || !country))
-      return { title: "SkyFlow - Not found" };
+    if (city && (!lat || !lon)) return { title: "SkyFlow - Not found" };
 
     return { title: `SkyFlow - ${city}` };
   } catch {
@@ -47,10 +39,11 @@ export async function generateMetadata({
   }
 }
 
-interface WeatherPageProps {
+interface SearchParams {
   searchParams: Promise<{
     city?: string;
     country?: string;
+    region?: string;
     lat?: string;
     lon?: string;
   }>;

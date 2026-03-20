@@ -19,27 +19,35 @@ export const createCityData = (
   };
 };
 
-const createBaseCityData = (
-  city: string,
-  country: string,
-  lat: number,
-  lon: number,
-): CityData => ({
+const getMinskData = (): CityData => ({
   status: "found",
-  city,
-  country,
-  lat,
-  lon,
+  city: "Minsk",
+  country: "Belarus",
+  region: "Minsk City",
+  code: "PPLC",
+  lat: 53.9,
+  lon: 27.56667,
 });
 
-const getMinskData = (): CityData =>
-  createBaseCityData("Minsk", "Belarus", 53.9, 27.56667);
+const getBerlinData = (): CityData => ({
+  status: "found",
+  city: "Berlin",
+  country: "Germany",
+  region: "State of Berlin",
+  code: "PPLC",
+  lat: 52.52437,
+  lon: 13.41053,
+});
 
-const getBerlinData = (): CityData =>
-  createBaseCityData("Berlin", "Germany", 52.52437, 13.41053);
-
-const getWarsawData = (): CityData =>
-  createBaseCityData("Warsaw", "Poland", 52.22977, 21.01178);
+const getWarsawData = (): CityData => ({
+  status: "found",
+  city: "Warsaw",
+  country: "Poland",
+  region: "Masovian",
+  code: "PPLC",
+  lat: 52.22977,
+  lon: 21.01178,
+});
 
 interface CityDataOverrides {
   minsk?: Partial<CityData>;

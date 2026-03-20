@@ -2,7 +2,12 @@ name: CI Check
 
 on:
   push:
-    branches: [main, refactor/tests, chore/husky]
+    branches:
+      - main
+      - "feat/**"
+      - "fix/**"
+      - "refactor/**"
+      - "chore/**"
   pull_request:
     branches: [main]
 
