@@ -9,6 +9,7 @@ import type {
   WeatherDataCurrent,
   WeatherDataUnits,
 } from "@/types/api/WeatherData";
+import { formatCityDisplay } from "@/utils/formatters";
 import { getWeatherIcon } from "@/utils/weather";
 
 export default function TodayWeather({
@@ -18,6 +19,16 @@ export default function TodayWeather({
   const { isMobile } = useDeviceType();
   const currentSrc = isMobile ? bgTodayMobile : bgTodayDesktop;
   const icon = getWeatherIcon(currentData.weather_code);
+
+  const displayName = formatCityDisplay({
+    status: "found",
+    city: currentData.city,
+    country: currentData.country,
+    region: currentData.region,
+    code: currentData.code,
+    lat: currentData.latitude,
+    lon: currentData.longitude,
+  });
 
   return (
     <section
@@ -40,8 +51,7 @@ export default function TodayWeather({
         {/* city and date */}
         <div className="flex flex-1 flex-col items-center sm:items-start">
           <h2 className="text-xl sm:text-3xl font-bold mb-2 capitalize text-center sm:text-start">
-            <span>{currentData.city}, </span>
-            <span>{currentData.country}</span>
+            {displayName}
           </h2>
           <p className="text-white/70 text-lg">
             {dayjs(currentData.time).format("dddd, MMM D, YYYY")}

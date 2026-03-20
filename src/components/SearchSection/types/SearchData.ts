@@ -2,8 +2,10 @@ import z from "zod";
 
 export const SearchDataItemSchema = z
   .object({
+    region: z.string().optional(),
+    code: z.string().optional(),
     city: z.string(),
-    country: z.string(),
+    country: z.string().optional(),
     weatherCode: z.number().min(0).max(99),
     temperature: z.number(),
     temperatureUnit: z.string().transform((i) => {

@@ -20,9 +20,12 @@ export const createHistoryCity = (
 };
 
 const getWarsawHistory = (): HistoryItem => ({
-  id: "warsaw-poland",
-  city: "warsaw",
-  country: "poland",
+  id: "warsaw-poland-masovian",
+  code: "PPLC",
+  city: "Warsaw",
+  region: "Masovian",
+  country: "Poland",
+  displayName: "Warsaw, Poland",
   isFavorite: false,
   timestamp: 1,
   latitude: 52.22977,
@@ -30,21 +33,27 @@ const getWarsawHistory = (): HistoryItem => ({
 });
 
 const getBerlinHistory = (): HistoryItem => ({
-  id: "berlin-germany",
-  city: "berlin",
-  country: "germany",
+  city: "Berlin",
+  code: "PPLC",
+  country: "Germany",
+  displayName: "Berlin, Germany",
+  id: "berlin-germany-state-of-berlin",
   isFavorite: false,
-  timestamp: 2,
   latitude: 52.52437,
   longitude: 13.41053,
+  region: "State of Berlin",
+  timestamp: 2,
 });
 
 const getMinskHistory = (): HistoryItem => ({
-  id: "minsk-belarus",
-  city: "minsk",
-  country: "belarus",
+  city: "Minsk",
+  code: "PPLC",
+  country: "Belarus",
+  displayName: "Minsk, Belarus",
+  id: "minsk-belarus-minsk-city",
   isFavorite: false,
-  timestamp: 3,
   latitude: 53.9,
   longitude: 27.56667,
+  region: "Minsk City",
+  timestamp: 3,
 });

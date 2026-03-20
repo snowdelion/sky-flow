@@ -29,7 +29,9 @@ export const WeatherDataCurrentSchema = z
     weather_code: z.number().min(0).max(99),
     wind_speed_10m: z.number().min(0),
     city: z.string(),
-    country: z.string(),
+    region: z.string().optional(),
+    code: z.string().optional(),
+    country: z.string().optional(),
     latitude: z.number().min(-90).max(90),
     longitude: z.number().min(-180).max(180),
   })

@@ -15,7 +15,6 @@ import { SearchDataItem } from "@/components/SearchSection/types/SearchData";
 import { fetchGeoData } from "@/services/fetchGeoData";
 import { useSearchStore } from "@/stores/useSearchStore";
 import { isFoundCity, type CityData } from "@/types/location";
-import { capitalizeString } from "@/utils/formatters";
 
 import { useSearchHistory } from "./useSearchHistory";
 import { useSearchQuery } from "./useSearchQuery";
@@ -64,12 +63,13 @@ export function useSearchActions(): UseSearchActionsReturn {
       const { city } = cityData;
 
       const params = new URLSearchParams();
-
-      params.set("city", capitalizeString(city));
+      params.set("city", city);
 
       if (isFoundCity(cityData)) {
-        const { country, lat, lon } = cityData;
-        params.set("country", capitalizeString(country));
+        const { country, lat, lon, region, code } = cityData;
+        if (region) params.set("region", region);
+        if (country) params.set("country", country);
+        if (code) params.set("code", code);
         params.set("lat", lat.toString());
         params.set("lon", lon.toString());
 
@@ -95,7 +95,9 @@ export function useSearchActions(): UseSearchActionsReturn {
       searchSelectedCity({
         status: "found",
         city: geoData.results[0].name,
-        country: geoData.results[0].country,
+        country: geoData.results?.[0]?.country,
+        region: geoData.results?.[0]?.admin1,
+        code: geoData.results?.[0]?.feature_code,
         lat: geoData.results[0].latitude,
         lon: geoData.results[0].longitude,
       });

@@ -16,7 +16,7 @@ describe("WeatherPage utils", () => {
 
     expect(mockRedirect).toHaveBeenCalledTimes(1);
     expect(mockRedirect).toHaveBeenCalledWith(
-      "/weather/?city=Minsk&country=Belarus&lat=53.9&lon=27.56667",
+      "/weather/?city=Minsk&region=Minsk+City&country=Belarus&code=PPLC&lat=53.9&lon=27.56667",
     );
   });
 

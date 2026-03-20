@@ -6,7 +6,8 @@ import type {
   HistoryItem,
 } from "@/components/SearchSection/types/history";
 import { useSearchStore } from "@/stores/useSearchStore";
-import { isFoundCity, type CityData } from "@/types/location";
+import { isFoundCity, isNotFoundCity, type CityData } from "@/types/location";
+import { formatCityDisplay } from "@/utils/formatters";
 
 export const recentStore = new WeatherStore("weather-recent");
 export const favoriteStore = new WeatherStore("weather-favorite");
@@ -26,29 +27,43 @@ export function useSearchHistory(): UseSearchHistoryReturn {
   );
 
   const addCity = useCallback((cityData: CityData, favorited?: boolean) => {
-    if (!isFoundCity(cityData)) return;
+    if (!isFoundCity(cityData) || isNotFoundCity(cityData)) return;
     useSearchStore.getState().setLastValidatedCity(cityData);
 
-    const { city, country, lat, lon } = cityData;
+    const { city, country, lat, lon, region, code } = cityData;
 
-    const id = `${city.toLowerCase()}-${country.toLowerCase()}`;
     const currentFavorites = favoriteStore.getSnapshot();
     const isFavorited = currentFavorites.some(
       (item) => item.latitude === lat && item.longitude === lon,
     );
 
+    const displayName = formatCityDisplay(cityData);
+    const baseId = city.toLowerCase();
+    const regionId = region
+      ? `${baseId}-${region.toLowerCase().replace(/\s+/g, "-")}`
+      : baseId;
+    const id = country
+      ? `${regionId}-${country.toLowerCase().replace(/\s+/g, "-")}`
+      : regionId;
+
     recentStore.update((prev) => {
       const newitem: HistoryItem = {
         id,
-        city: city.toLowerCase().trim(),
-        country: country.toLowerCase().trim(),
+        city: city.trim(),
+        country: country?.trim(),
+        region,
+        code,
+        displayName,
         isFavorite: isFavorited || !!favorited,
         timestamp: Date.now(),
         latitude: lat,
         longitude: lon,
       };
 
-      return [newitem, ...prev.filter((item) => item.id !== id)].slice(0, 8);
+      return [newitem, ...prev.filter((item) => item.id !== newitem.id)].slice(
+        0,
+        8,
+      );
     });
   }, []);
 

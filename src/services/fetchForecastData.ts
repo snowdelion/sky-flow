@@ -19,9 +19,9 @@ export async function fetchForecastData(
         "Cannot fetch weather! City coords not found...",
       );
 
-    const { city, country, lat, lon } = cityData;
+    const { city, country, region, code, lat, lon } = cityData;
 
-    if (!city || !country || !lat || !lon)
+    if (!city || !lat || !lon)
       throw new AppError("FORECAST_FAILED", "Invalid city data");
 
     const url =
@@ -63,6 +63,8 @@ export async function fetchForecastData(
         time: forecastData?.current?.time,
         city,
         country,
+        region,
+        code,
         latitude: lat,
         longitude: lon,
       },

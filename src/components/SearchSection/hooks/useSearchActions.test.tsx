@@ -31,7 +31,7 @@ describe("useSearchActions", () => {
   let inputElement: HTMLInputElement;
   const mocks = getSearchMocks();
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks();
     mocks.services.mockFetchGeoData.mockClear();
     mocks.navigation.mockPush.mockClear();
@@ -103,7 +103,7 @@ describe("useSearchActions", () => {
       expect(mocks.navigation.mockPush).toHaveBeenCalledTimes(1);
       expect(mocks.navigation.mockPush).toHaveBeenCalledWith(
         expect.stringContaining(
-          "city=Minsk&country=Belarus&lat=53.9&lon=27.56667",
+          "/?city=Minsk&region=Minsk+City&country=Belarus&code=PPLC&lat=53.9&lon=27.56667",
         ),
       );
       expect(mocks.navigation.mockPush).toHaveBeenCalledTimes(1);

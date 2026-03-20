@@ -44,12 +44,16 @@ describe("WeatherStore", () => {
 
     subscribe(listener);
 
-    update(historyData, { city: "WARSAW" });
+    update(historyData);
 
     const snapshot = store.getSnapshot();
+
     expect(snapshot).toEqual(historyData);
-    expect(snapshot[0].city).toBe("warsaw");
-    expect(localStorage.getItem(storageKey)).toContain("warsaw-poland");
+    expect(snapshot[0].city).toBe("Warsaw");
+    expect(localStorage.getItem(storageKey)).toContain(
+      "warsaw-poland-masovian",
+    );
+    expect(snapshot[0].displayName).toBe("Warsaw, Poland");
     expect(listener).toHaveBeenCalledTimes(1);
   });
 

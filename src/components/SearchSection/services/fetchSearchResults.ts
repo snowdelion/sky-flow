@@ -32,7 +32,6 @@ export const fetchSearchResults = async (
 
         current: "temperature_2m,weather_code",
 
-        timezone: "auto",
         temperature_unit: units.temperature,
       });
 
@@ -49,8 +48,10 @@ export const fetchSearchResults = async (
       : [forecastRaw];
 
     const rawData = results.map((item, index) => ({
+      region: item?.admin1,
+      code: item?.feature_code,
       city: item.name,
-      country: item.country,
+      country: item?.country,
       id: item.id,
       latitude: item.latitude,
       longitude: item.longitude,

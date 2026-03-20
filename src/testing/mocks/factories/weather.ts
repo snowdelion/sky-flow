@@ -97,6 +97,8 @@ const getCurrentWeather = (): WeatherDataCurrent => ({
   apparent_temperature: -4,
   city: "Berlin",
   country: "Germany",
+  region: "State of Berlin",
+  code: "PPLC",
   latitude: 52.52437,
   longitude: 13.41053,
   precipitation: 0,

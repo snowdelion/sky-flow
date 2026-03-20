@@ -27,26 +27,45 @@ vi.mock("@/stores/useSearchStore", () => ({
 }));
 
 // --- 2. city factories ---
-const createCity = (city: string, country: string): CityData => ({
+const createCity = (
+  city: string,
+  country: string,
+  code: string,
+  region: string,
+): CityData => ({
   status: "found",
   city,
   country,
+  code,
+  region,
   lat: 5,
   lon: 10,
 });
 
 const getTestCities = (): CityData[] =>
   [
-    { city: "Tokyo", country: "Japan" },
-    { city: "Berlin", country: "Germany" },
-    { city: "Warsaw", country: "Poland" },
-    { city: "Minsk", country: "Belarus" },
-    { city: "Paris", country: "France" },
-    { city: "Bern", country: "Switzerland" },
-    { city: "Rome", country: "Italy" },
-    { city: "London", country: "United Kingdom" },
-    { city: "Stockholm", country: "Sweden" },
-  ].map(({ city, country }) => createCity(city, country));
+    { city: "Tokyo", country: "Japan", code: "PPLC", region: "Tokyo" },
+    {
+      city: "Berlin",
+      country: "Germany",
+      code: "PPLC",
+      region: "State of Berlin",
+    },
+    { city: "Warsaw", country: "Poland", code: "PPLC", region: "Masovian" },
+    { city: "Minsk", country: "Belarus", code: "PPLC", region: "Minsk City" },
+    { city: "Paris", country: "France", code: "PPLC", region: "Île-de-France" },
+    { city: "Bern", country: "Switzerland", code: "PPLC", region: "Bern" },
+    { city: "Rome", country: "Italy", code: "PPLC", region: "Lazio" },
+    {
+      city: "London",
+      country: "United Kingdom",
+      code: "PPLC",
+      region: "England",
+    },
+    { city: "Stockholm", country: "Sweden", code: "PPLC", region: "Stockholm" },
+  ].map(({ city, country, code, region }) =>
+    createCity(city, country, code, region),
+  );
 
 // --- 3. tests ---
 describe("useSearchHistory", () => {
@@ -69,8 +88,8 @@ describe("useSearchHistory", () => {
     const { result } = renderHook(() => useSearchHistory());
 
     expect(result.current.recent).toHaveLength(1);
-    expect(result.current.recent[0].city).toBe("warsaw");
-    expect(result.current.recent[0].id).toBe("warsaw-poland");
+    expect(result.current.recent[0].city).toBe("Warsaw");
+    expect(result.current.recent[0].id).toBe("warsaw-poland-masovian");
   });
 
   it("should get favorites from localStorage", () => {
@@ -83,8 +102,8 @@ describe("useSearchHistory", () => {
     const { result } = renderHook(() => useSearchHistory());
 
     expect(result.current.favorites).toHaveLength(1);
-    expect(result.current.favorites[0].city).toBe("warsaw");
-    expect(result.current.favorites[0].id).toBe("warsaw-poland");
+    expect(result.current.favorites[0].city).toBe("Warsaw");
+    expect(result.current.favorites[0].id).toBe("warsaw-poland-masovian");
     expect(result.current.favorites[0].isFavorite).toBe(true);
   });
 
@@ -96,9 +115,9 @@ describe("useSearchHistory", () => {
 
     expect(result.current.recent).toHaveLength(1);
     expect(result.current.recent[0]).toMatchObject({
-      id: "tokyo-japan",
-      city: "tokyo",
-      country: "japan",
+      id: "tokyo-tokyo-japan",
+      city: "Tokyo",
+      country: "Japan",
       isFavorite: false,
     });
 
@@ -106,7 +125,7 @@ describe("useSearchHistory", () => {
       window.localStorage.getItem("weather-recent") || "[]",
     );
     expect(saved).toHaveLength(1);
-    expect(saved[0].id).toBe("tokyo-japan");
+    expect(saved[0].id).toBe("tokyo-tokyo-japan");
     expect(setLastValidatedCity).toHaveBeenCalledTimes(1);
     expect(setLastValidatedCity).toHaveBeenCalledWith(cities[0]);
   });
@@ -129,7 +148,7 @@ describe("useSearchHistory", () => {
 
     expect(result.current.recent).toHaveLength(8);
     expect(result.current.recent[result.current.recent.length - 1].id).toBe(
-      "berlin-germany",
+      "berlin-state-of-berlin-germany",
     );
   });
 
@@ -143,7 +162,7 @@ describe("useSearchHistory", () => {
 
     expect(result.current.recent[0].isFavorite).toBe(true);
     expect(result.current.favorites).toHaveLength(1);
-    expect(result.current.favorites[0].city).toBe("tokyo");
+    expect(result.current.favorites[0].city).toBe("Tokyo");
     expect(result.current.favorites[0].isFavorite).toBe(true);
 
     act(() => result.current.toggleFavorite(id));
@@ -166,7 +185,7 @@ describe("useSearchHistory", () => {
     act(() => result.current.removeCity(tokyoId));
 
     expect(result.current.recent).toHaveLength(1);
-    expect(result.current.recent[0].city).toBe("berlin");
+    expect(result.current.recent[0].city).toBe("Berlin");
   });
 
   it("should remove from favorite in favorite tab", async () => {

@@ -13,15 +13,18 @@ export const handlers = [
       (key) => key.toLowerCase() === name.toLowerCase(),
     );
 
-    return HttpResponse.json(
-      { results: cityKey ? CITY_RESPONSES[cityKey] : [] },
-      { status: 200 },
-    );
+    if (cityKey)
+      return HttpResponse.json(
+        { results: CITY_RESPONSES[cityKey as keyof typeof CITY_RESPONSES] },
+        { status: 200 },
+      );
   }),
 
   http.get("https://api.open-meteo.com/v1/forecast", ({ request }) => {
     const url = new URL(request.url);
     const city = url.searchParams.get("city");
+    const region = url.searchParams.get("region");
+    const code = url.searchParams.get("code");
     const country = url.searchParams.get("country");
     const latitudes = url.searchParams.get("latitude")?.split(",") ?? [];
     const longitudes = url.searchParams.get("longitude")?.split(",") ?? [];
@@ -33,6 +36,8 @@ export const handlers = [
         apparent_temperature: -2,
         city,
         country,
+        region,
+        code,
         precipitation: 0,
         relative_humidity_2m: 10,
         temperature_2m: -2,
@@ -67,8 +72,7 @@ export const handlers = [
       generationtime_ms: 0.5,
       latitude: Number(latitudes[index] ?? 53.9),
       longitude: Number(longitudes?.[index] ?? 27.56667),
-      timezone:
-        url.searchParams.get("timezone")?.split(",")?.[index] ?? "Europe/Minsk",
+      timezone: "auto",
       timezone_abbreviation: "MSK",
       utc_offset_seconds: 10800,
     }));
@@ -85,7 +89,9 @@ const CITY_RESPONSES: Record<string, mockCityResponse[]> = Object.entries(
     [name]: [
       ...Array(7).fill({
         id: data.first.id,
-        name: data.first.city,
+        name: data.first.name,
+        admin1: data.first.region,
+        feature_code: data.first.code,
         country: data.first.country,
         latitude: data.first.lat,
         longitude: data.first.lon,
@@ -93,7 +99,9 @@ const CITY_RESPONSES: Record<string, mockCityResponse[]> = Object.entries(
       }),
       {
         id: data.last.id,
-        name: data.last.city,
+        name: data.last.name,
+        admin1: data.last.region,
+        feature_code: data.last.code,
         country: data.last.country,
         latitude: data.last.lat,
         longitude: data.last.lon,
@@ -107,6 +115,8 @@ const CITY_RESPONSES: Record<string, mockCityResponse[]> = Object.entries(
 interface mockCityResponse {
   id: number;
   name: string;
+  admin1: string;
+  feature_code: string;
   country: string;
   latitude: number;
   longitude: number;

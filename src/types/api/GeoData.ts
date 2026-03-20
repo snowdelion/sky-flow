@@ -2,11 +2,13 @@ import { z } from "zod";
 
 export const GeoDataItemSchema = z
   .object({
+    admin1: z.string().optional(),
+    feature_code: z.string().optional(),
     name: z.string(),
-    country: z.string().catch("Unknown"),
+    country: z.string().optional(),
     latitude: z.number().min(-90).max(90),
     longitude: z.number().min(-180).max(180),
-    timezone: z.string(),
+    timezone: z.string().optional(),
     id: z.number().min(0).int(),
   })
   .strip();

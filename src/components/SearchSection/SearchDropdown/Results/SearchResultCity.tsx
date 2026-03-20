@@ -8,7 +8,7 @@ import { useSearchResultCity } from "./useSearchResultCity";
 export const SearchResultCity = React.memo(function SearchResultCity({
   data,
 }: SearchResultCityProps) {
-  const { handleClick, icon, city, country, temperature, temperatureUnit } =
+  const { handleClick, icon, displayName, temperature, temperatureUnit } =
     useSearchResultCity(data);
 
   return (
@@ -18,7 +18,7 @@ export const SearchResultCity = React.memo(function SearchResultCity({
     >
       <div className="flex items-center gap-2">
         <Image src={icon} className="w-8 h-8 lg:w-10 lg:h-10" alt="" />
-        <span className="text-sm sm:text-base">{`${city}, ${country}`}</span>
+        <span className="text-sm sm:text-base">{displayName}</span>
       </div>
 
       <div className="flex items-center gap-1 font-bold">

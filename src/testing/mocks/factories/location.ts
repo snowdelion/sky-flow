@@ -14,5 +14,7 @@ const getBerlinGeo = (): GeoDataItem => ({
   timezone: "Europe/Berlin",
   name: "Berlin",
   country: "Germany",
+  admin1: "State of Berlin",
+  feature_code: "PPLC",
   id: 2950159,
 });
