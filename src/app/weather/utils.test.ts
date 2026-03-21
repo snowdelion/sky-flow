@@ -7,12 +7,12 @@ vi.mock("next/navigation", () => ({ redirect: mockRedirect }));
 // --- 2. tests ---
 describe("WeatherPage utils", () => {
   const params = {
-    city: "London",
-    region: "England",
+    region: "State of Berlin",
+    city: "Berlin",
+    country: "Germany",
     code: "PPLC",
-    country: "United Kingdom",
-    lat: "51.50853",
-    lon: "-0.12574",
+    lat: "52.52437",
+    lon: "13.41053",
   };
 
   beforeEach(() => {
@@ -24,75 +24,75 @@ describe("WeatherPage utils", () => {
       name: "no coords",
       params: {
         status: "found",
-        city: "London",
-        region: "England",
+        city: "Berlin",
+        region: "State of Berlin",
         code: "PPLC",
-        country: "United Kingdom",
+        country: "Germany",
       },
       expected: {
         status: "found",
-        city: "London",
-        region: "England",
+        region: "State of Berlin",
+        city: "Berlin",
+        country: "Germany",
         code: "PPLC",
-        country: "United Kingdom",
-        lat: 51.50853,
-        lon: -0.12574,
+        lat: 52.52437,
+        lon: 13.41053,
       },
     },
     {
       name: "no country",
       params: {
         status: "found",
-        city: "London",
-        region: "England",
+        region: "State of Berlin",
+        city: "Berlin",
         code: "PPLC",
-        lat: "51.50853",
-        lon: "-0.12574",
+        lat: "52.52437",
+        lon: "13.41053",
       },
       expected: {
         status: "found",
-        city: "London",
-        region: "England",
+        region: "State of Berlin",
+        country: "Germany",
+        city: "Berlin",
         code: "PPLC",
-        country: "United Kingdom",
-        lat: 51.50853,
-        lon: -0.12574,
+        lat: 52.52437,
+        lon: 13.41053,
       },
     },
     {
       name: "no code",
       params: {
         status: "found",
-        city: "London",
-        region: "England",
-        country: "United Kingdom",
-        lat: "51.50853",
-        lon: "-0.12574",
+        country: "Germany",
+        region: "State of Berlin",
+        city: "Berlin",
+        lat: "52.52437",
+        lon: "13.41053",
       },
       expected: {
         status: "found",
-        city: "London",
-        region: "England",
+        region: "State of Berlin",
+        city: "Berlin",
+        country: "Germany",
         code: "PPLC",
-        country: "United Kingdom",
-        lat: 51.50853,
-        lon: -0.12574,
+        lat: 52.52437,
+        lon: 13.41053,
       },
     },
     {
       name: "only city",
       params: {
         status: "found",
-        city: "London",
+        city: "Berlin",
       },
       expected: {
         status: "found",
-        city: "London",
-        region: "England",
+        region: "State of Berlin",
+        city: "Berlin",
+        country: "Germany",
         code: "PPLC",
-        country: "United Kingdom",
-        lat: 51.50853,
-        lon: -0.12574,
+        lat: 52.52437,
+        lon: 13.41053,
       },
     },
   ];
@@ -119,8 +119,8 @@ describe("WeatherPage utils", () => {
     expect(result).toEqual({
       ...params,
       status: "found",
-      lat: 51.50853,
-      lon: -0.12574,
+      lat: 52.52437,
+      lon: 13.41053,
     });
     expect(mockRedirect).not.toHaveBeenCalled();
   });
@@ -141,7 +141,7 @@ describe("WeatherPage utils", () => {
 
     expect(mockRedirect).toHaveBeenCalledTimes(1);
     expect(mockRedirect).toHaveBeenCalledWith(
-      expect.stringContaining("/weather/?city=London"),
+      expect.stringContaining("/weather/?city=Berlin"),
     );
     expect(mockRedirect).toHaveBeenCalledWith(
       expect.not.stringContaining("extra"),
@@ -158,16 +158,16 @@ describe("WeatherPage utils", () => {
 
     expect(mockRedirect).toHaveBeenCalledTimes(1);
     expect(mockRedirect).toHaveBeenCalledWith(
-      expect.stringContaining("/weather/?city=London"),
+      expect.stringContaining("/weather/?city=Berlin"),
     );
     expect(mockRedirect).toHaveBeenCalledWith(
-      expect.stringContaining("region=England"),
+      expect.stringContaining("region=State+of+Berlin"),
     );
     expect(mockRedirect).toHaveBeenCalledWith(
-      expect.stringContaining("lat=51.50853"),
+      expect.stringContaining("lat=52.52437"),
     );
     expect(mockRedirect).toHaveBeenCalledWith(
-      expect.stringContaining("lon=-0.12574"),
+      expect.stringContaining("lon=13.41053"),
     );
   });
 });
