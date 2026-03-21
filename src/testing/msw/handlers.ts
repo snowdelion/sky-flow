@@ -18,6 +18,8 @@ export const handlers = [
         { results: CITY_RESPONSES[cityKey as keyof typeof CITY_RESPONSES] },
         { status: 200 },
       );
+
+    return HttpResponse.json({ results: [] }, { status: 200 });
   }),
 
   http.get("https://api.open-meteo.com/v1/forecast", ({ request }) => {
