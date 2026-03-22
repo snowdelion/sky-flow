@@ -29,7 +29,7 @@ export const SearchResultCity = React.memo(function SearchResultCity({
       </div>
 
       <div className="flex items-center gap-1 font-bold">
-        <span className="text-base md:text-lg">{temperature.toFixed(1)}</span>
+        <span className="text-base md:text-lg">{Math.round(temperature)}</span>
         <span className="text-white/70 text-sm md:text-base">
           {temperatureUnit}
         </span>
