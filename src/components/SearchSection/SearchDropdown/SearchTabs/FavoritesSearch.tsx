@@ -37,26 +37,28 @@ export const FavoritesSearch = React.memo(function FavoritesSearch({
       role="option"
       aria-selected="false"
       aria-label={displayName}
-      className="flex justify-between font-medium mx-2 px-5 py-3 my-3 text-white hover:bg-[hsl(243,23%,30%)] rounded-xl"
+      className="flex justify-between h-9.5 sm:h-8.5 xl:h-10 gap-4 mx-2 px-5 my-2 text-white hover:bg-[hsl(243,23%,30%)] rounded-xl"
     >
       <button
         role="button"
+        type="button"
         aria-label={`Select ${displayName}`}
         onClick={handleClick}
-        className="flex flex-1 items-center text-start gap-1 sm:gap-2 cursor-pointer font-normal text-sm sm:text-base md:text-lg"
+        className="font-light leading-4 lg:leading-5 py-2 text-xs sm:text-sm xl:text-base flex flex-1 text-start items-center gap-1 sm:gap-2 cursor-pointer"
       >
         {displayName}
       </button>
 
       <button
         role="button"
+        type="button"
         aria-label="Remove from favorites"
         onClick={() => removeFavorite(data.id)}
-        className="flex items-center gap-1 sm:gap-3 opacity-70"
+        className="flex items-center opacity-70"
       >
         <FavoriteIcon
           isFilled={true}
-          className="w-5 h-5 sm:w-6 sm:h-6 focus:outline-none hover:text-[hsl(233,100%,70%)] transition duration-100 cursor-pointer"
+          className="w-5 h-5 focus:outline-none hover:text-[hsl(233,100%,70%)] transition duration-100 cursor-pointer"
         />
       </button>
     </li>

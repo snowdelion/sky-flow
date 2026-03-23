@@ -7,9 +7,11 @@ export class WeatherStore {
   private data: HistoryData = [];
   private listeners = new Set<() => void>();
   private storageKey: string;
+  private limit: number;
 
-  constructor(storageKey: string) {
+  constructor(storageKey: string, limit: number) {
     this.storageKey = storageKey;
+    this.limit = limit;
     this.loadFromStorage();
   }
 
@@ -37,7 +39,7 @@ export class WeatherStore {
   update(newData: HistoryData | ((prev: HistoryData) => HistoryData)): void {
     const rawData =
       typeof newData === "function" ? newData(this.data) : newData;
-    const result = HistoryDataSchema.safeParse(rawData);
+    const result = HistoryDataSchema.safeParse(rawData.slice(0, this.limit));
 
     this.data = result.success ? result.data : this.data;
     localStorage.setItem(this.storageKey, JSON.stringify(this.data));

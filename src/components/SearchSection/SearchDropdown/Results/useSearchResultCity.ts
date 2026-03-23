@@ -9,6 +9,7 @@ import { getWeatherIcon } from "@/utils/weather";
 
 export function useSearchResultCity(
   data: SearchDataItem,
+  inputRef: React.RefObject<HTMLInputElement | null>,
 ): UseSearchResultCityReturn {
   const {
     weatherCode,
@@ -40,8 +41,8 @@ export function useSearchResultCity(
   const displayName = useMemo(() => formatCityDisplay(cityData), [cityData]);
 
   const handleClick = useCallback(() => {
-    if (isFoundCity(cityData)) searchSelectedCity(cityData);
-  }, [searchSelectedCity, cityData]);
+    if (isFoundCity(cityData)) searchSelectedCity(cityData, inputRef);
+  }, [searchSelectedCity, cityData, inputRef]);
 
   return useMemo(
     () => ({

@@ -11,7 +11,7 @@ import { WeatherStore } from "./weather-store";
 const setup = (): SetupReturn => {
   const historyData = createHistoryCity().slice(0, 1);
   const storageKey = `test-key-${Math.random()}`;
-  const store = new WeatherStore(storageKey);
+  const store = new WeatherStore(storageKey, 8);
   const listener = vi.fn();
 
   return {

@@ -36,7 +36,10 @@ export default function SearchSection({ cityData }: { cityData: CityData }) {
           <SearchDropdown inputRef={inputRef} />
         </div>
 
-        <button className="bg-[hsl(233,67%,56%)] text-white font-medium py-3 px-6 rounded-xl text-base sm:text-lg whitespace-nowrap hover:opacity-90 transition-opacity">
+        <button
+          type="submit"
+          className="bg-[hsl(233,67%,56%)] text-white font-medium py-3 px-6 rounded-xl text-base sm:text-lg whitespace-nowrap hover:opacity-90 transition-opacity"
+        >
           Search
         </button>
       </form>

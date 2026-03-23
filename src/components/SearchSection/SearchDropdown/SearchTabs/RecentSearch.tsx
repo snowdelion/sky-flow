@@ -43,34 +43,37 @@ export const RecentSearch = React.memo(function RecentSearch({
       role="option"
       aria-selected="false"
       aria-label={displayName}
-      className="flex justify-between font-medium mx-2 px-5 py-3 my-3 text-white hover:bg-[hsl(243,23%,30%)] rounded-xl"
+      className="flex justify-between h-9.5 sm:h-8.5 xl:h-10 gap-4 mx-2 px-5 my-2 text-white hover:bg-[hsl(243,23%,30%)] rounded-xl"
     >
       <button
         role="button"
+        type="button"
         aria-label={`Select ${displayName}`}
         onClick={handleClick}
-        className="font-normal text-sm sm:text-base md:text-lg flex flex-1 text-start items-center gap-1 sm:gap-2 cursor-pointer"
+        className="font-light leading-4 lg:leading-5 py-2 text-xs sm:text-sm xl:text-base flex flex-1 text-start items-center gap-1 sm:gap-2 cursor-pointer"
       >
         {displayName}
       </button>
 
-      <div className="flex items-center gap-1 sm:gap-3 opacity-70">
+      <div className="flex items-center gap-1 sm:gap-2 opacity-70">
         <button
           role="button"
+          type="button"
           aria-label="Toggle favorite"
           onClick={handleFavoriteIcon}
         >
           <FavoriteIcon
             isFavorite={data.isFavorite}
-            className="w-5 h-5 sm:w-6 sm:h-6 focus:outline-none hover:text-[hsl(233,100%,70%)] transition duration-100 cursor-pointer"
+            className="w-5 h-5 focus:outline-none hover:text-[hsl(233,100%,70%)] transition duration-100 cursor-pointer"
           />
         </button>
         <button
           role="button"
+          type="button"
           aria-label="Remove from history"
           onClick={() => removeCity(data.id)}
         >
-          <XIcon className="w-5.5 h-5.5 sm:w-6 sm:h-6 hover:text-red-400 cursor-pointer" />
+          <XIcon className="w-5.5 h-5.5 hover:text-red-400 cursor-pointer" />
         </button>
       </div>
     </li>

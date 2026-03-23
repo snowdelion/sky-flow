@@ -9,8 +9,8 @@ import { useSearchStore } from "@/stores/useSearchStore";
 import { isFoundCity, isNotFoundCity, type CityData } from "@/types/location";
 import { formatCityDisplay } from "@/utils/formatters";
 
-export const recentStore = new WeatherStore("weather-recent");
-export const favoriteStore = new WeatherStore("weather-favorite");
+export const recentStore = new WeatherStore("weather-recent", 8);
+export const favoriteStore = new WeatherStore("weather-favorite", 100);
 const EMPTY_ARRAY: HistoryData = [];
 
 export function useSearchHistory(): UseSearchHistoryReturn {
@@ -38,13 +38,7 @@ export function useSearchHistory(): UseSearchHistoryReturn {
     );
 
     const displayName = formatCityDisplay(cityData);
-    const baseId = city.toLowerCase();
-    const regionId = region
-      ? `${baseId}-${region.toLowerCase().replace(/\s+/g, "-")}`
-      : baseId;
-    const id = country
-      ? `${regionId}-${country.toLowerCase().replace(/\s+/g, "-")}`
-      : regionId;
+    const id = generateCityId(city, region, country);
 
     recentStore.update((prev) => {
       const newitem: HistoryItem = {
@@ -60,10 +54,7 @@ export function useSearchHistory(): UseSearchHistoryReturn {
         longitude: lon,
       };
 
-      return [newitem, ...prev.filter((item) => item.id !== newitem.id)].slice(
-        0,
-        8,
-      );
+      return [newitem, ...prev.filter((item) => item.id !== newitem.id)];
     });
   }, []);
 
@@ -113,6 +104,22 @@ export function useSearchHistory(): UseSearchHistoryReturn {
     [recent, favorites, addCity, toggleFavorite, removeCity, removeFavorite],
   );
 }
+
+const generateCityId = (
+  city: string,
+  region?: string,
+  country?: string,
+): string => {
+  const baseId = city.toLowerCase();
+  const regionId = region
+    ? `${baseId}-${region.toLowerCase().replace(/\s+/g, "-")}`
+    : baseId;
+  const id = country
+    ? `${regionId}-${country.toLowerCase().replace(/\s+/g, "-")}`
+    : regionId;
+
+  return id;
+};
 
 interface UseSearchHistoryReturn {
   recent: HistoryData;

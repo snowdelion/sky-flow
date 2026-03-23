@@ -15,7 +15,7 @@ export function CurrentTab({
   const items = useSearchHistory()[currentTab];
 
   return (
-    <ul>
+    <ul className="max-h-60 sm:max-h-86 xl:max-h-98 overflow-y-auto custom-scrollbar">
       {items.length > 0 ? (
         items.map((data, index) => (
           <Component
