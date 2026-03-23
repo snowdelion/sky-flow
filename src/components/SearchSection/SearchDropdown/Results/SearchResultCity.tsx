@@ -25,7 +25,10 @@ export const SearchResultCity = React.memo(function SearchResultCity({
             className="w-8 h-8 lg:w-10 lg:h-10"
             alt="Weather Icon"
           />
-          <span className="font-light text-sm sm:text-base" title={displayName}>
+          <span
+            className="text-start font-light text-sm sm:text-base"
+            title={displayName}
+          >
             {displayName}
           </span>
         </div>
