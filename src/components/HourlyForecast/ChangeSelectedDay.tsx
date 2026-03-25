@@ -44,7 +44,7 @@ export default React.memo(function ChangeSelectedDay({
       <ListboxOptions
         className="
           absolute right-6.75 sm:right-7.75 top-16 sm:top-20 bg-[hsl(243,27%,20%)] focus:outline-none border border-white/10 rounded-xl w-45 sm:w-55 justify-self-center
-          shadow-[0_10px_12px_black]/25 transition-transform duration-75 data-closed:opacity-0 data-closed:scale-95 data-closed:-translate-y-2"
+          shadow-[0_10px_12px_black]/25 transition-transform duration-75 data-closed:opacity-0 data-closed:scale-95 data-closed:-translate-y-2 z-10"
         modal={false}
         transition
       >
