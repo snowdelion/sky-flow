@@ -7,7 +7,11 @@ import { useSearchStore } from "@/stores/useSearchStore";
 
 import { CurrentTab } from "./CurrentTab";
 
-export function SearchTabs({ inputRef, handleChangeTab }: SearchTabsProps) {
+export function SearchTabs({
+  inputRef,
+  handleChangeTab,
+  dropdownRef,
+}: SearchTabsProps) {
   const { currentTab, isOpen } = useSearchStore(
     useShallow((state) => ({
       currentTab: state.currentTab,
@@ -54,7 +58,7 @@ export function SearchTabs({ inputRef, handleChangeTab }: SearchTabsProps) {
         })}
       </ul>
 
-      <CurrentTab inputRef={inputRef} />
+      <CurrentTab inputRef={inputRef} dropdownRef={dropdownRef} />
     </div>
   );
 }
@@ -75,5 +79,6 @@ const TABS = [
 
 interface SearchTabsProps {
   inputRef: React.RefObject<HTMLInputElement | null>;
+  dropdownRef: React.RefObject<HTMLDivElement | null>;
   handleChangeTab: (value: ActiveTab) => void;
 }

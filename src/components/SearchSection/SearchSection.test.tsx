@@ -39,8 +39,10 @@ const setup = () => {
 
   const setRecentItem = (data: HistoryItem[] = historyData) =>
     act(() => recentStore.update(data));
+
   const setFavoritesItem = (data: HistoryItem[] = historyData) =>
     act(() => favoriteStore.update(data));
+
   const user = userEvent.setup();
   const { berlinCityData } = createCityData();
   const renderResult = renderWithClient(
@@ -60,6 +62,7 @@ const setup = () => {
 
     findOption: (name: string) => screen.findByRole("option", { name }),
     findTab: (name: RegExp) => screen.findByRole("tab", { name }),
+
     getLink: (option: HTMLElement, name: RegExp) =>
       within(option).getByRole("button", { name }),
 
@@ -75,6 +78,7 @@ describe("SearchSection integration", () => {
     recentStore.reset();
     favoriteStore.reset();
     testQueryClient.clear();
+    useSearchStore.getState().reset();
     vi.clearAllMocks();
     mockPush.mockClear();
   });
@@ -228,6 +232,96 @@ describe("SearchSection integration", () => {
         /berlin/i.test(item.city),
       );
       expect(hasCity).toBe(false);
+    });
+  });
+
+  describe("focus/blur behavior", () => {
+    it("should open and close dropdown when focused and clicked outside", async () => {
+      const { user, input } = setup();
+
+      await user.click(input);
+      const listbox = screen.getByRole("listbox");
+      await waitFor(() => expect(listbox).toBeInTheDocument());
+      expect(input).toHaveFocus();
+
+      await user.click(document.body);
+      await waitFor(() => expect(listbox).not.toBeInTheDocument());
+    });
+
+    it("shouldn't close dropdown when clicking inside", async () => {
+      const {
+        user,
+        input,
+        findTab,
+        findOption,
+        getIcon,
+        setRecentItem,
+        setFavoritesItem,
+      } = setup();
+      setRecentItem();
+      setFavoritesItem();
+
+      await user.click(input);
+
+      const listbox = screen.getByRole("listbox");
+      const recentOption = await findOption("Berlin, Germany");
+      const toggleIcon = getIcon(recentOption, /toggle favorite/i);
+
+      await user.click(toggleIcon);
+      await waitFor(() => expect(listbox).toBeInTheDocument());
+      expect(input).not.toHaveFocus();
+
+      const favoritesTab = await findTab(/favorites searches/i);
+      await user.click(favoritesTab);
+      await waitFor(() => expect(listbox).toBeInTheDocument());
+      expect(input).not.toHaveFocus();
+
+      const favoriteOption = await findOption("Berlin, Germany");
+      const removeFavoriteIcon = getIcon(
+        favoriteOption,
+        /remove from favorites/i,
+      );
+      await user.click(removeFavoriteIcon);
+      await waitFor(() => expect(listbox).toBeInTheDocument());
+      expect(input).not.toHaveFocus();
+    });
+
+    it("should blur on key down 'Escape'", async () => {
+      const { user, input, findTab } = setup();
+
+      await user.click(input);
+      const listbox = screen.getByRole("listbox");
+
+      const favoritesTab = await findTab(/favorites searches/i);
+      await user.click(favoritesTab);
+
+      await waitFor(() => expect(listbox).toBeInTheDocument());
+      expect(listbox).toHaveFocus();
+
+      await user.keyboard("{Escape}");
+      await waitFor(() => expect(listbox).not.toBeInTheDocument());
+      expect(listbox).not.toHaveFocus();
+    });
+
+    it("should hide kayboard on mobile after clicking inside", async () => {
+      const touchStart = "ontouchstart" in window;
+      if (!touchStart)
+        Object.defineProperty(window, "ontouchstart", { value: true });
+
+      const { user, input, findOption, getIcon, setRecentItem } = setup();
+
+      setRecentItem();
+      await user.click(input);
+
+      const cityOption = await findOption("Berlin, Germany");
+      const removeIcon = getIcon(cityOption, /remove from history/i);
+
+      await waitFor(() => expect(input).toHaveFocus());
+      await user.click(removeIcon);
+      await waitFor(() => expect(input).not.toHaveFocus());
+
+      if (!touchStart)
+        Object.defineProperty(window, "ontouchstart", { value: false });
     });
   });
 });

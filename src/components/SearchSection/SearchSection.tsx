@@ -12,6 +12,7 @@ import { SearchDropdown } from "./SearchDropdown";
 
 export default function SearchSection({ cityData }: { cityData: CityData }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const { handleSubmit } = useSearchActions();
   const { isError } = useWeatherQuery(cityData);
 
@@ -33,7 +34,7 @@ export default function SearchSection({ cityData }: { cityData: CityData }) {
           className={`relative grid w-full items-center flex-1 group bg-[hsl(243,27%,20%)] hover:bg-[hsl(243,27%,20%)]/80 focus-within:bg-[hsl(243,27%,20%)]/80 focus-within:ring-2 focus-within:ring-[hsl(233,67%,56%)] transition duration-75 rounded-xl px-4 py-3 ${isError ? "ring-1 ring-red-500/50" : ""}`}
         >
           <SearchBar inputRef={inputRef} isError={isError} />
-          <SearchDropdown inputRef={inputRef} />
+          <SearchDropdown inputRef={inputRef} dropdownRef={dropdownRef} />
         </div>
 
         <button

@@ -10,6 +10,7 @@ import { isFoundCity } from "@/types/location";
 export const RecentSearch = React.memo(function RecentSearch({
   data,
   inputRef,
+  dropdownRef,
 }: SearchTabProps) {
   const { searchSelectedCity } = useSearchActions();
 
@@ -71,6 +72,12 @@ export const RecentSearch = React.memo(function RecentSearch({
           role="button"
           type="button"
           aria-label="Remove from history"
+          tabIndex={-1}
+          onPointerDown={(e) => {
+            e.preventDefault();
+            inputRef.current?.blur();
+            dropdownRef.current?.focus();
+          }}
           onClick={() => removeCity(data.id)}
         >
           <XIcon className="w-5.5 h-5.5 hover:text-red-400 cursor-pointer" />

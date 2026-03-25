@@ -10,6 +10,7 @@ import React, { type SetStateAction, type Dispatch } from "react";
 
 import checkmarkIcon from "@/../public/icons/icon-checkmark.svg";
 import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
+import { useSearchStore } from "@/stores/useSearchStore";
 import type { DailyForecast } from "@/types/weather";
 
 export default React.memo(function ChangeSelectedDay({
@@ -18,13 +19,17 @@ export default React.memo(function ChangeSelectedDay({
   handleChangeDay,
   setIsHourlyOpen,
 }: ChangeSelectedDayProps) {
+  const setIsOpen = useSearchStore((s) => s.setIsOpen);
   const currentDay = days[selectedDayIndex]?.dayName || days[0].dayName;
 
   return (
     <Listbox value={selectedDayIndex} onChange={handleChangeDay}>
       <div className="relative border border-white/0 active:border-white/20 rounded-lg">
         <ListboxButton
-          onClick={() => setIsHourlyOpen(true)}
+          onClick={() => {
+            setIsOpen(false);
+            setIsHourlyOpen(true);
+          }}
           className="group flex items-center justify-center gap-1 sm:gap-2 focus:outline-none bg-[hsl(243,23%,30%)] border border-white/10 hover:opacity-80 px-3 sm:px-5 py-2 rounded-lg transition-opacity"
         >
           <span className="text-xs sm:text-base">{currentDay}</span>

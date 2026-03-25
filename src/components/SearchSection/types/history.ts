@@ -24,6 +24,7 @@ export type HistoryData = z.infer<typeof HistoryDataSchema>;
 export interface SearchTabProps {
   data: HistoryItem;
   inputRef: React.RefObject<HTMLInputElement | null>;
+  dropdownRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export type ActiveTab = "recent" | "favorites";

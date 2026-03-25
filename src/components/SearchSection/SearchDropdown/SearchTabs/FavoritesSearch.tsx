@@ -9,6 +9,7 @@ import { isFoundCity } from "@/types/location";
 export const FavoritesSearch = React.memo(function FavoritesSearch({
   data,
   inputRef,
+  dropdownRef,
 }: SearchTabProps) {
   const { searchSelectedCity } = useSearchActions();
   const { removeFavorite } = useSearchHistory();
@@ -53,6 +54,12 @@ export const FavoritesSearch = React.memo(function FavoritesSearch({
         role="button"
         type="button"
         aria-label="Remove from favorites"
+        tabIndex={-1}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          inputRef.current?.blur();
+          dropdownRef.current?.focus();
+        }}
         onClick={() => removeFavorite(data.id)}
         className="flex items-center opacity-70"
       >

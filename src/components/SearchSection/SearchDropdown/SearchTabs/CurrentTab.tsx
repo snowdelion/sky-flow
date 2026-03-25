@@ -7,8 +7,10 @@ import { RecentSearch } from "./RecentSearch";
 
 export function CurrentTab({
   inputRef,
+  dropdownRef,
 }: {
   inputRef: React.RefObject<HTMLInputElement | null>;
+  dropdownRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const currentTab = useSearchStore((state) => state.currentTab);
   const { Component, Icon, message } = TAB_DATA[currentTab];
@@ -22,6 +24,7 @@ export function CurrentTab({
             key={`${data.id}-${index}`}
             data={data}
             inputRef={inputRef}
+            dropdownRef={dropdownRef}
           />
         ))
       ) : (

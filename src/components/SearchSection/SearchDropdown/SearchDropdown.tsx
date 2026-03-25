@@ -10,8 +10,10 @@ import { SearchTabs } from "./SearchTabs/SearchTabs";
 
 export function SearchDropdown({
   inputRef,
+  dropdownRef,
 }: {
   inputRef: React.RefObject<HTMLInputElement | null>;
+  dropdownRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { isOpen, inputValue, setIsOpen } = useSearchStore(
     useShallow((s) => ({
@@ -29,7 +31,11 @@ export function SearchDropdown({
   const renderContent = () => {
     if (inputValue.trim().length === 0)
       return (
-        <SearchTabs handleChangeTab={handleChangeTab} inputRef={inputRef} />
+        <SearchTabs
+          handleChangeTab={handleChangeTab}
+          inputRef={inputRef}
+          dropdownRef={dropdownRef}
+        />
       );
 
     if (shouldSearchSkeleton) return <SearchResultsSkeleton />;
@@ -56,10 +62,15 @@ export function SearchDropdown({
 
   return (
     <div
+      tabIndex={-1}
+      ref={dropdownRef}
+      onKeyDown={(e) => e.key === "Escape" && setIsOpen(false)}
+      onFocus={() => setIsOpen(true)}
       onBlur={(e) => {
         if (e.relatedTarget?.closest('[role="listbox"]')) return;
         setIsOpen(false);
       }}
+      onPointerDown={(e) => e.stopPropagation()}
     >
       {renderContent()}
     </div>
