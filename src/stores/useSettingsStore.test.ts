@@ -35,4 +35,30 @@ describe("useSettingsStore", () => {
 
     expect(useSettingsStore.getState().units).toEqual(DEFAULT_UNITS);
   });
+
+  it("should partialize save units to localStorage", () => {
+    window.localStorage.clear();
+
+    useSettingsStore.setState({
+      units: {
+        ...DEFAULT_UNITS,
+        temperature: "fahrenheit",
+      },
+    });
+
+    const storage = JSON.parse(
+      window.localStorage.getItem("weather-settings") as string,
+    );
+
+    expect(storage).toEqual({
+      state: {
+        units: {
+          ...DEFAULT_UNITS,
+          temperature: "fahrenheit",
+        },
+      },
+      version: 0,
+    });
+    expect(storage).not.toHaveProperty("selectedDayIndex");
+  });
 });

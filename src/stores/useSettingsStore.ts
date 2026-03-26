@@ -45,6 +45,9 @@ export const useSettingsStore = create<SettingsStore>()(
     }),
     {
       name: "weather-settings",
+      partialize: (s) => ({
+        units: s.units,
+      }),
     },
   ),
 );
