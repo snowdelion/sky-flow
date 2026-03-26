@@ -6,14 +6,16 @@ import WeatherDetailsSkeleton from "./WeatherDetails.skeleton";
 export default function WeatherContentSkeleton() {
   return (
     <>
-      <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-8">
-        <div className="flex-1 w-full xl:max-w-200">
-          <TodayWeatherSkeleton />
-          <WeatherDetailsSkeleton />
-          <DailyForecastSkeleton />
-        </div>
+      <div className="flex flex-col w-full justify-center items-center">
+        <div className="flex flex-col w-full xl:w-full max-w-99 sm:max-w-304 lg:gap-4 xl:gap-8 mb-8 lg:mb-0 items-center lg:items-start lg:flex-row">
+          <div className="w-full lg:min-w-150 lg:max-w-154 xl:max-w-200 mx-auto mb-8">
+            <TodayWeatherSkeleton />
+            <WeatherDetailsSkeleton />
+            <DailyForecastSkeleton />
+          </div>
 
-        <HourlyForecastSkeleton />
+          <HourlyForecastSkeleton />
+        </div>
       </div>
     </>
   );

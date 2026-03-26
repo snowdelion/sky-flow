@@ -27,7 +27,7 @@ export default function WeatherDetails({
             key={title}
             role="listitem"
             aria-label={title}
-            className="bg-[hsl(243,27%,20%)] flex flex-col gap-2 sm:gep-4 hover:opacity-75 transition duration-75 p-4 lg:py-5 lg:px-3.5 xl:p-5 lg:h-28.5 rounded-xl border border-white/10"
+            className="bg-[hsl(243,27%,20%)] flex flex-col gap-2 hover:opacity-75 transition duration-75 p-4 lg:py-5 lg:px-3.5 xl:p-5 lg:h-28.5 rounded-xl border border-white/10"
           >
             <p className="text-white/70 text-base sm:text-lg">{title}</p>
 
