@@ -1,1 +1,1 @@
-export { default as WeatherContentSkeleton } from "./WeatherContent.skeleton";
+export { default as WeatherContentSkeleton } from "./WeatherContentSkeleton";

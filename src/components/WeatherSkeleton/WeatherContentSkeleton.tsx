@@ -1,8 +1,8 @@
-import { ChartSectionSkeleton } from "./ChartSection.skeleton";
-import DailyForecastSkeleton from "./DailyForecast.skeleton";
-import HourlyForecastSkeleton from "./HourlyForecast.skeleton";
-import TodayWeatherSkeleton from "./TodayWeather.skeleton";
-import WeatherDetailsSkeleton from "./WeatherDetails.skeleton";
+import { ChartSectionSkeleton } from "./ChartSectionSkeleton";
+import DailyForecastSkeleton from "./DailyForecastSkeleton";
+import HourlyForecastSkeleton from "./HourlyForecastSkeleton";
+import TodayWeatherSkeleton from "./TodayWeatherSkeleton";
+import WeatherDetailsSkeleton from "./WeatherDetailsSkeleton";
 
 export default function WeatherContentSkeleton() {
   return (
