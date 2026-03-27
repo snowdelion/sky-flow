@@ -11,15 +11,15 @@ import { Details } from "./Details";
 import { HourlyForecast } from "./HourlyForecast";
 import { Today } from "./Today";
 import { NetworkError } from "./ui/NetworkError";
-import WeatherContentSkeleton from "./WeatherContentSkeleton";
+import WeatherSkeleton from "./WeatherSkeleton";
 
-export function WeatherContent({ cityData }: { cityData: CityData }) {
+export function Weather({ cityData }: { cityData: CityData }) {
   const { data, isPending, isError, error, refetch } =
     useWeatherQuery(cityData);
 
   if (isNotFoundCity(cityData)) return <SearchError message={cityData.city} />;
 
-  if (isPending) return <WeatherContentSkeleton />;
+  if (isPending) return <WeatherSkeleton />;
   if (isError || !data) {
     const message =
       error instanceof AppError && error.code === "FORECAST_FAILED"

@@ -4,7 +4,7 @@ import DetailsSkeleton from "./Details/DetailsSkeleton";
 import HourlyForecastSkeleton from "./HourlyForecast/HourlyForecastSkeleton";
 import TodaySkeleton from "./Today/TodaySkeleton";
 
-export default function WeatherContentSkeleton() {
+export default function WeatherSkeleton() {
   return (
     <>
       <div className="flex flex-col w-full justify-center items-center">
