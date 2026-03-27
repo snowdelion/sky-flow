@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import { DEFAULT_CITY_DATA } from "@/app/weather/constants";
-import type { ActiveTab } from "@/components/SearchSection/types/history";
+import type { ActiveTab } from "@/components/Weather/Search/types/history";
 import { FoundCitySchema, type CityData } from "@/types/location";
 
 export interface SearchStore {
