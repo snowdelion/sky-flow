@@ -1,6 +1,6 @@
 import { useShallow } from "zustand/shallow";
 
-import { FavoriteIcon, HistoryIcon } from "@/components/icons";
+import { FavoriteIcon, HistoryIcon } from "@/components/ui/icons";
 import { useSearchHistory } from "@/components/Weather/Search/hooks/useSearchHistory";
 import type { ActiveTab } from "@/components/Weather/Search/types/history";
 import { useSearchStore } from "@/stores/useSearchStore";

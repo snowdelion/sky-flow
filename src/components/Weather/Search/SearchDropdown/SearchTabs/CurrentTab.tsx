@@ -1,4 +1,4 @@
-import { RecentAlertIcon, UnfavoriteIcon } from "@/components/icons";
+import { RecentAlertIcon, UnfavoriteIcon } from "@/components/ui/icons";
 import { useSearchHistory } from "@/components/Weather/Search/hooks/useSearchHistory";
 import { useSearchStore } from "@/stores/useSearchStore";
 
