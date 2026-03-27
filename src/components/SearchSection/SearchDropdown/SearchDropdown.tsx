@@ -5,7 +5,7 @@ import { useSearchStore } from "@/stores/useSearchStore";
 
 import { SearchPlaceholder } from "./Results/SearchPlaceholder";
 import { SearchResultCity } from "./Results/SearchResultCity";
-import { SearchResultsSkeleton } from "./Results/SearchResults.skeleton";
+import { SearchResultsSkeleton } from "./Results/SearchResultsSkeleton";
 import { SearchTabs } from "./SearchTabs/SearchTabs";
 
 export function SearchDropdown({
