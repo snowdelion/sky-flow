@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import searchIcon from "@/../public/icons/icon-search.svg";
 import { XIcon } from "@/components/icons";
-import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
+import { useSearchActions } from "@/components/Search/hooks/useSearchActions";
 import { useSearchStore } from "@/stores/useSearchStore";
 
 import { SearchInput } from "./SearchInput";

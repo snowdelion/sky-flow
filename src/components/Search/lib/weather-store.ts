@@ -1,7 +1,7 @@
 import {
   type HistoryData,
   HistoryDataSchema,
-} from "@/components/SearchSection/types/history";
+} from "@/components/Search/types/history";
 
 export class WeatherStore {
   private data: HistoryData = [];

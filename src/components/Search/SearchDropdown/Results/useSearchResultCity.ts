@@ -1,8 +1,8 @@
 import type { StaticImageData } from "next/image";
 import { useCallback, useMemo } from "react";
 
-import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
-import type { SearchDataItem } from "@/components/SearchSection/types/SearchData";
+import { useSearchActions } from "@/components/Search/hooks/useSearchActions";
+import type { SearchDataItem } from "@/components/Search/types/SearchData";
 import { isFoundCity } from "@/types/location";
 import { formatCityDisplay } from "@/utils/formatters";
 import { getWeatherIcon } from "@/utils/weather";

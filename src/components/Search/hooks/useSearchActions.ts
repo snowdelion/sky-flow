@@ -10,8 +10,8 @@ import {
 import { useDebounce } from "use-debounce";
 import { useShallow } from "zustand/shallow";
 
-import type { ActiveTab } from "@/components/SearchSection/types/history";
-import { SearchDataItem } from "@/components/SearchSection/types/SearchData";
+import type { ActiveTab } from "@/components/Search/types/history";
+import { SearchDataItem } from "@/components/Search/types/SearchData";
 import { fetchGeoData } from "@/services/fetchGeoData";
 import { useSearchStore } from "@/stores/useSearchStore";
 import { isFoundCity, type CityData } from "@/types/location";

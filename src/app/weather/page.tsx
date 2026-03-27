@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { Header } from "@/components/Header";
-import { SearchSection } from "@/components/SearchSection";
+import { Search } from "@/components/Search";
 import { WeatherContent } from "@/components/WeatherContent";
 
 import { verifyAndGetCityData } from "./utils";
@@ -15,7 +15,7 @@ export default async function WeatherPage({ searchParams }: SearchParams) {
       <Header />
 
       <main className="min-h-screen min-w-62.5 px-4 py-8 md:px-6 lg:px-8 mx-auto">
-        <SearchSection cityData={cityData} />
+        <Search cityData={cityData} />
         <WeatherContent cityData={cityData} />
       </main>
     </>

@@ -8,7 +8,7 @@ import { useSearchQuery } from "./useSearchQuery";
 
 // --- 1. mocks ---
 const mockFetchSearchResults = vi.hoisted(() => vi.fn());
-vi.mock("@/components/SearchSection/services/fetchSearchResults", () => ({
+vi.mock("@/components/Search/services/fetchSearchResults", () => ({
   fetchSearchResults: mockFetchSearchResults,
 }));
 

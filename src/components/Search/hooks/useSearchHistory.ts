@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useSyncExternalStore } from "react";
 
-import { WeatherStore } from "@/components/SearchSection/lib/weather-store";
+import { WeatherStore } from "@/components/Search/lib/weather-store";
 import type {
   HistoryData,
   HistoryItem,
-} from "@/components/SearchSection/types/history";
+} from "@/components/Search/types/history";
 import { useSearchStore } from "@/stores/useSearchStore";
 import { isFoundCity, isNotFoundCity, type CityData } from "@/types/location";
 import { formatCityDisplay } from "@/utils/formatters";

@@ -1,5 +1,5 @@
 import { RecentAlertIcon, UnfavoriteIcon } from "@/components/icons";
-import { useSearchHistory } from "@/components/SearchSection/hooks/useSearchHistory";
+import { useSearchHistory } from "@/components/Search/hooks/useSearchHistory";
 import { useSearchStore } from "@/stores/useSearchStore";
 
 import { FavoritesSearch } from "./FavoritesSearch";

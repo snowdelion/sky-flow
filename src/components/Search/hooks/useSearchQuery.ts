@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import { fetchSearchResults } from "@/components/SearchSection/services/fetchSearchResults";
-import type { SearchDataItem } from "@/components/SearchSection/types/SearchData";
+import { fetchSearchResults } from "@/components/Search/services/fetchSearchResults";
+import type { SearchDataItem } from "@/components/Search/types/SearchData";
 import { useSettingsStore } from "@/stores/useSettingsStore";
 import { AppError } from "@/types/errors";
 

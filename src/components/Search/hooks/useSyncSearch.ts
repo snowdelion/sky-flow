@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/shallow";
 
-import { useSearchHistory } from "@/components/SearchSection/hooks/useSearchHistory";
+import { useSearchHistory } from "@/components/Search/hooks/useSearchHistory";
 import { useSearchStore } from "@/stores/useSearchStore";
 import { isNotFoundCity, type CityData } from "@/types/location";
 

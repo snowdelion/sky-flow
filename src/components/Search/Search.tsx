@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
+import { useSearchActions } from "@/components/Search/hooks/useSearchActions";
 import { useWeatherQuery } from "@/hooks/useWeatherQuery";
 import { type CityData } from "@/types/location";
 
@@ -10,7 +10,7 @@ import { useSyncSearch } from "./hooks/useSyncSearch";
 import { SearchBar } from "./SearchBar";
 import { SearchDropdown } from "./SearchDropdown";
 
-export default function SearchSection({ cityData }: { cityData: CityData }) {
+export default function Search({ cityData }: { cityData: CityData }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { handleSubmit } = useSearchActions();

@@ -21,7 +21,7 @@ vi.mock("next/navigation", async () => {
   };
 });
 vi.mock(
-  "@/components/SearchSection/hooks/useSearchHistory",
+  "@/components/Search/hooks/useSearchHistory",
   () => getSearchMocks().hooks.historyModule,
 );
 vi.mock("@/services/fetchGeoData", () => getSearchMocks().services.geoModule);

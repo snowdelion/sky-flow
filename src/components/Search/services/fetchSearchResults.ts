@@ -3,7 +3,7 @@ import { ZodError } from "zod";
 import {
   SearchDataItem,
   SearchDataSchema,
-} from "@/components/SearchSection/types/SearchData";
+} from "@/components/Search/types/SearchData";
 import { DEFAULT_UNITS } from "@/stores/useSettingsStore";
 import { AppError } from "@/types/errors";
 import type { Units } from "@/types/weather";

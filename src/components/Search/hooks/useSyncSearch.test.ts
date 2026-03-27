@@ -7,7 +7,7 @@ import { useSyncSearch } from "./useSyncSearch";
 
 // --- 1. mocks ---
 const mockAddCity = vi.fn();
-vi.mock("@/components/SearchSection/hooks/useSearchHistory", () => ({
+vi.mock("@/components/Search/hooks/useSearchHistory", () => ({
   useSearchHistory: vi.fn(() => ({
     addCity: mockAddCity,
   })),

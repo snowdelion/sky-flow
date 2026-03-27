@@ -3,7 +3,7 @@ import type { Mock } from "vitest";
 import type {
   HistoryData,
   HistoryItem,
-} from "@/components/SearchSection/types/history";
+} from "@/components/Search/types/history";
 import { createHistoryCity } from "@/testing/mocks/factories/historyData";
 
 import { WeatherStore } from "./weather-store";

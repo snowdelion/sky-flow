@@ -12,13 +12,13 @@ import userEvent from "@testing-library/user-event";
 import {
   favoriteStore,
   recentStore,
-} from "@/components/SearchSection/hooks/useSearchHistory";
-import type { HistoryItem } from "@/components/SearchSection/types/history";
+} from "@/components/Search/hooks/useSearchHistory";
+import type { HistoryItem } from "@/components/Search/types/history";
 import { useSearchStore } from "@/stores/useSearchStore";
 import { createCityData } from "@/testing/mocks/factories/cityData";
 import { createHistoryCity } from "@/testing/mocks/factories/historyData";
 
-import SearchSection from "./SearchSection";
+import Search from "./Search";
 
 // --- 1. mocks ---
 const mockPush = vi.fn();
@@ -45,9 +45,7 @@ const setup = () => {
 
   const user = userEvent.setup();
   const { berlinCityData } = createCityData();
-  const renderResult = renderWithClient(
-    <SearchSection cityData={berlinCityData} />,
-  );
+  const renderResult = renderWithClient(<Search cityData={berlinCityData} />);
   const input = screen.getByPlaceholderText(/search for a place\.\.\./i);
 
   return {
@@ -72,7 +70,7 @@ const setup = () => {
 };
 
 // --- 3. tests ---
-describe("SearchSection integration", () => {
+describe("Search integration", () => {
   beforeEach(() => {
     window.localStorage.clear();
     recentStore.reset();

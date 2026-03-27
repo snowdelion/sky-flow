@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from "react";
 
 import { FavoriteIcon } from "@/components/icons";
-import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
-import { useSearchHistory } from "@/components/SearchSection/hooks/useSearchHistory";
-import type { SearchTabProps } from "@/components/SearchSection/types/history";
+import { useSearchActions } from "@/components/Search/hooks/useSearchActions";
+import { useSearchHistory } from "@/components/Search/hooks/useSearchHistory";
+import type { SearchTabProps } from "@/components/Search/types/history";
 import { isFoundCity } from "@/types/location";
 
 export const FavoritesSearch = React.memo(function FavoritesSearch({

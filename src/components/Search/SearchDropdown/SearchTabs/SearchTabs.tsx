@@ -1,8 +1,8 @@
 import { useShallow } from "zustand/shallow";
 
 import { FavoriteIcon, HistoryIcon } from "@/components/icons";
-import { useSearchHistory } from "@/components/SearchSection/hooks/useSearchHistory";
-import type { ActiveTab } from "@/components/SearchSection/types/history";
+import { useSearchHistory } from "@/components/Search/hooks/useSearchHistory";
+import type { ActiveTab } from "@/components/Search/types/history";
 import { useSearchStore } from "@/stores/useSearchStore";
 
 import { CurrentTab } from "./CurrentTab";

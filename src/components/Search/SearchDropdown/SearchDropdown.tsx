@@ -1,6 +1,6 @@
 import { useShallow } from "zustand/shallow";
 
-import { useSearchActions } from "@/components/SearchSection/hooks/useSearchActions";
+import { useSearchActions } from "@/components/Search/hooks/useSearchActions";
 import { useSearchStore } from "@/stores/useSearchStore";
 
 import { SearchPlaceholder } from "./Results/SearchPlaceholder";
