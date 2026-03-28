@@ -1,4 +1,4 @@
-import { useDeviceType } from "@shared/lib/hooks/useDeviceType";
+import { useDeviceType } from "@/shared/lib/useDeviceType";
 
 export function SearchResultsSkeleton() {
   const { isDesktopXl } = useDeviceType();

@@ -8,8 +8,8 @@ import {
   YAxis,
 } from "recharts";
 
+import { useDeviceType } from "@/shared/lib/useDeviceType";
 import { WeatherDataDaily, WeatherDataHourly } from "@/types/api/WeatherData";
-import { useDeviceType } from "@shared/lib/hooks/useDeviceType";
 
 import { getAspect, getXTickFormatter } from "./chart-utils";
 import { useChartView } from "./hooks";

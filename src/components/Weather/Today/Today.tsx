@@ -4,13 +4,13 @@ import Image from "next/image";
 
 import bgTodayDesktop from "@/../public/images/bg-today-large.webp";
 import bgTodayMobile from "@/../public/images/bg-today-small.webp";
+import { useDeviceType } from "@/shared/lib/useDeviceType";
 import type {
   WeatherDataCurrent,
   WeatherDataUnits,
 } from "@/types/api/WeatherData";
 import { formatCityDisplay } from "@/utils/formatters";
 import { getWeatherIcon } from "@/utils/weather";
-import { useDeviceType } from "@shared/lib/hooks/useDeviceType";
 
 export default function Today({ currentData, forecastUnits }: TodayProps) {
   const { isMobile } = useDeviceType();

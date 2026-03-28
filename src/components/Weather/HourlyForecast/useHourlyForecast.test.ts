@@ -5,7 +5,7 @@ import { createForecastData } from "@/testing/mocks/factories/weather";
 import { useHourlyForecast } from "./useHourlyForecast";
 
 const mockUseDeviceType = vi.fn();
-vi.mock("@shared/lib/hooks/useDeviceType", () => ({
+vi.mock("@shared/lib/useDeviceType", () => ({
   useDeviceType: () => mockUseDeviceType(),
 }));
 

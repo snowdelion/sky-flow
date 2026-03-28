@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { useDeviceType } from "@shared/lib/hooks/useDeviceType";
+import { useDeviceType } from "@/shared/lib/useDeviceType";
 
 export function useResponsiveHourlyData<
   T extends { hour: string; temp: number }[],
