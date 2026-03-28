@@ -1,10 +1,9 @@
-import fogIcon from "@/../public/icons/icon-fog.webp";
-import overcastIcon from "@/../public/icons/icon-overcast.webp";
-import sunnyIcon from "@/../public/icons/icon-sunny.webp";
+import { fogIcon, overcastIcon, sunnyIcon } from "@/shared";
 import { createForecastData } from "@/testing/mocks/factories/weather";
 
 import { groupByDay } from "./weather";
 import { getWeatherIcon } from "./weather";
+
 
 describe("weather", () => {
   describe("groupByDay", () => {

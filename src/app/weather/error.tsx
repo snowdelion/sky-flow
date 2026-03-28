@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-import retryIcon from "@/../public/icons/icon-retry.svg";
+import { retryIcon } from "@/shared";
 
 export default function GlobalError({ error, reset }: GlobalErrorProps) {
   return (

@@ -2,8 +2,7 @@
 import dayjs from "dayjs";
 import Image from "next/image";
 
-import bgTodayDesktop from "@/../public/images/bg-today-large.webp";
-import bgTodayMobile from "@/../public/images/bg-today-small.webp";
+import { bgTodayLarge, bgTodaySmall } from "@/shared";
 import { useDeviceType } from "@/shared/lib/useDeviceType";
 import type {
   WeatherDataCurrent,
@@ -12,9 +11,10 @@ import type {
 import { formatCityDisplay } from "@/utils/formatters";
 import { getWeatherIcon } from "@/utils/weather";
 
+
 export default function Today({ currentData, forecastUnits }: TodayProps) {
   const { isMobile } = useDeviceType();
-  const currentSrc = isMobile ? bgTodayMobile : bgTodayDesktop;
+  const currentSrc = isMobile ? bgTodaySmall : bgTodayLarge;
   const icon = getWeatherIcon(currentData.weather_code);
 
   const displayName = formatCityDisplay({

@@ -1,9 +1,8 @@
 import Image from "next/image";
 
-import searchIcon from "@/../public/icons/icon-search.svg";
 import { useSearchActions } from "@/components/Weather/Search/hooks/useSearchActions";
+import { XIcon, searchIcon } from "@/shared";
 import { useSearchStore } from "@/stores/useSearchStore";
-import { XIcon } from "@shared/ui";
 
 import { SearchInput } from "./SearchInput";
 

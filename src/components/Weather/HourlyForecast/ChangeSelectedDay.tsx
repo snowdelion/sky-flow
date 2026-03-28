@@ -8,10 +8,10 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import React, { type SetStateAction, type Dispatch } from "react";
 
-import checkmarkIcon from "@/../public/icons/icon-checkmark.svg";
-import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
+import { checkmarkIcon, dropdownIcon } from "@/shared";
 import { useSearchStore } from "@/stores/useSearchStore";
 import type { DailyForecast } from "@/types/weather";
+
 
 export default React.memo(function ChangeSelectedDay({
   days,

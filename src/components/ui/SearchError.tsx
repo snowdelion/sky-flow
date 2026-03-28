@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import retryIcon from "@/../public/icons/icon-retry.svg";
+import { retryIcon } from "@/shared";
 import { useSearchStore } from "@/stores/useSearchStore";
 
 import { useSearchActions } from "../Weather/Search/hooks/useSearchActions";

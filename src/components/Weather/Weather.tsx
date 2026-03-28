@@ -1,11 +1,10 @@
 "use client";
 
-import { SearchError } from "@/components/ui/SearchError";
 import { useWeatherQuery } from "@/hooks/useWeatherQuery";
+import { NetworkError } from "@/shared";
 import { AppError } from "@/types/errors";
 import { isNotFoundCity, type CityData } from "@/types/location";
-
-import { NetworkError } from "../ui/NetworkError";
+import { SearchError } from "@features/search-city/ui/SearchError";
 
 import { Chart } from "./Chart";
 import { DailyForecast } from "./DailyForecast";

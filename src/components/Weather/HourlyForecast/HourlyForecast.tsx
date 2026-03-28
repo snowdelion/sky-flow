@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
 
-import dropdownIcon from "@/../public/icons/icon-dropdown.svg";
+import { dropdownIcon } from "@/shared";
 import { WeatherDataHourly, WeatherDataUnits } from "@/types/api/WeatherData";
 
 import ChangeSelectedDay from "./ChangeSelectedDay";
 import HourlyItem from "./HourlyItem";
 import { useHourlyForecast } from "./useHourlyForecast";
+
 
 export default function HourlyForecast({
   hourlyData,

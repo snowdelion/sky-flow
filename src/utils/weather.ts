@@ -1,13 +1,15 @@
 import { StaticImageData } from "next/image";
 
-import drizzleIcon from "@/../public/icons/icon-drizzle.webp";
-import fogIcon from "@/../public/icons/icon-fog.webp";
-import overcastIcon from "@/../public/icons/icon-overcast.webp";
-import partlyCloudyIcon from "@/../public/icons/icon-partly-cloudy.webp";
-import rainIcon from "@/../public/icons/icon-rain.webp";
-import snowIcon from "@/../public/icons/icon-snow.webp";
-import stormIcon from "@/../public/icons/icon-storm.webp";
-import sunnyIcon from "@/../public/icons/icon-sunny.webp";
+import {
+  drizzleIcon,
+  fogIcon,
+  overcastIcon,
+  partlyCloudyIcon,
+  rainIcon,
+  snowIcon,
+  stormIcon,
+  sunnyIcon,
+} from "@/shared";
 import { WeatherDataHourly } from "@/types/api/WeatherData";
 import type { DailyForecast, HourlyItem } from "@/types/weather";
 import {
@@ -15,6 +17,7 @@ import {
   formatHourOfDay,
   getHourNumber,
 } from "@/utils/formatters";
+
 
 const WEATHER_CODE_TO_ICON: Record<number, string> = {
   0: "sunny",

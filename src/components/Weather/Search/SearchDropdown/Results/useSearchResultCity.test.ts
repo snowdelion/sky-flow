@@ -1,10 +1,11 @@
 import { act, renderHook } from "@testing-library/react";
 
-import sunnyIcon from "@/../public/icons/icon-sunny.webp";
+import { sunnyIcon } from "@/shared";
 import { createCityData } from "@/testing/mocks/factories/cityData";
 import { createResultsMocks } from "@/testing/mocks/factories/search";
 
 import { useSearchResultCity } from "./useSearchResultCity";
+
 
 // --- 1. mocks ---
 const searchSelectedCity = vi.hoisted(() =>
