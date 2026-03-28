@@ -1,6 +1,6 @@
 import { ZodError } from "zod";
 
-import { AppError } from "@/shared/api";
+import { AppError } from "./app-error";
 
 export function handleApiError(error: unknown): never {
   if (error instanceof Error && error.name === "AbortError") throw error;
