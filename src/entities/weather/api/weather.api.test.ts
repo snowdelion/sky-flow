@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 
-import { createResultsMocks } from "@/testing/mocks/factories/search";
-import { server } from "@/testing/msw/server";
+import { createResultsMocks } from "@/shared/lib/testing";
+import { server } from "@/shared/lib/testing";
 
 import { fetchSearchResults } from "./weather.api";
 

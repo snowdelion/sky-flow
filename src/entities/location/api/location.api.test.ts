@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 
-import { server } from "@/testing/msw/server";
+import { server } from "@/shared/lib/testing";
 
 import { fetchGeoData } from "./location.api";
 

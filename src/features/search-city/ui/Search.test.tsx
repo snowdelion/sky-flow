@@ -15,8 +15,8 @@ import {
   useSearchStore,
   type HistoryItem,
 } from "@/entities/location";
-import { createCityData } from "@/testing/mocks/factories/cityData";
-import { createHistoryCity } from "@/testing/mocks/factories/historyData";
+import { createCityData } from "@/shared/lib/testing";
+import { createHistoryCity } from "@/shared/lib/testing";
 
 import { Search } from "./Search";
 
@@ -29,7 +29,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 vi.mock("next/image", async () => {
-  const actual = await vi.importActual("@/testing/mocks/next/image");
+  const actual = await vi.importActual("@/shared/lib/testing/mocks/next/image");
   return { default: actual.default };
 });
 

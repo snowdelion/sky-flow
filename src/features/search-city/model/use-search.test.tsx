@@ -3,8 +3,8 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useSearchStore } from "@/entities/location";
-import { createCityData } from "@/testing/mocks/factories/cityData";
-import { createGeoData } from "@/testing/mocks/factories/location";
+import { createCityData } from "@/shared/lib/testing";
+import { createGeoData } from "@/shared/lib/testing";
 
 import { useSearchActions } from "./use-search";
 

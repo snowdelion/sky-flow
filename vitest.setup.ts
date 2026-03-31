@@ -1,7 +1,7 @@
 import { mockAnimationsApi } from "jsdom-testing-mocks";
 
 import "@testing-library/jest-dom/vitest";
-import { server } from "@/testing/msw/server";
+import { server } from "@/shared/lib/testing";
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};

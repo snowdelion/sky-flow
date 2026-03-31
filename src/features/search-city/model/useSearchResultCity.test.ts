@@ -1,8 +1,8 @@
 import { act, renderHook } from "@testing-library/react";
 
 import { sunnyIcon } from "@/shared";
-import { createCityData } from "@/testing/mocks/factories/cityData";
-import { createResultsMocks } from "@/testing/mocks/factories/search";
+import { createCityData } from "@/shared/lib/testing";
+import { createResultsMocks } from "@/shared/lib/testing";
 
 import { useSearchResultCity } from "./useSearchResultCity";
 

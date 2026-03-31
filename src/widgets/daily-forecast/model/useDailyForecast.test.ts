@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react";
 
 import { useSettingsStore } from "@/entities/settings";
-import { createForecastData } from "@/testing/mocks/factories/weather";
+import { createForecastData } from "@/shared/lib/testing";
 
 import { useDailyForecast } from "./useDailyForecast";
 

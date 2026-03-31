@@ -8,7 +8,7 @@ import UnitsSettings from "./UnitsSettings";
 
 // --- 1. mocks ---
 vi.mock("next/image", async () => {
-  const actual = await vi.importActual("@/testing/mocks/next/image");
+  const actual = await vi.importActual("@/shared/lib/testing/mocks/next/image");
   return { default: actual.default };
 });
 

@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 
 import { AppError } from "@/shared/api";
-import { createResultsMocks } from "@/testing/mocks/factories/search";
+import { createResultsMocks } from "@/shared/lib/testing";
 
 import { useSearchQuery } from "./useSearchQuery";
 

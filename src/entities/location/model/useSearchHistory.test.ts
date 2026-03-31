@@ -1,7 +1,7 @@
 import { renderHook, act } from "@testing-library/react";
 import { beforeEach, describe, expect, it, type Mock } from "vitest";
 
-import { createHistoryCity } from "@/testing/mocks/factories/historyData";
+import { createHistoryCity } from "@/shared/lib/testing";
 
 import type { CityData } from "./types";
 import {

@@ -1,4 +1,4 @@
-import { createCityData } from "@/testing/mocks/factories/cityData";
+import { createCityData } from "@/shared/lib/testing";
 
 import { formatCityDisplay } from "./formatCityDisplay";
 

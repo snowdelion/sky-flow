@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 
-import { createForecastData } from "@/testing/mocks/factories/weather";
+import { createForecastData } from "@/shared/lib/testing";
 
 import { useHourlyForecast } from "./useHourlyForecast";
 

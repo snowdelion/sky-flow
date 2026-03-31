@@ -3,7 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import {
   createCurrentWeather,
   createForecastUnits,
-} from "@/testing/mocks/factories/weather";
+} from "@/shared/lib/testing";
 
 import { Details } from "./Details";
 

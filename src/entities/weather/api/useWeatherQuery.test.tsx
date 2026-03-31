@@ -7,8 +7,8 @@ import { renderHook, waitFor } from "@testing-library/react";
 
 import type { CityData } from "@/entities/location";
 import { AppError } from "@/shared/api";
-import { createCityData } from "@/testing/mocks/factories/cityData";
-import { createWeatherData } from "@/testing/mocks/factories/weather";
+import { createCityData } from "@/shared/lib/testing";
+import { createWeatherData } from "@/shared/lib/testing";
 
 import { useWeatherQuery } from "./useWeatherQuery";
 

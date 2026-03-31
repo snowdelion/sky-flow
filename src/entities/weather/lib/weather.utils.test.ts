@@ -1,5 +1,5 @@
 import { fogIcon, overcastIcon, sunnyIcon } from "@/shared";
-import { createForecastData } from "@/testing/mocks/factories/weather";
+import { createForecastData } from "@/shared/lib/testing";
 
 import { getWeatherIcon } from "./icons";
 import { groupByDay } from "./weather.utils";
