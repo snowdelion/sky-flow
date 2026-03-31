@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { dropdownIcon } from "@/shared";
+import { dropdownIcon } from "@/shared/assets";
 
 export function HourlyForecastSkeleton() {
   return (

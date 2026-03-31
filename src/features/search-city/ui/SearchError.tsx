@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import { useSearchStore } from "@/entities/location";
-import { retryIcon } from "@/shared";
+import { retryIcon } from "@/shared/assets";
 
 import { useSearchActions } from "../model/use-search";
 

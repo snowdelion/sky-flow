@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { useSettingsStore } from "@/entities/settings";
 import type { WeatherUnits } from "@/entities/weather";
-import { checkmarkIcon, dropdownIcon, unitsIcon } from "@/shared";
+import { checkmarkIcon, dropdownIcon, unitsIcon } from "@/shared/assets";
 
 export default function UnitsSettings() {
   const units = useSettingsStore((state) => state.units);

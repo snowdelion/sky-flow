@@ -8,7 +8,8 @@ import {
   type WeatherCurrent,
   type WeatherUnits,
 } from "@/entities/weather";
-import { bgTodayLarge, bgTodaySmall, useDeviceType } from "@/shared";
+import { bgTodayLarge, bgTodaySmall } from "@/shared/assets";
+import { useDeviceType } from "@/shared/lib";
 
 export function Today({ currentData, forecastUnits }: TodayProps) {
   const { isMobile } = useDeviceType();

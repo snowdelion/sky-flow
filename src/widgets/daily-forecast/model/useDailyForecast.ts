@@ -7,7 +7,7 @@ import {
   getWeatherIcon,
   type WeatherDaily,
 } from "@/entities/weather";
-import { formatDayOfWeek } from "@/shared";
+import { formatDayOfWeek } from "@/shared/lib";
 
 export function useDailyForecast(
   dailyData: WeatherDaily,

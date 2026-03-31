@@ -10,7 +10,7 @@ import React, { type SetStateAction, type Dispatch } from "react";
 
 import { useSearchStore } from "@/entities/location";
 import { DailyForecast } from "@/entities/weather";
-import { checkmarkIcon, dropdownIcon } from "@/shared";
+import { checkmarkIcon, dropdownIcon } from "@/shared/assets";
 
 export const DaySelector = React.memo(function DaySelector({
   days,

@@ -2,7 +2,8 @@ import Image from "next/image";
 
 import { useSearchStore } from "@/entities/location";
 import { useSearchActions } from "@/features/search-city";
-import { XIcon, searchIcon } from "@/shared";
+import { searchIcon } from "@/shared/assets";
+import { XIcon } from "@/shared/ui";
 
 import { SearchInput } from "./SearchInput";
 

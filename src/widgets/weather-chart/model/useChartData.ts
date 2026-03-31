@@ -8,7 +8,7 @@ import {
   calculateAverageTemps,
   groupByDay,
 } from "@/entities/weather";
-import { formatDayOfWeek } from "@/shared";
+import { formatDayOfWeek } from "@/shared/lib";
 
 export function useChartData(
   dailyData: WeatherDaily,

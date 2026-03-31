@@ -15,7 +15,7 @@ import {
   groupByDay,
   type HourlyItem,
 } from "@/entities/weather";
-import { useDeviceType } from "@/shared";
+import { useDeviceType } from "@/shared/lib";
 
 export function useHourlyForecast(
   hourlyData: WeatherHourly,

@@ -2,7 +2,8 @@
 import { isNotFoundCity, type CityData } from "@/entities/location";
 import { useWeatherQuery } from "@/entities/weather";
 import { SearchError } from "@/features/search-city";
-import { AppError, NetworkError } from "@/shared";
+import { AppError } from "@/shared/api";
+import { NetworkError } from "@/shared/ui";
 import { DailyForecast } from "@/widgets/daily-forecast";
 import { HourlyForecast } from "@/widgets/hourly-forecast";
 import { Chart } from "@/widgets/weather-chart";
