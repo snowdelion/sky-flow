@@ -1,7 +1,6 @@
 // --- api ---
-export { useWeatherQuery } from "./api/useWeatherQuery";
-export { fetchSearchResults } from "./api/weather.api";
-export { useSearchQuery } from "./api/useSearchQuery";
+export { useWeatherQuery } from "./model/useWeatherQuery";
+export { useSearchQuery } from "./model/useSearchQuery";
 
 // --- lib ---
 export { getWeatherIcon } from "./model/icons";

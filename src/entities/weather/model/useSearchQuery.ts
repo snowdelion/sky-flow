@@ -1,8 +1,8 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { AppError } from "@/shared/api";
 import type { Geo, Units } from "@/shared/types";
-import type { SearchResults } from "../model/search-results.types";
-import { fetchSearchResults } from "./weather.api";
+import { fetchSearchResults } from "../api/weather.api";
+import type { SearchResults } from "./search-results.types";
 
 export function useSearchQuery(
   geoData: Geo,

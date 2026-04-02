@@ -2,7 +2,7 @@ import { http, HttpResponse } from "msw";
 import { DEFAULT_UNITS } from "@/shared/config/constants";
 import { createGeoData, createResultsMocks } from "@/shared/lib/testing";
 import { server } from "@/shared/lib/testing";
-import { fetchSearchResults } from "../weather.api";
+import { fetchSearchResults } from "./weather.api";
 
 describe("fetchSearchResults", () => {
   const geoData = createGeoData();
