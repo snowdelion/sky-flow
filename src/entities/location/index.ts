@@ -1,7 +1,6 @@
 // --- api/ ---
 export { fetchGeoData } from "./api/location.api";
-export { useGeoQuery } from "./api/useGeoQuery";
-export type { GeoItemDto, GeoResponseDto } from "./api/dto";
+export { useGeoQuery } from "./model/useGeoQuery";
 
 // --- model/ ---
 export { formatCityDisplay } from "./model/formatCityDisplay";

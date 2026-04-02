@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { RefObject, useCallback, useMemo } from "react";
-import { fetchGeoData, useSearchHistory } from "@/entities/location";
+import { useGeoQuery, useSearchHistory } from "@/entities/location";
 import { useSearchState } from "@/entities/location";
 import { type CityData, isFoundCity } from "@/shared/types";
 import { mapCityToUrlParams } from "./mapCityToUrlParams";
@@ -30,11 +30,12 @@ export function useSearchActions(): UseSearchActionsReturn {
     [addCity, pathname, router, setInputValue, setIsOpen],
   );
 
+  const { refetch } = useGeoQuery(inputValue);
   const searchCityWithName = useCallback(
     async (city: string): Promise<void> => {
       const targetCity = city.trim().toLowerCase();
       if (!targetCity) return;
-      const geoData = await fetchGeoData(targetCity);
+      const { data: geoData } = await refetch();
 
       if (!geoData || geoData.results.length === 0) {
         searchSelectedCity({ status: "not-found", city: inputValue });
@@ -51,7 +52,7 @@ export function useSearchActions(): UseSearchActionsReturn {
         lon: geoData.results[0].lon,
       });
     },
-    [searchSelectedCity, inputValue],
+    [searchSelectedCity, inputValue, refetch],
   );
 
   return useMemo(

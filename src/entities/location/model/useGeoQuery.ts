@@ -1,7 +1,11 @@
-import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  type UseQueryResult,
+} from "@tanstack/react-query";
 import { AppError } from "@/shared/api";
 import type { Geo } from "@/shared/types";
-import { fetchGeoData } from "./location.api";
+import { fetchGeoData } from "../api/location.api";
 
 export function useGeoQuery(
   query: string | null | undefined,
@@ -22,6 +26,7 @@ export function useGeoQuery(
     enabled: !!validatedQuery && validatedQuery.length > 1,
     retry: (failureCount) => failureCount < 2,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,

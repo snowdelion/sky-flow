@@ -7,12 +7,25 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push }),
   usePathname: vi.fn(),
 }));
+const useGeoQuery = vi.hoisted(() => vi.fn());
+vi.mock("@/entities/location", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/entities/location")>();
+  return {
+    ...actual,
+    useGeoQuery,
+  };
+});
 
 describe("useSearchHandlers", () => {
   let inputElement: HTMLInputElement;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    useGeoQuery.mockReturnValue({
+      refetch: vi.fn().mockReturnValue({ data: { results: [] } }),
+      geoData: undefined,
+    });
+
     inputElement = document.createElement("input");
     inputElement.setAttribute("aria-label", "search");
     document.body.appendChild(inputElement);
@@ -64,6 +77,10 @@ describe("useSearchHandlers", () => {
   });
 
   it("should handle submit", async () => {
+    useGeoQuery.mockReturnValue({
+      refetch: vi.fn().mockReturnValue({ data: { results: [] } }),
+      geoData: { results: [] },
+    });
     const { result } = renderHook(() => useSearchHandlers());
 
     act(() => useSearchStore.getState().setInputValue("Warsaw"));
@@ -72,7 +89,7 @@ describe("useSearchHandlers", () => {
       preventDefault: vi.fn(),
     } as unknown as React.SubmitEvent<HTMLFormElement>;
 
-    await act(async () => result.current.handleSubmit(submitEvent));
+    act(() => result.current.handleSubmit(submitEvent));
 
     expect(submitEvent.preventDefault).toHaveBeenCalled();
     await waitFor(() => expect(useSearchStore.getState().inputValue).toBe(""));

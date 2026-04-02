@@ -10,7 +10,7 @@ import { useSearchActions } from "../useSearchActions";
 const { mocks } = vi.hoisted(() => {
   const push = vi.fn();
   const addCity = vi.fn();
-  const fetchGeoData = vi.fn();
+  const useGeoQuery = vi.fn();
 
   return {
     mocks: {
@@ -18,18 +18,8 @@ const { mocks } = vi.hoisted(() => {
         push,
         routerModule: () => ({ push: push }),
         pathnameModule: { usePathname: vi.fn(() => "/") },
-        searchParamsModule: {
-          useSearchParams: vi.fn(() => new URLSearchParams()),
-        },
       },
-      hooks: {
-        addCity,
-        historyModule: { useSearchHistory: () => ({ addCity }) },
-      },
-      services: {
-        fetchGeoData,
-        geoModule: { fetchGeoData },
-      },
+      hooks: { useGeoQuery, addCity },
     },
   };
 });
@@ -37,7 +27,6 @@ vi.mock("next/navigation", async () => {
   return {
     useRouter: () => mocks.navigation.routerModule(),
     usePathname: mocks.navigation.pathnameModule.usePathname,
-    useSearchParams: mocks.navigation.searchParamsModule.useSearchParams,
   };
 });
 vi.mock("@/entities/location", async (importOriginal) => {
@@ -45,8 +34,7 @@ vi.mock("@/entities/location", async (importOriginal) => {
   return {
     ...actual,
     useSearchHistory: () => ({ addCity: mocks.hooks.addCity }),
-    fetchGeoData: mocks.services.fetchGeoData,
-    useSearchStore: actual.useSearchStore,
+    useGeoQuery: mocks.hooks.useGeoQuery,
   };
 });
 
@@ -56,9 +44,12 @@ describe("useSearchActions", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mocks.services.fetchGeoData.mockClear();
-    mocks.navigation.push.mockClear();
-    mocks.hooks.addCity.mockClear();
+
+    mocks.hooks.useGeoQuery.mockReturnValue({
+      refetch: vi.fn(),
+      data: undefined,
+      isFetching: undefined,
+    });
 
     inputElement = document.createElement("input");
     inputElement.setAttribute("aria-label", "search");
@@ -115,17 +106,17 @@ describe("useSearchActions", () => {
   });
 
   describe("searchCityWithName", () => {
-    it("should find first city from input", async () => {
+    it("should find city with refetch", async () => {
       const geoData = createGeoData();
-      mocks.services.fetchGeoData.mockResolvedValue(geoData);
+      const refetch = vi.fn().mockReturnValue({ data: geoData });
+
+      mocks.hooks.useGeoQuery.mockReturnValue({ refetch });
 
       const { result } = renderHook(() => useSearchActions());
 
-      await act(async () => await result.current.searchCityWithName("Berlin"));
+      await act(() => result.current.searchCityWithName("Berlin"));
 
-      await waitFor(() =>
-        expect(mocks.navigation.push).toHaveBeenCalledTimes(1),
-      );
+      expect(refetch).toHaveBeenCalledTimes(1);
     });
 
     it("shouldn't navigate when input is empty", async () => {
