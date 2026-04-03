@@ -10,28 +10,28 @@ import {
 import { formatDayOfWeek } from "@/shared/lib";
 
 export function useChartData(
-  dailyData: WeatherDaily,
-  hourlyData: WeatherHourly,
+  dailyData: WeatherDaily | undefined,
+  hourlyData: WeatherHourly | undefined,
 ): UseChartDataReturn {
   const selectedDayIndex = useSettingsStore((state) => state.selectedDayIndex);
   const hourFormat = useSettingsStore((state) => state.units.timeUnit);
 
-  const chartDailyData = useMemo(
-    () =>
-      dailyData.time.slice(0, 7).map((time, index) => {
-        const min = dailyData.temperatureMin[index];
-        const max = dailyData.temperatureMax[index];
-        const date = new Date(time);
+  const chartDailyData = useMemo(() => {
+    if (!dailyData) return [];
+    return dailyData.time.slice(0, 7).map((time, index) => {
+      const min = dailyData.temperatureMin[index];
+      const max = dailyData.temperatureMax[index];
+      const date = new Date(time);
 
-        return {
-          day: formatDayOfWeek(date, "dddd"),
-          temp: calculateAverageTemps(min, max),
-        };
-      }),
-    [dailyData],
-  );
+      return {
+        day: formatDayOfWeek(date, "dddd"),
+        temp: calculateAverageTemps(min, max),
+      };
+    });
+  }, [dailyData]);
 
   const chartHourlyData = useMemo(() => {
+    if (!hourlyData) return [];
     const filteredDays = groupByDay(hourlyData, {
       hourFormat,
       dayFormat: "dddd",
@@ -46,7 +46,7 @@ export function useChartData(
   return useMemo(
     () => ({
       chartDailyData,
-      chartHourlyData,
+      chartHourlyData: chartHourlyData ?? [],
     }),
     [chartDailyData, chartHourlyData],
   );

@@ -1,9 +1,9 @@
 import { act, renderHook } from "@testing-library/react";
 import { useSettingsStore } from "@/entities/settings";
 import { createForecastData } from "@/shared/lib/testing";
-import { useChartView } from "../useChartView";
+import { useChart } from "../useChart";
 
-describe("useChartView", () => {
+describe("useChart", () => {
   const { dailyData, hourlyData } = createForecastData();
 
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe("useChartView", () => {
   });
 
   it("should return formatted chartData", () => {
-    const { result } = renderHook(() => useChartView(dailyData, hourlyData));
+    const { result } = renderHook(() => useChart(dailyData, hourlyData));
 
     expect(result.current.chartDailyData).toHaveLength(7);
     expect(result.current.chartDailyData[0]).toEqual({
@@ -36,7 +36,7 @@ describe("useChartView", () => {
   });
 
   it("should show correct units", () => {
-    const { result } = renderHook(() => useChartView(dailyData, hourlyData));
+    const { result } = renderHook(() => useChart(dailyData, hourlyData));
 
     act(() =>
       useSettingsStore.setState({
@@ -51,7 +51,7 @@ describe("useChartView", () => {
   });
 
   it("should get ticks", () => {
-    const { result } = renderHook(() => useChartView(dailyData, hourlyData));
+    const { result } = renderHook(() => useChart(dailyData, hourlyData));
 
     expect(result.current.dailyTicks).toEqual([-2, +0, 2, 4, 6, 8, 10]);
   });

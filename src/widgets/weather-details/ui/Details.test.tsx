@@ -8,7 +8,13 @@ import { Details } from "./Details";
 // --- 1. setup ---
 const setup = (units = createForecastUnits()) => {
   const currentWeather = createCurrentWeather();
-  render(<Details currentData={currentWeather} forecastUnits={units} />);
+  render(
+    <Details
+      currentData={currentWeather}
+      forecastUnits={units}
+      isPending={false}
+    />,
+  );
 
   return {
     list: screen.getByRole("list"),

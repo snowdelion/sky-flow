@@ -10,7 +10,7 @@ import {
 import type { WeatherDaily, WeatherHourly } from "@/entities/weather";
 import { useDeviceType } from "@/shared/lib/useDeviceType";
 import { getAspect, getXTickFormatter } from "../model/chart.utils";
-import { useChartView } from "../model/useChartView";
+import { useChart } from "../model/useChart";
 
 export function ChartView({
   dailyData,
@@ -25,7 +25,7 @@ export function ChartView({
     chartHourlyData,
     dailyTicks,
     hourlyTicks,
-  } = useChartView(dailyData, hourlyData);
+  } = useChart(dailyData, hourlyData);
 
   const isDailyTab = currentChartTab === "daily";
 

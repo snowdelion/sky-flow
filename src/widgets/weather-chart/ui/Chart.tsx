@@ -1,5 +1,5 @@
-import { useState } from "react";
 import type { WeatherDaily, WeatherHourly } from "@/entities/weather";
+import { useChart } from "../model/useChart";
 import { ChartSkeleton } from "./ChartSkeleton";
 import { ChartTabs } from "./ChartTabs";
 import { ChartView } from "./ChartView";
@@ -11,11 +11,14 @@ export interface ChartProps {
 }
 
 export function Chart({ dailyData, hourlyData, isPending }: ChartProps) {
-  const [currentChartTab, setCurrentChartTab] = useState("daily");
+  const { isResizing, currentChartTab, setCurrentChartTab } = useChart(
+    dailyData,
+    hourlyData,
+  );
 
   return (
     <section className="overflow-hidden w-full">
-      {isPending || !dailyData || !hourlyData ? (
+      {isPending || !dailyData || !hourlyData || isResizing ? (
         <ChartSkeleton />
       ) : (
         <div className="relative flex flex-col gap-5 w-full max-w-100 sm:max-w-184 md:max-w-full xl:max-w-304 min-h-70 h-auto mx-auto bg-[hsl(243,27%,20%)] px-4 pb-4 pt-2 rounded-xl border border-white/10 items-center">
