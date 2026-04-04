@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { startTransition, useCallback } from "react";
 import { useSettingsStore } from "@/entities/settings";
 import type { WeatherUnits } from "@/entities/weather";
 import { CommonIcon } from "@/shared/ui/CommonIcon";
@@ -9,6 +10,17 @@ export default function UnitsSettings() {
   const units = useSettingsStore((state) => state.units);
   const setUnits = useSettingsStore((state) => state.setUnits);
   const reset = useSettingsStore((state) => state.reset);
+
+  const handleSetUnit = useCallback(
+    (unitKey: keyof WeatherUnits, value: string) =>
+      startTransition(() => setUnits({ [unitKey]: value })),
+    [setUnits],
+  );
+
+  const handleReset = useCallback(
+    () => startTransition(() => reset()),
+    [reset],
+  );
 
   return (
     <Menu>
@@ -39,19 +51,21 @@ export default function UnitsSettings() {
         modal={false}
         anchor="bottom end"
       >
-        <MenuItem>
-          <div
-            aria-label="default option"
-            aria-selected="false"
-            onClick={(e) => {
-              e.stopPropagation();
-              reset();
-            }}
-            className="text-sm sm:text-base mx-2 px-3 mt-2 -mb-2 py-3 cursor-pointer rounded-xl transition-colors hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)]"
-          >
-            Switch to Imperial
-          </div>
-        </MenuItem>
+        <div className="mx-2">
+          <MenuItem>
+            <button
+              role="button"
+              aria-label="default option"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleReset();
+              }}
+              className="w-full items-center text-start px-3 mt-2 -mb-2 py-3 hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl cursor-pointer"
+            >
+              Switch to Imperial
+            </button>
+          </MenuItem>
+        </div>
 
         {MENU_OPTIONS.map((group) => (
           <div
@@ -64,15 +78,15 @@ export default function UnitsSettings() {
 
             {group.options.map((option) => (
               <MenuItem key={option.value}>
-                <div
+                <button
+                  role="button"
                   aria-label={`${option.value} option`}
-                  aria-selected="false"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setUnits({ [group.unit]: option.value });
+                    handleSetUnit(group.unit, option.value);
                   }}
-                  className="flex justify-between items-center hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl px-3 my-1.75 py-1.75 cursor-pointer"
+                  className="w-full flex justify-between items-center hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl px-3 my-1.75 py-1.75 cursor-pointer"
                 >
                   <span className="text-sm sm:text-base">{option.label}</span>
                   {units[group.unit] === option.value && (
@@ -82,7 +96,7 @@ export default function UnitsSettings() {
                       alt="Checked"
                     />
                   )}
-                </div>
+                </button>
               </MenuItem>
             ))}
           </div>
