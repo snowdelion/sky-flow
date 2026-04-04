@@ -22,7 +22,7 @@ describe("useDailyForecast", () => {
     const { result } = renderHook(() => useDailyForecast(dailyData));
 
     expect(useSettingsStore.getState().selectedDayIndex).toBe(0);
-    act(() => result.current.handleClick(1));
+    act(() => result.current.changeDayIndex(1));
     expect(useSettingsStore.getState().selectedDayIndex).toBe(1);
   });
 });

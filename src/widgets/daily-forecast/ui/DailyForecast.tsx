@@ -1,10 +1,28 @@
 "use client";
-import { WeatherIcon, type WeatherDaily } from "@/entities/weather";
+import { useMemo } from "react";
+import { type WeatherDaily } from "@/entities/weather";
 import { useDailyForecast } from "../model/useDailyForecast";
 import { DailyForecastSkeleton } from "./DailyForecastSkeleton";
+import { DailyItem } from "./DailyItem";
 
 export function DailyForecast({ dailyData, isPending }: DailyForecastProps) {
-  const { formattedDays, handleClick } = useDailyForecast(dailyData);
+  const { formattedDays, changeDayIndex } = useDailyForecast(dailyData);
+
+  const content = useMemo(
+    () => (
+      <ul className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2.25 xl:gap-3">
+        {formattedDays.map((formattedDay, index) => (
+          <DailyItem
+            key={`${formattedDay.date}`}
+            formattedDay={formattedDay}
+            index={index}
+            changeDayIndex={changeDayIndex}
+          />
+        ))}
+      </ul>
+    ),
+    [formattedDays, changeDayIndex],
+  );
 
   return (
     <section aria-label="Daily Forecast">
@@ -15,38 +33,7 @@ export function DailyForecast({ dailyData, isPending }: DailyForecastProps) {
           <h3 className="text-xl font-medium tracking-wide mb-5">
             Daily forecast
           </h3>
-
-          <ul className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2.25 xl:gap-3">
-            {formattedDays.map(
-              ({ day, temp, feelsLike, weatherCode }, index) => (
-                <li
-                  key={`${day}-${index}`}
-                  onClick={() => handleClick(index)}
-                  className="flex flex-col gap-3 lg:gap-4 items-center bg-[hsl(243,27%,20%)] py-4 px-3 lg:h-37.5 border border-white/10 cursor-pointer hover:opacity-75 transition duration-75 rounded-xl"
-                >
-                  <p className="font-medium text-sm sm:text-base md:text-sm lg:text-xs xl:text-sm">
-                    {day}
-                  </p>
-                  <div className="relative">
-                    <WeatherIcon
-                      code={weatherCode}
-                      className="object-contain w-12 h-12"
-                    />
-                  </div>
-                  <div
-                    className="flex items-center self-center justify-between
-                w-full max-w-20
-                sm:max-w-22 sm:text-lg
-                md:text-base md:max-w-18
-                lg:text-sm lg:max-w-16"
-                  >
-                    <span className="font-bold">{temp}</span>
-                    <span className="text-white/70">{feelsLike}</span>
-                  </div>
-                </li>
-              ),
-            )}
-          </ul>
+          {content}
         </>
       )}
     </section>
