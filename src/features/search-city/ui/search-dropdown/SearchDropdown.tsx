@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/shallow";
 import { useSearchStore } from "@/entities/location";
 import { useSearchCity } from "../../model/useSearchCity";
 import { useSearchHandlers } from "../../model/useSearchHandlers";
@@ -14,13 +13,9 @@ export function SearchDropdown({
   inputRef: React.RefObject<HTMLInputElement | null>;
   dropdownRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const { isOpen, inputValue, setIsOpen } = useSearchStore(
-    useShallow((s) => ({
-      isOpen: s.isOpen,
-      inputValue: s.inputValue,
-      setIsOpen: s.setIsOpen,
-    })),
-  );
+  const isOpen = useSearchStore((s) => s.isOpen);
+  const inputValue = useSearchStore((s) => s.inputValue);
+  const setIsOpen = useSearchStore((s) => s.setIsOpen);
 
   const { handleChangeTab } = useSearchHandlers();
   const { resultData, shouldSearchSkeleton } = useSearchCity();

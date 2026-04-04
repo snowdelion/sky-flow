@@ -1,9 +1,10 @@
+import { memo } from "react";
 import { useSearchHistory, useSearchStore } from "@/entities/location";
 import { RecentAlertIcon, UnfavoriteIcon } from "@shared/ui";
 import { FavoritesSearch } from "./FavoritesSearch";
 import { RecentSearch } from "./RecentSearch";
 
-export function CurrentTab({
+export const CurrentTab = memo(function CurrentTab({
   inputRef,
   dropdownRef,
 }: {
@@ -17,9 +18,9 @@ export function CurrentTab({
   return (
     <ul className="max-h-60 sm:max-h-86 xl:max-h-98 overflow-y-auto custom-scrollbar">
       {items.length > 0 ? (
-        items.map((data, index) => (
+        items.map((data) => (
           <Component
-            key={`${data.id}-${index}`}
+            key={data.id}
             data={data}
             inputRef={inputRef}
             dropdownRef={dropdownRef}
@@ -35,7 +36,7 @@ export function CurrentTab({
       )}
     </ul>
   );
-}
+});
 
 const TAB_DATA = {
   recent: {

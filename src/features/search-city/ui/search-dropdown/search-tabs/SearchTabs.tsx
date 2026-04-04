@@ -1,4 +1,4 @@
-import { useShallow } from "zustand/shallow";
+import { memo, useMemo } from "react";
 import {
   useSearchHistory,
   useSearchStore,
@@ -7,18 +7,22 @@ import {
 import { FavoriteIcon, HistoryIcon } from "@shared/ui";
 import { CurrentTab } from "./CurrentTab";
 
-export function SearchTabs({
+export const SearchTabs = memo(function SearchTabs({
   inputRef,
   handleChangeTab,
   dropdownRef,
 }: SearchTabsProps) {
-  const { currentTab, isOpen } = useSearchStore(
-    useShallow((state) => ({
-      currentTab: state.currentTab,
-      isOpen: state.isOpen,
-    })),
-  );
+  const currentTab = useSearchStore((s) => s.currentTab);
+  const isOpen = useSearchStore((s) => s.isOpen);
   const { recent, favorites } = useSearchHistory();
+
+  const counts = useMemo(
+    () => ({
+      recentCount: recent.length,
+      favoritesCount: favorites.length,
+    }),
+    [favorites.length, recent.length],
+  );
 
   return (
     <div
@@ -33,7 +37,8 @@ export function SearchTabs({
       >
         {TABS.map(({ tab, label, Icon }) => {
           const isActive = currentTab === tab;
-          const count = tab === "recent" ? recent.length : favorites.length;
+          const count =
+            tab === "recent" ? counts.recentCount : counts.favoritesCount;
 
           return (
             <li
@@ -61,7 +66,7 @@ export function SearchTabs({
       <CurrentTab inputRef={inputRef} dropdownRef={dropdownRef} />
     </div>
   );
-}
+});
 
 const TABS = [
   {
