@@ -4,8 +4,12 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import dayjs from "dayjs";
-import React, { type SetStateAction, type Dispatch } from "react";
+import React, {
+  type SetStateAction,
+  type Dispatch,
+  startTransition,
+  useCallback,
+} from "react";
 import { useSearchStore } from "@/entities/location";
 import { DailyForecast } from "@/entities/weather";
 import { CommonIcon } from "@/shared/ui/CommonIcon";
@@ -15,12 +19,17 @@ export const DaySelector = React.memo(function DaySelector({
   selectedDayIndex,
   handleChangeDay,
   setIsHourlyOpen,
+  formattedDates,
 }: DaySelectorProps) {
-  const setIsOpen = useSearchStore((s) => s.setIsOpen);
+  const setIsOpen = useSearchStore(useCallback((s) => s.setIsOpen, []));
   const currentDay = days[selectedDayIndex]?.dayName || days[0].dayName;
 
+  const handleChangeListbox = (index: number) => {
+    startTransition(() => handleChangeDay(index));
+  };
+
   return (
-    <Listbox value={selectedDayIndex} onChange={handleChangeDay}>
+    <Listbox value={selectedDayIndex} onChange={handleChangeListbox}>
       <div className="relative border border-white/0 active:border-white/20 rounded-lg">
         <ListboxButton
           onClick={() => {
@@ -44,7 +53,7 @@ export const DaySelector = React.memo(function DaySelector({
         modal={false}
         transition
       >
-        {days.map(({ dayName, date }, index) => (
+        {days.map(({ dayName }, index) => (
           <ListboxOption
             key={`${dayName}-${index}`}
             value={index}
@@ -53,7 +62,7 @@ export const DaySelector = React.memo(function DaySelector({
             <div className="flex items-center gap-1">
               <span className="text-sm sm:text-base">{dayName}</span>
               <span className="text-white/70 text-[0.625rem] sm:text-xs">
-                ({dayjs(date).format("DD MMM")})
+                ({formattedDates[index]})
               </span>
             </div>
 
@@ -76,4 +85,5 @@ interface DaySelectorProps {
   selectedDayIndex: number;
   handleChangeDay: (index: number) => void;
   setIsHourlyOpen: Dispatch<SetStateAction<boolean>>;
+  formattedDates: string[];
 }

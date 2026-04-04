@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {
   type RefObject,
   useCallback,
@@ -6,7 +7,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useShallow } from "zustand/shallow";
 import { useSettingsStore } from "@/entities/settings";
 import {
   type DailyForecast,
@@ -19,37 +19,33 @@ import { useDeviceType } from "@/shared/lib";
 export function useHourlyForecast(
   hourlyData: WeatherHourly | undefined,
 ): UseHourlyForecastReturn {
-  const { selectedDayIndex, setSelectedDayIndex, hourFormat } =
-    useSettingsStore(
-      useShallow((state) => ({
-        selectedDayIndex: state.selectedDayIndex,
-        setSelectedDayIndex: state.setSelectedDayIndex,
-        hourFormat: state.units.timeUnit,
-      })),
-    );
+  const selectedDayIndex = useSettingsStore((s) => s.selectedDayIndex);
+  const setSelectedDayIndex = useSettingsStore((s) => s.setSelectedDayIndex);
+  const hourFormat = useSettingsStore((s) => s.units.timeUnit);
 
   const hoursRef = useRef<HTMLUListElement>(null);
 
-  const days = useMemo(
-    () =>
-      groupByDay(hourlyData, { hourFormat, dayFormat: "dddd" })
-        .filter((day) => day.hours.length === 24)
-        .slice(0, 7),
-    [hourlyData, hourFormat],
+  const days = useMemo(() => {
+    if (!hourlyData) return [];
+    return groupByDay(hourlyData, { hourFormat, dayFormat: "dddd" })
+      .filter((day) => day.hours.length === 24)
+      .slice(0, 7);
+  }, [hourlyData, hourFormat]);
+
+  const formattedDates = useMemo(
+    () => days.map(({ date }) => dayjs(date).format("DD MMM")),
+    [days],
   );
 
-  const selectedDay = days[selectedDayIndex] || {
-    date: "",
-    dayName: "",
-    hours: [],
-  };
-
-  const hours = selectedDay.hours;
+  const hours = useMemo(
+    () => days[selectedDayIndex]?.hours ?? [],
+    [days, selectedDayIndex],
+  );
 
   const handleChangeDay = useCallback(
     (index: number): void => {
       setSelectedDayIndex(index);
-      hoursRef.current?.scrollTo({ top: 0 });
+      if (hoursRef.current) hoursRef.current?.scrollTo({ top: 0 });
     },
     [setSelectedDayIndex],
   );
@@ -61,21 +57,39 @@ export function useHourlyForecast(
     if (isDesk && !isHourlyOpen) setIsHourlyOpen(true);
   }, [isDesk, isHourlyOpen]);
 
-  return {
-    hoursRef,
-    days,
-    hours,
-    handleChangeDay,
-    hourFormat,
-    selectedDayIndex,
-    setSelectedDayIndex,
-    isHourlyOpen,
-    setIsHourlyOpen,
-    isDesk,
-  };
+  return useMemo(
+    () => ({
+      selectedDay: days[selectedDayIndex],
+      hoursRef,
+      days,
+      hours,
+      handleChangeDay,
+      hourFormat,
+      selectedDayIndex,
+      setSelectedDayIndex,
+      isHourlyOpen,
+      setIsHourlyOpen,
+      isDesk,
+      formattedDates,
+    }),
+    [
+      hoursRef,
+      days,
+      hours,
+      handleChangeDay,
+      hourFormat,
+      selectedDayIndex,
+      setSelectedDayIndex,
+      isHourlyOpen,
+      setIsHourlyOpen,
+      isDesk,
+      formattedDates,
+    ],
+  );
 }
 
 interface UseHourlyForecastReturn {
+  selectedDay: DailyForecast;
   hoursRef: RefObject<HTMLUListElement | null>;
   days: DailyForecast[];
   hours: HourlyItem[];
@@ -86,4 +100,5 @@ interface UseHourlyForecastReturn {
   isHourlyOpen: boolean;
   setIsHourlyOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isDesk: boolean;
+  formattedDates: string[];
 }

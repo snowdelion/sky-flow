@@ -1,4 +1,6 @@
-export function HourDisplay({
+import { memo } from "react";
+
+export const HourDisplay = memo(function HourDisplay({
   hourItem,
   hourFormat,
 }: {
@@ -29,4 +31,4 @@ export function HourDisplay({
       </div>
     );
   }
-}
+});

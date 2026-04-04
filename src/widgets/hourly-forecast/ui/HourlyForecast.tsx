@@ -21,6 +21,8 @@ export function HourlyForecast({
     isHourlyOpen,
     setIsHourlyOpen,
     isDesk,
+    selectedDay,
+    formattedDates,
   } = useHourlyForecast(hourlyData);
 
   return (
@@ -52,6 +54,7 @@ export function HourlyForecast({
               days={days}
               selectedDayIndex={selectedDayIndex}
               handleChangeDay={handleChangeDay}
+              formattedDates={formattedDates}
             />
           </div>
 
@@ -60,9 +63,9 @@ export function HourlyForecast({
               className="space-y-2.5 sm:space-y-3 lg:space-y-3.5 pr-2 overflow-auto max-h-136 px-1 custom-scrollbar"
               ref={hoursRef}
             >
-              {hours.map((hour, index) => (
+              {hours.map((hour) => (
                 <HourlyItem
-                  key={`${hour.hour}-${index}`}
+                  key={`${selectedDay.date}-${hour.hour}`}
                   hour={hour}
                   hourFormat={hourFormat}
                   tempUnit={forecastUnits.temperatureUnit}
