@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
 import {
   AREA_DOT,
   ARIA_ACTIVE_DOT,
@@ -32,10 +33,10 @@ export const ChartView = memo(function ChartView({
   );
 
   const tooltipFormatter = useCallback(
-    (value: number | undefined) => [
-      `${value}${formatters.currentUnit}`,
-      "Temperature",
-    ],
+    (value: ValueType | undefined) => {
+      const numValue = typeof value === "number" ? value : 0;
+      return [`${numValue}${formatters.currentUnit}`, "Temperature"];
+    },
     [formatters.currentUnit],
   );
 
@@ -116,15 +117,7 @@ const ChartGradient = memo(function ChartGradient() {
 });
 
 interface ChartViewProps {
-  activeData:
-    | {
-        day: string;
-        temp: number;
-      }[]
-    | {
-        hour: string;
-        temp: number;
-      }[];
+  activeData: ActiveData;
   formatters: {
     handleXAxisTickFormat: (value: string) => string;
     yTicks: number[];
@@ -135,3 +128,9 @@ interface ChartViewProps {
   };
   isMobile: boolean;
 }
+
+type ActiveData = {
+  temp: number;
+  day?: string;
+  hour?: string;
+}[];
