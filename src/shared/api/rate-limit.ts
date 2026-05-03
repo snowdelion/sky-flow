@@ -12,7 +12,7 @@ export function createRateLimitResponse(limitResult: LimitResult) {
   const { limit, remaining, reset } = limitResult;
 
   return NextResponse.json(
-    { error: "Too many requests" },
+    { error: "Too many requests", code: "RATE_LIMIT_EXCEEDED" },
     {
       status: 429,
       headers: {

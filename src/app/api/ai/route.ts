@@ -30,7 +30,10 @@ export async function POST(req: NextRequest) {
     const result = schema.safeParse(body);
 
     if (!result.success)
-      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid data", code: "INVALID_REQUEST_DATA" },
+        { status: 400 },
+      );
 
     const config = getAiConfig(result.data);
 
@@ -47,7 +50,10 @@ export async function POST(req: NextRequest) {
     console.error(error);
 
     return NextResponse.json(
-      { error: "Failed to generate description" },
+      {
+        error: "Failed to generate description",
+        code: "INTERNAL_SERVER_ERROR",
+      },
       { status: 500 },
     );
   }

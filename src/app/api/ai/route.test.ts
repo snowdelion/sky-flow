@@ -90,7 +90,10 @@ describe("validation", () => {
   it("should return 400 when body is missing required fields", async () => {
     const res = await POST(createRequest({ country: "Poland" }));
     expect(res.status).toBe(400);
-    expect(await res.json()).toEqual({ error: "Invalid data" });
+    expect(await res.json()).toEqual({
+      error: "Invalid data",
+      code: "INVALID_REQUEST_DATA",
+    });
   });
 
   it("should return 400 when option is invalid", async () => {
@@ -131,6 +134,7 @@ describe("error", () => {
     expect(res.status).toBe(500);
     expect(await res.json()).toEqual({
       error: "Failed to generate description",
+      code: "INTERNAL_SERVER_ERROR",
     });
   });
 });
@@ -140,7 +144,10 @@ describe("rate limit", () => {
     ratelimitFail(5, 0);
     const res = await POST(createRequest(VALID_WEATHER));
     expect(res.status).toBe(429);
-    expect(await res.json()).toEqual({ error: "Too many requests" });
+    expect(await res.json()).toEqual({
+      error: "Too many requests",
+      code: "RATE_LIMIT_EXCEEDED",
+    });
   });
 
   it("should set correct rate limit headers on 429", async () => {
