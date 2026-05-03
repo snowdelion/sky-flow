@@ -1,16 +1,12 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AppError } from "@/shared/api";
 import { isFoundCity, type Units, type CityData } from "@/shared/types";
 import { fetchForecastData } from "../../api/weather.api";
-import type { Weather } from "../types/weather.types";
 
-export function useWeatherQuery(
-  cityData: CityData,
-  units: Units,
-): UseQueryResult<Weather, AppError> {
+export function useWeatherQuery(cityData: CityData, units: Units) {
   const isEnabled = isFoundCity(cityData);
 
-  return useQuery<Weather, AppError>({
+  return useQuery({
     queryKey: [
       "weather",
       isEnabled ? cityData.lat : "no-coords",

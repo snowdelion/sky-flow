@@ -7,7 +7,7 @@ import { useSearchActions } from "../model/useSearchActions";
 export function useSearchResultCity(
   data: SearchResult,
   inputRef: React.RefObject<HTMLInputElement | null>,
-): UseSearchResultCityReturn {
+) {
   const {
     city,
     country,
@@ -60,14 +60,4 @@ export function useSearchResultCity(
       weatherCode,
     ],
   );
-}
-
-interface UseSearchResultCityReturn {
-  handleClick: () => void;
-  city: string;
-  country?: string;
-  temperature: number;
-  temperatureUnit: string;
-  displayName: string;
-  weatherCode: number;
 }

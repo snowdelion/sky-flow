@@ -1,10 +1,7 @@
 import { DEFAULT_UNITS } from "@/shared/config/constants";
 import type { SettingsStore } from "./useSettingsStore.types";
 
-export const migrateSettings = (
-  persistedState: unknown,
-  version: number,
-): SettingsStore => {
+export const migrateSettings = (persistedState: unknown, version: number) => {
   if (version === 0) {
     const state = persistedState as persistOld;
 

@@ -9,7 +9,7 @@ import { useResponsiveHourlyData } from "./useResponsiveHourlyData";
 export function useChart(
   dailyData: WeatherDaily | undefined,
   hourlyData: WeatherHourly | undefined,
-): ChartReturn {
+) {
   const { isMobile, isTablet, isDesk, isSmallDesk } = useDeviceType();
   const [currentChartTab, setCurrentChartTab] = useState("daily");
   const { chartDailyData, chartHourlyData: fullHourlyData } = useChartData(
@@ -65,34 +65,4 @@ export function useChart(
       isSmallDesk,
     ],
   );
-}
-
-interface ChartReturn {
-  currentChartTab: string;
-  activeData:
-    | {
-        hour: string;
-        temp: number;
-      }[]
-    | {
-        day: string;
-        temp: number;
-      }[];
-  isDailyTab: boolean;
-  isResizing: boolean;
-  setCurrentChartTab: React.Dispatch<React.SetStateAction<string>>;
-  formatters: {
-    handleXAxisTickFormat: (value: string) => string;
-    yTicks: number[];
-    yDomain: number[];
-    currentUnit: string;
-    dataKey: string;
-    aspect: number;
-  };
-  currentDevice: {
-    isMobile: boolean;
-    isTablet: boolean;
-    isDesk: boolean;
-    isSmallDesk: boolean;
-  };
 }

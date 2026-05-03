@@ -3,7 +3,7 @@ import { useShallow } from "zustand/shallow";
 import { useSearchHistory, useSearchStore } from "@/entities/location";
 import { type CityData, isNotFoundCity } from "@/shared/types";
 
-export function useSyncSearch(cityData: CityData): void {
+export function useSyncSearch(cityData: CityData) {
   const { _hasHydrated, setIsOpen } = useSearchStore(
     useShallow((s) => ({
       _hasHydrated: s._hasHydrated,

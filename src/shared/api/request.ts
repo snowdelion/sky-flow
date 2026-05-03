@@ -1,11 +1,11 @@
 import { throwResponseErrors } from "./error-handler";
 
-export async function request<T>(
+export async function request(
   url: string,
   config: RequestInit = {},
   errorCode?: string,
   allow404 = false,
-): Promise<T | null> {
+) {
   const response = await fetch(url, config);
 
   if (!response.ok) {

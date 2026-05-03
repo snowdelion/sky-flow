@@ -1,6 +1,4 @@
-import type { Mock } from "vitest";
-
-export const createMockNavigation = (): NavigationMocks => {
+export const createMockNavigation = () => {
   const mockPush = vi.fn();
   const mockReplace = vi.fn();
   const mockPrefetch = vi.fn();
@@ -23,25 +21,3 @@ export const createMockNavigation = (): NavigationMocks => {
     redirectModule: { redirect: vi.fn() },
   };
 };
-
-export interface NavigationMocks {
-  mockPush: Mock;
-  mockReplace: Mock;
-  mockPrefetch: Mock;
-  mockBack: Mock;
-  routerModule: () => {
-    push: Mock;
-    replace: Mock;
-    prefetch: Mock;
-    back: Mock;
-  };
-  pathnameModule: {
-    usePathname: () => string;
-  };
-  searchParamsModule: {
-    useSearchParams: () => URLSearchParams;
-  };
-  redirectModule: {
-    redirect: Mock;
-  };
-}

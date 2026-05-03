@@ -1,6 +1,6 @@
 import { isFoundCity, type CityData } from "@/shared/types";
 
-export const mapCityToUrlParams = (cityData: CityData): URLSearchParams => {
+export const mapCityToUrlParams = (cityData: CityData) => {
   const params = new URLSearchParams();
   params.set("city", cityData.city);
 

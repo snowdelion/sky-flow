@@ -1,7 +1,7 @@
 import { ZodError } from "zod";
 import { AppError } from "./app-error";
 
-export function handleApiError(error: unknown): never {
+export function handleApiError(error: unknown) {
   if (error instanceof Error && error.name === "AbortError") throw error;
   if (error instanceof ZodError) throwZodErrors(error);
   if (error instanceof AppError) throw error;
@@ -21,7 +21,7 @@ const ERROR_MESSAGES: Record<number, string> = {
 export function throwResponseErrors(
   status: number,
   errorCode: string = "FETCH_FAILED",
-): never {
+) {
   if (status >= 500 && status <= 504)
     throw new AppError(
       errorCode,
@@ -33,7 +33,7 @@ export function throwResponseErrors(
   throw new AppError(errorCode, message);
 }
 
-export function throwZodErrors(error: ZodError): never {
+export function throwZodErrors(error: ZodError) {
   const issue = error.issues[0];
   const message = `${issue.path.join(".")}: ${issue.message}`.replace(
     /invalid input: /i,

@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 import { useMediaQuery } from "react-responsive";
 
-export function useDeviceType(): UseDeviceTypeReturn {
+export function useDeviceType() {
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const isTablet = useMediaQuery({ minWidth: 641, maxWidth: 768 });
   const isDesk = useMediaQuery({ minWidth: 1024 });
@@ -19,12 +19,4 @@ export function useDeviceType(): UseDeviceTypeReturn {
     }),
     [isMobile, isTablet, isDesk, isSmallDesk, isDesktopXl],
   );
-}
-
-interface UseDeviceTypeReturn {
-  isMobile: boolean;
-  isTablet: boolean;
-  isDesk: boolean;
-  isSmallDesk: boolean;
-  isDesktopXl: boolean;
 }

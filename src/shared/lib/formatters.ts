@@ -1,13 +1,10 @@
 import dayjs from "dayjs";
 
-export function formatDayOfWeek(
-  date: Date,
-  dayFormat: string = "dddd",
-): string {
+export function formatDayOfWeek(date: Date, dayFormat: string = "dddd") {
   return dayjs(date).format(dayFormat);
 }
 
-export function formatHourOfDay(date: Date, format: "12" | "24"): string {
+export function formatHourOfDay(date: Date, format: "12" | "24") {
   if (format === "12") {
     return dayjs(date).format("h A");
   } else {
@@ -15,7 +12,7 @@ export function formatHourOfDay(date: Date, format: "12" | "24"): string {
   }
 }
 
-export function getHourNumber(hour: string): number | undefined {
+export function getHourNumber(hour: string) {
   if (hour.includes("AM")) {
     if (parseInt(hour) === 12) return 0;
     return parseInt(hour);
@@ -25,6 +22,6 @@ export function getHourNumber(hour: string): number | undefined {
   }
 }
 
-export function capitalizeString(value: string): string {
+export function capitalizeString(value: string) {
   return value[0].toUpperCase() + value.slice(1).toLowerCase();
 }

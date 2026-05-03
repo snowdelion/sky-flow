@@ -1,16 +1,11 @@
-import type {
-  QueryObserverResult,
-  RefetchOptions,
-} from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useGeoQuery } from "@/entities/location";
 import { useSettingsStore } from "@/entities/settings";
-import { useWeatherQuery, type Weather } from "@/entities/weather";
-import { AppError } from "@/shared/api";
+import { useWeatherQuery } from "@/entities/weather";
 import { useDeviceType } from "@/shared/lib";
 import { type CityData, isFoundCity, isNotFoundCity } from "@/shared/types";
 
-export function useWeatherPage(cityData: CityData): WeatherPageReturn {
+export function useWeatherPage(cityData: CityData) {
   const { isDesk, isMobile, isSmallDesk, isTablet } = useDeviceType();
   const hasCoords =
     isFoundCity(cityData) &&
@@ -34,10 +29,10 @@ export function useWeatherPage(cityData: CityData): WeatherPageReturn {
 
   const finalCityData = useMemo<CityData>(() => {
     if (!finalCoords || isNotFoundCity(cityData))
-      return { status: "not-found", city: cityData.city };
+      return { status: "not-found" as const, city: cityData.city };
 
     return {
-      status: "found",
+      status: "found" as const,
       city: cityData.city,
       country: cityData.country,
       lat: finalCoords.lat,
@@ -71,19 +66,3 @@ export function useWeatherPage(cityData: CityData): WeatherPageReturn {
     devices: { isDesk, isMobile, isSmallDesk, isTablet },
   };
 }
-
-type WeatherPageReturn = {
-  data: Weather | undefined;
-  isPending: boolean;
-  isError: boolean;
-  error: AppError | null;
-  refetch: (
-    options?: RefetchOptions,
-  ) => Promise<QueryObserverResult<Weather, AppError>>;
-  devices: {
-    isDesk: boolean;
-    isMobile: boolean;
-    isSmallDesk: boolean;
-    isTablet: boolean;
-  };
-};

@@ -12,6 +12,10 @@ export default defineConfig({
     globals: true,
     setupFiles: [path.resolve(__dirname, "./vitest.setup.ts")],
     alias: {
+      "server-only": path.resolve(
+        __dirname,
+        "./src/shared/lib/testing/mocks/empty.ts",
+      ),
       "@": path.resolve(__dirname, "./src"),
       "@shared": path.resolve(__dirname, "./src/shared"),
       "@entities": path.resolve(__dirname, "./src/entities"),

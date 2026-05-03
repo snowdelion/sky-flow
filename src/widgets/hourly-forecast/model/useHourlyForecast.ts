@@ -1,24 +1,10 @@
 import dayjs from "dayjs";
-import {
-  type RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSettingsStore } from "@/entities/settings";
-import {
-  type DailyForecast,
-  type WeatherHourly,
-  groupByDay,
-  type HourlyItem,
-} from "@/entities/weather";
+import { type WeatherHourly, groupByDay } from "@/entities/weather";
 import { useDeviceType } from "@/shared/lib";
 
-export function useHourlyForecast(
-  hourlyData: WeatherHourly | undefined,
-): UseHourlyForecastReturn {
+export function useHourlyForecast(hourlyData: WeatherHourly | undefined) {
   const selectedDayIndex = useSettingsStore((s) => s.selectedDayIndex);
   const setSelectedDayIndex = useSettingsStore((s) => s.setSelectedDayIndex);
   const hourFormat = useSettingsStore((s) => s.units.timeUnit);
@@ -43,7 +29,7 @@ export function useHourlyForecast(
   );
 
   const handleChangeDay = useCallback(
-    (index: number): void => {
+    (index: number) => {
       setSelectedDayIndex(index);
       if (hoursRef.current) hoursRef.current?.scrollTo({ top: 0 });
     },
@@ -86,19 +72,4 @@ export function useHourlyForecast(
       formattedDates,
     ],
   );
-}
-
-interface UseHourlyForecastReturn {
-  selectedDay: DailyForecast;
-  hoursRef: RefObject<HTMLUListElement | null>;
-  days: DailyForecast[];
-  hours: HourlyItem[];
-  handleChangeDay: (index: number) => void;
-  hourFormat: "12" | "24";
-  selectedDayIndex: number;
-  setSelectedDayIndex: (day: number) => void;
-  isHourlyOpen: boolean;
-  setIsHourlyOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isDesk: boolean;
-  formattedDates: string[];
 }

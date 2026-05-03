@@ -12,9 +12,9 @@ describe("fetchSearchResults", () => {
   it("should fetch city with search result", async () => {
     const result = await fetchSearchResults(geoData, DEFAULT_UNITS);
 
-    expect(result[0]).toEqual(searchData[0]);
+    expect(result?.[0]).toEqual(searchData[0]);
 
-    expect(result.at(-1)).toEqual(searchData.at(-1));
+    expect(result?.at(-1)).toEqual(searchData.at(-1));
   });
 
   it("should return empty array if no results", async () => {

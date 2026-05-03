@@ -2,20 +2,9 @@ import { z } from "zod";
 
 export const WeatherUnitsDtoSchema = z
   .object({
-    temperature_2m: z.string().transform((i) => {
-      if (i === "°C" || i === "celsius") return "°C";
-      if (i === "°F" || i === "fahrenheit") return "°F";
-      return "°C";
-    }),
-    wind_speed_10m: z.string().transform((i) => {
-      if (i === "km/h" || i === "kmh") return "km/h";
-      if (i === "mp/h" || i === "mph") return "mp/h";
-      return "km/h";
-    }),
-    precipitation: z.string().transform((i) => {
-      if (i === "inch" || i === "in") return "inch";
-      return "mm";
-    }),
+    temperature_2m: z.enum(["°C", "°F"]),
+    wind_speed_10m: z.enum(["km/h", "mp/h"]),
+    precipitation: z.enum(["inch", "mm"]),
   })
   .strip();
 

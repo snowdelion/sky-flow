@@ -12,7 +12,7 @@ export function useChartFormat(
     isDesk: boolean;
     isSmallDesk: boolean;
   },
-): FormatReturn {
+) {
   const units = useSettingsStore((s) => s.units);
   const { isMobile, isTablet, isDesk, isSmallDesk } = devices;
 
@@ -78,12 +78,3 @@ type ActiveData =
       hour: string;
       temp: number;
     }[];
-
-interface FormatReturn {
-  handleXAxisTickFormat: (value: string) => string;
-  yTicks: number[];
-  yDomain: number[];
-  currentUnit: string;
-  dataKey: string;
-  aspect: number;
-}

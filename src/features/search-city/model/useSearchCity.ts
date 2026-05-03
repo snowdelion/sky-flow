@@ -2,9 +2,9 @@ import { useDebounce } from "use-debounce";
 import { useSearchStore } from "@/entities/location";
 import { useGeoQuery } from "@/entities/location";
 import { useSettingsStore } from "@/entities/settings";
-import { useSearchQuery, type SearchResults } from "@/entities/weather";
+import { useSearchQuery } from "@/entities/weather";
 
-export function useSearchCity(): SearchReturn {
+export function useSearchCity() {
   const inputValue = useSearchStore((s) => s.inputValue);
   const [delayValue, { isPending }] = useDebounce(inputValue, 500);
   const isDebouncing = isPending();
@@ -24,9 +24,4 @@ export function useSearchCity(): SearchReturn {
     shouldSearchSkeleton,
     resultData,
   };
-}
-
-interface SearchReturn {
-  shouldSearchSkeleton: boolean;
-  resultData: SearchResults | undefined;
 }

@@ -1,6 +1,4 @@
-import type { Mock } from "vitest";
-
-export const createMockHooks = (): HookMocks => {
+export const createMockHooks = () => {
   const mockAddCity = vi.fn();
   const mockToggleFavorites = vi.fn();
   const removeCity = vi.fn();
@@ -21,18 +19,3 @@ export const createMockHooks = (): HookMocks => {
     },
   };
 };
-
-export interface HookMocks {
-  mockAddCity: Mock;
-  mockToggleFavorites: Mock;
-  removeCity: Mock;
-  historyModule: {
-    useSearchHistory: () => {
-      addCity: Mock;
-      toggleFavorites: Mock;
-      removeCity: Mock;
-      recent: never[];
-      favorites: never[];
-    };
-  };
-}

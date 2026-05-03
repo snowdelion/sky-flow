@@ -3,13 +3,13 @@ import { type ActiveTab } from "@/entities/location";
 import { useSearchState } from "@/entities/location";
 import { useSearchActions } from "./useSearchActions";
 
-export function useSearchHandlers(): useSearchHandlersReturn {
+export function useSearchHandlers() {
   const { setInputValue, setCurrentTab, inputValue, setIsOpen } =
     useSearchState();
   const { searchCityWithName } = useSearchActions();
 
   const handleChangeTab = useCallback(
-    (value: ActiveTab): void => {
+    (value: ActiveTab) => {
       setCurrentTab(value);
     },
     [setCurrentTab],
@@ -19,7 +19,7 @@ export function useSearchHandlers(): useSearchHandlersReturn {
     (
       e: React.KeyboardEvent<HTMLInputElement>,
       inputRef: RefObject<HTMLInputElement | null>,
-    ): void => {
+    ) => {
       if (e.key === "Enter") {
         searchCityWithName(inputValue);
         inputRef?.current?.blur();
@@ -36,7 +36,7 @@ export function useSearchHandlers(): useSearchHandlersReturn {
   );
 
   const handleChangeInput = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>): void => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
       setIsOpen(true);
     },
@@ -44,7 +44,7 @@ export function useSearchHandlers(): useSearchHandlersReturn {
   );
 
   const handleSubmit = useCallback(
-    (e: React.SubmitEvent<HTMLFormElement>): void => {
+    (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
       searchCityWithName(inputValue);
     },
@@ -60,14 +60,4 @@ export function useSearchHandlers(): useSearchHandlersReturn {
     }),
     [handleChangeTab, handleKeydown, handleChangeInput, handleSubmit],
   );
-}
-
-interface useSearchHandlersReturn {
-  handleChangeTab: (value: ActiveTab) => void;
-  handleKeydown: (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    inputRef: RefObject<HTMLInputElement | null>,
-  ) => void;
-  handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
 }

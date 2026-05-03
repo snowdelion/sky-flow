@@ -1,16 +1,10 @@
-import {
-  keepPreviousData,
-  useQuery,
-  type UseQueryResult,
-} from "@tanstack/react-query";
-import { AppError } from "@/shared/api";
-import type { Geo } from "@/shared/types";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { fetchGeoData } from "../api/location.api";
 
-export function useGeoQuery(query: string): UseQueryResult<Geo, AppError> {
+export function useGeoQuery(query: string) {
   const validatedQuery = query?.trim().toLowerCase();
 
-  return useQuery<Geo, AppError>({
+  return useQuery({
     queryKey: ["location", validatedQuery],
 
     queryFn: async ({ signal }) => {

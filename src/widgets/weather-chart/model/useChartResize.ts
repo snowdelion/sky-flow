@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-export function useChartResize(delay: number = 150): boolean {
+export function useChartResize(delay: number = 150) {
   const [isResizing, setIsResizing] = useState(false);
   const debouncingReset = useDebouncedCallback(
     () => setIsResizing(false),
@@ -9,7 +9,7 @@ export function useChartResize(delay: number = 150): boolean {
   );
 
   useEffect(() => {
-    const handleResize = (): void => {
+    const handleResize = () => {
       setIsResizing(true);
       debouncingReset();
     };

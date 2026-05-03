@@ -1,14 +1,9 @@
 import type { CityData } from "../../../../types/city-data.types";
 
-export const createCityData = (
-  overrides: CityDataOverrides = {},
-): CityDataMocks => {
-  const getCity = (
-    data: CityData,
-    override: Partial<CityData> = {},
-  ): CityData => {
+export const createCityData = (overrides: CityDataOverrides = {}) => {
+  const getCity = (data: CityData, override: Partial<CityData> = {}) => {
     if (override?.status === "not-found" || data.status === "not-found")
-      return { status: "not-found", city: data.city };
+      return { status: "not-found" as const, city: data.city };
     return { ...data, ...override };
   };
 
@@ -19,8 +14,8 @@ export const createCityData = (
   };
 };
 
-const getMinskData = (): CityData => ({
-  status: "found",
+const getMinskData = () => ({
+  status: "found" as const,
   city: "Minsk",
   country: "Belarus",
   region: "Minsk City",
@@ -29,8 +24,8 @@ const getMinskData = (): CityData => ({
   lon: 27.56667,
 });
 
-const getBerlinData = (): CityData => ({
-  status: "found",
+const getBerlinData = () => ({
+  status: "found" as const,
   city: "Berlin",
   country: "Germany",
   region: "State of Berlin",
@@ -39,8 +34,8 @@ const getBerlinData = (): CityData => ({
   lon: 13.41053,
 });
 
-const getWarsawData = (): CityData => ({
-  status: "found",
+const getWarsawData = () => ({
+  status: "found" as const,
   city: "Warsaw",
   country: "Poland",
   region: "Masovian",
@@ -53,10 +48,4 @@ interface CityDataOverrides {
   minsk?: Partial<CityData>;
   berlin?: Partial<CityData>;
   warsaw?: Partial<CityData>;
-}
-
-interface CityDataMocks {
-  minskCityData: CityData;
-  berlinCityData: CityData;
-  warsawCityData: CityData;
 }

@@ -124,7 +124,7 @@ describe("useWeatherQuery", () => {
     );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
-    expect(result.current.error?.code).toBe("UNKNOWN_ERROR");
+    expect((result.current.error as AppError).code).toBe("UNKNOWN_ERROR");
   });
 
   it("shouldn't run query when city isFoundCity is false", () => {

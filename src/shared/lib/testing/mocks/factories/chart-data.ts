@@ -1,11 +1,9 @@
-import { DailyChartData, HourlyChartData } from "../../../../types/types";
-
-export const createChartData = (): ChartFactories => ({
+export const createChartData = () => ({
   dailyChartData: getDailyChartData(),
   hourlyChartData: getHourlyChartData(),
 });
 
-const getDailyChartData = (): DailyChartData => [
+const getDailyChartData = () => [
   ...Array(6).fill({
     day: "Saturday",
     temp: 0,
@@ -16,7 +14,7 @@ const getDailyChartData = (): DailyChartData => [
   },
 ];
 
-const getHourlyChartData = (): HourlyChartData => [
+const getHourlyChartData = () => [
   ...Array(23).fill({
     hour: "1 PM",
     temp: 0,
@@ -26,8 +24,3 @@ const getHourlyChartData = (): HourlyChartData => [
     temp: 1,
   },
 ];
-
-type ChartFactories = {
-  dailyChartData: DailyChartData;
-  hourlyChartData: HourlyChartData;
-};

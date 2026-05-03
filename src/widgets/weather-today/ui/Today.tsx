@@ -1,32 +1,21 @@
 "use client";
 import dayjs from "dayjs";
-import { useMemo } from "react";
-import { formatCityDisplay } from "@/entities/location";
-import { type WeatherCurrent, type WeatherUnits } from "@/entities/weather";
+import { AiDescriptionMenu } from "@/features/ai-description";
+import type { WeatherCurrent, WeatherUnits } from "@/entities/weather";
 import { WeatherIcon } from "@/entities/weather";
+import { useToday } from "../model/useToday";
 import { TodaySkeleton } from "./TodaySkeleton";
 
 export function Today({ currentData, forecastUnits, isPending }: TodayProps) {
-  const displayName = useMemo(() => {
-    if (!currentData) return "";
-    return formatCityDisplay({
-      status: "found",
-      city: currentData.city,
-      country: currentData.country,
-      region: currentData.region,
-      code: currentData.code,
-      lat: currentData.lat,
-      lon: currentData.lon,
-    });
-  }, [currentData]);
+  const { displayName, aiRequestData } = useToday(currentData);
 
   return (
     <section
       aria-label="Current Weather"
-      className="relative rounded-2xl overflow-hidden h-70 mb-8 grid-cols-1 content-center"
+      className="relative h-70 mb-8 grid-cols-1 content-center"
     >
       {/* background */}
-      <div className="absolute inset-0 -z-10 w-full h-full">
+      <div className="absolute inset-0 -z-10 w-full h-full overflow-hidden rounded-2xl">
         <picture>
           <source
             media="(max-width: 639px)"
@@ -52,13 +41,18 @@ export function Today({ currentData, forecastUnits, isPending }: TodayProps) {
         <>
           <div className="relative flex flex-col sm:flex-row justify-between items-center gap-2 px-6 md:px-8 h-55">
             {/* city and date */}
-            <div className="flex flex-1 flex-col items-center sm:items-start">
-              <h2 className="text-xl sm:text-3xl font-bold mb-1 capitalize">
+            <div className="flex flex-1 flex-col gap-2 items-center sm:items-start">
+              <h2 className="text-xl sm:text-3xl font-bold capitalize">
                 {displayName}
               </h2>
               <p className="text-white/70 text-lg">
                 {dayjs(currentData.time).format("dddd, MMM D, YYYY")}
               </p>
+              {/* AI description */}
+              <AiDescriptionMenu
+                key={`${currentData.lat}-${currentData.lon}`}
+                aiRequestData={aiRequestData}
+              />
             </div>
 
             {/* icon and temp */}

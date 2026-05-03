@@ -1,7 +1,6 @@
-import type { Geo } from "@/shared/types";
 import type { GeoResponseDto } from "../api/dto";
 
-export const mapToGeoData = (data: GeoResponseDto): Geo => {
+export const mapToGeoData = (data: GeoResponseDto) => {
   const result = data.results.map((item) => ({
     region: item.admin1,
     code: item.feature_code,

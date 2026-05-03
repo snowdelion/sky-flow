@@ -10,16 +10,14 @@ import {
 } from "@/shared/types";
 import type { Units } from "@/shared/types";
 import { mapToForecastData, mapToResultsData } from "../model/mapper";
-import type { SearchResults } from "../model/types/search-results.types";
-import type { Weather } from "../model/types/weather.types";
-import { WeatherDtoSchema, type WeatherDto } from "./dto/forecast.dto";
-import { type SearchResultDto, SearchResultsDtoSchema } from "./dto/search.dto";
+import { WeatherDtoSchema } from "./dto/forecast.dto";
+import { SearchResultsDtoSchema } from "./dto/search.dto";
 
 export async function fetchForecastData(
   cityData: CityData,
   units: Units = DEFAULT_UNITS,
   signal?: AbortSignal,
-): Promise<Weather> {
+) {
   try {
     if (!isFoundCity(cityData))
       throw new AppError(
@@ -33,11 +31,7 @@ export async function fetchForecastData(
       throw new AppError("FORECAST_FAILED", "Invalid city data");
 
     const url = createForecastUrl(lat, lon, units);
-    const rawData = await request<WeatherDto>(
-      url,
-      { signal },
-      "FORECAST_FAILED",
-    );
+    const rawData = await request(url, { signal }, "FORECAST_FAILED");
 
     if (!rawData)
       throw new AppError(
@@ -52,7 +46,7 @@ export async function fetchForecastData(
   }
 }
 
-const createForecastUrl = (lat: number, lon: number, units: Units): string => {
+const createForecastUrl = (lat: number, lon: number, units: Units) => {
   const params = new URLSearchParams({
     latitude: lat.toString(),
     longitude: lon.toString(),
@@ -78,17 +72,13 @@ export const fetchSearchResults = async (
   geoData: Geo,
   units: Units = DEFAULT_UNITS,
   signal?: AbortSignal,
-): Promise<SearchResults> => {
+) => {
   try {
     const onlyLats = geoData.results.map((item: GeoItem) => item.lat).join(",");
     const onlyLons = geoData.results.map((item: GeoItem) => item.lon).join(",");
 
     const url = createSearchUrl(onlyLats, onlyLons, units.temperatureUnit);
-    const rawData = await request<SearchResultDto[]>(
-      url,
-      { signal },
-      "SEARCH_FAILED",
-    );
+    const rawData = await request(url, { signal }, "SEARCH_FAILED");
 
     if (!rawData)
       throw new AppError("SEARCH_FAILED", "No data received from weather API");
@@ -101,7 +91,7 @@ export const fetchSearchResults = async (
   }
 };
 
-const createSearchUrl = (lats: string, lons: string, temp: string): string => {
+const createSearchUrl = (lats: string, lons: string, temp: string) => {
   const params = new URLSearchParams({
     latitude: lats.toString(),
     longitude: lons.toString(),

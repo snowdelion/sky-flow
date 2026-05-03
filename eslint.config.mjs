@@ -47,14 +47,6 @@ const eslintConfig = [
       "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/no-unused-vars": ["warn"],
       "@typescript-eslint/no-unused-expressions": "error",
-      "@typescript-eslint/explicit-function-return-type": [
-        "warn",
-        {
-          allowExpressions: true,
-          allowTypedFunctionExpressions: true,
-          allowDirectConstAssertionInArrowFunctions: true,
-        },
-      ],
 
       "react-hooks/exhaustive-deps": "warn",
       "react-hooks/rules-of-hooks": "error",

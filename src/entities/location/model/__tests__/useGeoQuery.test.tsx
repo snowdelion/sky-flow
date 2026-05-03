@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { AppError } from "@/shared/api";
-import type { Geo } from "@/shared/types";
 import { fetchGeoData } from "../../api/location.api";
 import { useGeoQuery } from "../useGeoQuery";
 
@@ -26,8 +25,21 @@ describe("useGeoQuery", () => {
   });
 
   it("should fetch data for valid queries", async () => {
-    const geoData = { results: [{ city: "Warsaw", lat: 10, lon: 20 }] };
-    vi.mocked(fetchGeoData).mockResolvedValue(geoData as Geo);
+    const geoData = {
+      results: [
+        {
+          id: 1,
+          city: "Warsaw",
+          lat: 10,
+          lon: 20,
+          region: "Mazovia",
+          country: "Poland",
+          code: "PL",
+          timezone: "Europe/Warsaw",
+        },
+      ],
+    };
+    vi.mocked(fetchGeoData).mockResolvedValue(geoData);
     const { result } = renderHookWithClient(() => useGeoQuery("Warsaw"));
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

@@ -5,7 +5,6 @@ import {
   FoundCitySchema,
   type Geo,
   type GeoItem,
-  type CityData,
 } from "@/shared/types";
 import { DEFAULT_CITY_DATA } from "./constants";
 
@@ -18,9 +17,7 @@ export interface WeatherParams {
   lon?: string;
 }
 
-export async function verifyAndGetCityData(
-  params: WeatherParams,
-): Promise<CityData> {
+export async function verifyAndGetCityData(params: WeatherParams) {
   if (!params.city) {
     const defaultParams = createSearchParams(DEFAULT_CITY_DATA);
     redirect(`/weather/?${defaultParams.toString()}`);
@@ -31,14 +28,14 @@ export async function verifyAndGetCityData(
 
   if (!geoData?.results?.length)
     return {
-      status: "not-found",
+      status: "not-found" as const,
       city,
     };
 
   const match = findMatch(geoData, { lat, lon, region, country });
   const { success, data } = FoundCitySchema.safeParse(match);
 
-  if (!success) return { status: "not-found", city };
+  if (!success) return { status: "not-found" as const, city };
 
   const needsRedirect = needsRedirectCheck(params, data);
   if (needsRedirect) {
@@ -49,7 +46,7 @@ export async function verifyAndGetCityData(
   return data;
 }
 
-const createSearchParams = (data: FoundCity): URLSearchParams => {
+const createSearchParams = (data: FoundCity) => {
   const { city, region, country, code, lat, lon } = data;
   const params = new URLSearchParams();
 
@@ -65,7 +62,7 @@ const createSearchParams = (data: FoundCity): URLSearchParams => {
 const findMatch = (
   geoData: Geo,
   query: { lat?: string; lon?: string; region?: string; country?: string },
-): CityData => {
+) => {
   const { results } = geoData;
   if (query.lat && query.lon) {
     const latNum = Number(query.lat);
@@ -103,10 +100,7 @@ const findMatch = (
   return createCityData(results[0]);
 };
 
-const needsRedirectCheck = (
-  params: WeatherParams,
-  data: FoundCity,
-): boolean => {
+const needsRedirectCheck = (params: WeatherParams, data: FoundCity) => {
   const hasExtraParams = Object.keys(params).some(
     (key) => !["city", "region", "country", "code", "lat", "lon"].includes(key),
   );
@@ -122,7 +116,7 @@ const needsRedirectCheck = (
   );
 };
 
-const createCityData = (data: GeoItem): CityData => ({
+const createCityData = (data: GeoItem) => ({
   status: "found",
   city: data.city,
   region: data.region,

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Header } from "@/widgets/header";
 import { Search } from "@/features/search-city";
 import { verifyAndGetCityData } from "../model/utils";
@@ -20,9 +19,7 @@ export async function WeatherPage({ searchParams }: SearchParams) {
   );
 }
 
-export async function generateMetadata({
-  searchParams,
-}: SearchParams): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: SearchParams) {
   try {
     const { city, lat, lon } = await searchParams;
 

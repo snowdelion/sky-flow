@@ -1,6 +1,6 @@
 const STEPS = [1, 2, 5];
 
-export function generateTicks(min: number, max: number): number[] {
+export function generateTicks(min: number, max: number) {
   const avg = max - min;
   const rawStep = avg / 8;
   const step = STEPS.find((item) => item >= rawStep) ?? STEPS[STEPS.length - 1];
@@ -15,9 +15,7 @@ export function generateTicks(min: number, max: number): number[] {
   return ticks;
 }
 
-export function getTicks(
-  chartData: { temp: number }[] | null | undefined,
-): number[] {
+export function getTicks(chartData: { temp: number }[] | null | undefined) {
   if (!chartData || chartData.length === 0) return [0, 10, 20, 30];
 
   const dataMin = Math.min(...chartData.map((item) => item.temp));
@@ -25,7 +23,7 @@ export function getTicks(
   return generateTicks(dataMin - 3, dataMax + 3);
 }
 
-export const getAspect = (isM?: boolean, isT?: boolean): number => {
+export const getAspect = (isM?: boolean, isT?: boolean) => {
   if (isM) return 21 / 16;
   if (isT) return 21 / 11;
   return 21 / 9;
@@ -39,7 +37,7 @@ export function getXTickFormatter(
     isSmallDesk: boolean;
     hourUnit: "12" | "24";
   },
-): string {
+) {
   const { currentChartTab, isDesk, isSmallDesk, hourUnit } = data;
   if (currentChartTab === "daily") return value;
 

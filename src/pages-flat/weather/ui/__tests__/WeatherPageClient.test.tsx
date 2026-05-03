@@ -62,7 +62,7 @@ describe("WeatherPageClient", () => {
       isError: true,
       error: { code: "FORECAST_FAILED", message: "API error" },
       isPending: false,
-    } as WeatherPageReturn);
+    } as unknown as WeatherPageReturn);
     renderWithClient(<PageClient cityData={cityData} />);
 
     expect(screen.getByText("Network: API error")).toBeInTheDocument();

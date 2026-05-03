@@ -7,9 +7,7 @@ import type {
 } from "@/entities/weather";
 
 // --- 1.1 weather data factories ---
-export const createWeatherData = (
-  overrides: Partial<Weather> = {},
-): Weather => {
+export const createWeatherData = (overrides: Partial<Weather> = {}) => {
   return {
     ...getWeatherData(),
     ...overrides,
@@ -17,7 +15,7 @@ export const createWeatherData = (
 };
 
 // --- 1.2 weather data item ---
-const getWeatherData = (): Weather => {
+const getWeatherData = () => {
   return {
     current: {
       ...getCurrentWeather(),
@@ -35,9 +33,7 @@ const getWeatherData = (): Weather => {
 };
 
 // --- 2.1 daily/hourly data factories ---
-export const createForecastData = (
-  overrides: WeatherOverrides = {},
-): WeatherDataMocks => {
+export const createForecastData = (overrides: WeatherOverrides = {}) => {
   return {
     dailyData: {
       ...getDailyData(),
@@ -52,7 +48,7 @@ export const createForecastData = (
 };
 
 // --- 2.2 daily/hourly data items ---
-const getDailyData = (): WeatherDaily => ({
+const getDailyData = () => ({
   temperatureMin: Array.from({ length: 8 }, (_, i) => i),
   temperatureMax: Array.from({ length: 8 }, (_, i) => i + 2),
   feelsLikeMin: Array.from({ length: 8 }, (_, i) => i),
@@ -64,7 +60,7 @@ const getDailyData = (): WeatherDaily => ({
   weatherCode: Array.from({ length: 8 }, (_, i) => i),
 });
 
-const getHourlyData = (): WeatherHourly => ({
+const getHourlyData = () => ({
   temperature: [
     ...Array.from({ length: 24 }, (_, i) => i),
     ...Array.from({ length: 24 }, (_, i) => i + 1),
@@ -85,7 +81,7 @@ const getHourlyData = (): WeatherHourly => ({
 // --- 3.1 current weather factory ---
 export const createCurrentWeather = (
   overrides: Partial<WeatherCurrent> = {},
-): WeatherCurrent => {
+) => {
   return {
     ...getCurrentWeather(),
     ...overrides,
@@ -93,7 +89,7 @@ export const createCurrentWeather = (
 };
 
 // --- 3.2 current weather item ---
-const getCurrentWeather = (): WeatherCurrent => ({
+const getCurrentWeather = () => ({
   feelsLike: -4,
   city: "Berlin",
   country: "Germany",
@@ -110,9 +106,7 @@ const getCurrentWeather = (): WeatherCurrent => ({
 });
 
 // --- 4.1 forecast units factory
-export const createForecastUnits = (
-  overrides: Partial<WeatherUnits> = {},
-): WeatherUnits => {
+export const createForecastUnits = (overrides: Partial<WeatherUnits> = {}) => {
   return {
     ...getUnits(),
     ...overrides,
@@ -120,18 +114,13 @@ export const createForecastUnits = (
 };
 
 // --- 4.2 forecast units item ---
-const getUnits = (): WeatherUnits => ({
-  precipitationUnit: "mm",
-  speedUnit: "km/h",
-  temperatureUnit: "°C",
+const getUnits = () => ({
+  precipitationUnit: "mm" as const,
+  speedUnit: "km/h" as const,
+  temperatureUnit: "°C" as const,
 });
 
 interface WeatherOverrides {
   daily?: Partial<WeatherDaily>;
   hourly?: Partial<WeatherHourly>;
-}
-
-interface WeatherDataMocks {
-  dailyData: WeatherDaily;
-  hourlyData: WeatherHourly;
 }

@@ -17,7 +17,7 @@ export const MockImage = (props: ComponentProps<typeof Image>) => {
   );
 };
 
-function getSrc(src: ComponentProps<typeof Image>["src"]): string | undefined {
+function getSrc(src: ComponentProps<typeof Image>["src"]) {
   if (!src) return undefined;
   if (typeof src === "string") return src;
   if ("src" in src) return src.src;

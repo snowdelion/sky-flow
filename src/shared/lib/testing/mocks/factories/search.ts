@@ -1,9 +1,7 @@
-import type { SearchResults, SearchResult } from "@/entities/weather";
+import type { SearchResult } from "@/entities/weather";
 import { CITY_BASE_DATA } from "../data/cities";
 
-export const createResultsMocks = (
-  overrides: Partial<SearchResult> = {},
-): SearchResults[] => {
+export const createResultsMocks = (overrides: Partial<SearchResult> = {}) => {
   return Object.entries(CITY_BASE_DATA).map(([name, data]) => [
     ...Array(7).fill({
       region: data.first.region,

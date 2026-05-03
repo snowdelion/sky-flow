@@ -21,7 +21,7 @@ export const favoriteStore = new StorageStore(
 );
 const EMPTY_ARRAY: History = [];
 
-export function useSearchHistory(): UseSearchHistoryReturn {
+export function useSearchHistory() {
   const recent = useSyncExternalStore(
     (listener) => recentStore.subscribe(listener),
     () => recentStore.getSnapshot(),
@@ -113,11 +113,7 @@ export function useSearchHistory(): UseSearchHistoryReturn {
   );
 }
 
-const generateCityId = (
-  city: string,
-  region?: string,
-  country?: string,
-): string => {
+const generateCityId = (city: string, region?: string, country?: string) => {
   const baseId = city.toLowerCase();
   const regionId = region
     ? `${baseId}-${region.toLowerCase().replace(/\s+/g, "-")}`
@@ -128,12 +124,3 @@ const generateCityId = (
 
   return id;
 };
-
-interface UseSearchHistoryReturn {
-  recent: History;
-  favorites: History;
-  addCity: (cityData: CityData, favorited?: boolean) => void;
-  toggleFavorite: (id: string) => void;
-  removeCity: (id: string) => void;
-  removeFavorite: (id: string) => void;
-}

@@ -2,7 +2,7 @@ export const generateCityId = (
   city: string,
   region?: string,
   country?: string,
-): string => {
+) => {
   const baseId = city.toLowerCase();
   const regionId = region
     ? `${baseId}-${region.toLowerCase().replace(/\s+/g, "-")}`

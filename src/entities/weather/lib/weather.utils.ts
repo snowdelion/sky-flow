@@ -6,14 +6,11 @@ import {
 import type { DailyForecast, format, HourlyItem } from "../model/types/types";
 import type { WeatherHourly } from "../model/types/weather.types";
 
-export function calculateAverageTemps(min: number, max: number): number {
+export function calculateAverageTemps(min: number, max: number) {
   return Math.round((min + max) / 2);
 }
 
-export function groupByDay(
-  data?: WeatherHourly,
-  format?: format,
-): DailyForecast[] {
+export function groupByDay(data?: WeatherHourly, format?: format) {
   if (!format) format = { hourFormat: "12", dayFormat: "dddd" };
   const { hourFormat, dayFormat } = format;
 

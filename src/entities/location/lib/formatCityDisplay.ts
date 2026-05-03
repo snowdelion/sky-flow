@@ -1,6 +1,6 @@
 import { type CityData, isNotFoundCity } from "@shared/types";
 
-export function formatCityDisplay(cityData: CityData): string {
+export function formatCityDisplay(cityData: CityData) {
   if (isNotFoundCity(cityData)) return cityData.city;
   const { city, country, region, code } = cityData;
   const parts = [];

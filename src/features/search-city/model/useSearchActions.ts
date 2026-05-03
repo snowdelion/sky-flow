@@ -6,7 +6,7 @@ import { useSearchState } from "@/entities/location";
 import { type CityData, isFoundCity } from "@/shared/types";
 import { mapCityToUrlParams } from "./mapCityToUrlParams";
 
-export function useSearchActions(): UseSearchActionsReturn {
+export function useSearchActions() {
   const { setInputValue, setIsOpen, inputValue } = useSearchState();
 
   const { addCity } = useSearchHistory();
@@ -14,10 +14,7 @@ export function useSearchActions(): UseSearchActionsReturn {
   const pathname = usePathname();
 
   const searchSelectedCity = useCallback(
-    (
-      cityData: CityData,
-      inputRef?: RefObject<HTMLInputElement | null>,
-    ): void => {
+    (cityData: CityData, inputRef?: RefObject<HTMLInputElement | null>) => {
       inputRef?.current?.blur();
       setIsOpen(false);
       setInputValue("");
@@ -32,7 +29,7 @@ export function useSearchActions(): UseSearchActionsReturn {
 
   const { refetch } = useGeoQuery(inputValue);
   const searchCityWithName = useCallback(
-    async (city: string): Promise<void> => {
+    async (city: string) => {
       const targetCity = city.trim().toLowerCase();
       if (!targetCity) return;
       const { data: geoData } = await refetch();
@@ -62,12 +59,4 @@ export function useSearchActions(): UseSearchActionsReturn {
     }),
     [searchSelectedCity, searchCityWithName],
   );
-}
-
-interface UseSearchActionsReturn {
-  searchSelectedCity: (
-    cityData: CityData,
-    inputRef?: RefObject<HTMLInputElement | null>,
-  ) => void;
-  searchCityWithName: (city: string) => Promise<void>;
 }

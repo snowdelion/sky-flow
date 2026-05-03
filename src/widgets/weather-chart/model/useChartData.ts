@@ -12,7 +12,7 @@ import { formatDayOfWeek } from "@/shared/lib";
 export function useChartData(
   dailyData: WeatherDaily | undefined,
   hourlyData: WeatherHourly | undefined,
-): UseChartDataReturn {
+) {
   const selectedDayIndex = useSettingsStore((state) => state.selectedDayIndex);
   const hourFormat = useSettingsStore((state) => state.units.timeUnit);
 
@@ -50,15 +50,4 @@ export function useChartData(
     }),
     [chartDailyData, chartHourlyData],
   );
-}
-
-interface UseChartDataReturn {
-  chartDailyData: {
-    day: string;
-    temp: number;
-  }[];
-  chartHourlyData: {
-    hour: string;
-    temp: number;
-  }[];
 }

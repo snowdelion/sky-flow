@@ -3,9 +3,7 @@ import { useSettingsStore } from "@/entities/settings";
 import { calculateAverageTemps, type WeatherDaily } from "@/entities/weather";
 import { formatDayOfWeek } from "@/shared/lib";
 
-export function useDailyForecast(
-  dailyData: WeatherDaily | undefined,
-): UseDailyForecastReturn {
+export function useDailyForecast(dailyData: WeatherDaily | undefined) {
   const setSelectedDayIndex = useSettingsStore((s) => s.setSelectedDayIndex);
 
   const formattedDays = useMemo(() => {
@@ -33,20 +31,9 @@ export function useDailyForecast(
   }, [dailyData]);
 
   const changeDayIndex = useCallback(
-    (index: number): void => startTransition(() => setSelectedDayIndex(index)),
+    (index: number) => startTransition(() => setSelectedDayIndex(index)),
     [setSelectedDayIndex],
   );
 
   return { formattedDays, changeDayIndex };
-}
-
-interface UseDailyForecastReturn {
-  formattedDays: {
-    day: string;
-    weatherCode: number;
-    temp: string;
-    feelsLike: string;
-    date: string;
-  }[];
-  changeDayIndex: (index: number) => void;
 }

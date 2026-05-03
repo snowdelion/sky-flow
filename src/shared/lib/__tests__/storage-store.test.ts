@@ -1,4 +1,3 @@
-import type { Mock } from "vitest";
 import z from "zod";
 import { StorageStore } from "../storage-store";
 
@@ -13,7 +12,7 @@ type TestData = TestItem[];
 const DEFAULT_VALUE: TestData = [];
 
 // --- 2. setup ---
-const setup = (limit: number = 8): SetupReturn => {
+const setup = (limit: number = 8) => {
   const storageKey = `test-key-${Math.random()}`;
   const store = new StorageStore<TestData>(
     storageKey,
@@ -78,9 +77,3 @@ describe("StorageStore", () => {
     expect(snapshot[0].city).toBe("Warsaw");
   });
 });
-
-interface SetupReturn {
-  storageKey: string;
-  store: StorageStore<TestData>;
-  listener: Mock;
-}
