@@ -1,5 +1,5 @@
 import "server-only";
-import type { ServerRequestData } from "./types";
+import type { ServerRequestData } from "../model/types";
 
 export function getAiPrompt(data: ServerRequestData) {
   const { city, country, region, lat, lon, option, temperature, condition } =

@@ -1,6 +1,6 @@
 import "server-only";
+import type { ServerRequestData } from "../model/types";
 import { getAiPrompt } from "./getAiPrompt";
-import type { ServerRequestData } from "./types";
 
 export function getAiConfig(data: ServerRequestData) {
   const optionConfig: OptionConfig = {
