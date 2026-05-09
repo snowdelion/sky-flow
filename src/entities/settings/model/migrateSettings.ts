@@ -1,9 +1,9 @@
 import { DEFAULT_UNITS } from "@/shared/config/constants";
-import type { SettingsStore } from "./useSettingsStore.types";
+import type { PersistOld, SettingsStore } from "./types";
 
 export const migrateSettings = (persistedState: unknown, version: number) => {
   if (version === 0) {
-    const state = persistedState as persistOld;
+    const state = persistedState as PersistOld;
 
     if (state.units) {
       const {
@@ -29,18 +29,4 @@ export const migrateSettings = (persistedState: unknown, version: number) => {
     return state as unknown as SettingsStore;
   }
   return persistedState as SettingsStore;
-};
-
-type persistOld = {
-  units: {
-    temperature?: "celsius" | "fahrenheit";
-    speed?: "kmh" | "mph";
-    precipitation?: "mm" | "inch";
-    time?: "12" | "24";
-
-    temperatureUnit?: "celsius" | "fahrenheit";
-    speedUnit?: "kmh" | "mph";
-    precipitationUnit?: "mm" | "inch";
-    timeUnit?: "12" | "24";
-  };
 };

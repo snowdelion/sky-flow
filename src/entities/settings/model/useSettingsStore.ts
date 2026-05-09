@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import { STORAGE_KEYS } from "@/shared/config/constants";
 import type { Units } from "@/shared/types";
 import { migrateSettings } from "./migrateSettings";
-import type { SettingsStore } from "./useSettingsStore.types";
+import type { SettingsStore } from "./types";
 
 export const useSettingsStore = create<SettingsStore>()(
   persist(
