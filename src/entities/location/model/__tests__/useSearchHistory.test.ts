@@ -1,5 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { beforeEach, describe, expect, it, type Mock } from "vitest";
+import { STORAGE_KEYS } from "@/shared/config/constants";
 import { createHistoryCity } from "@/shared/lib/testing";
 import type { CityData } from "@/shared/types";
 import {
@@ -78,7 +79,7 @@ describe("useSearchHistory", () => {
 
   it("should get recent from localStorage", () => {
     window.localStorage.setItem(
-      "weather-recent",
+      STORAGE_KEYS.RECENT,
       JSON.stringify(warsawHistoryData),
     );
 
@@ -93,7 +94,7 @@ describe("useSearchHistory", () => {
 
   it("should get favorites from localStorage", () => {
     const data = [{ ...warsawHistoryData[0], isFavorite: true }];
-    window.localStorage.setItem("weather-favorite", JSON.stringify(data));
+    window.localStorage.setItem(STORAGE_KEYS.FAVORITE, JSON.stringify(data));
 
     act(() => favoriteStore.update(data));
 
@@ -120,7 +121,7 @@ describe("useSearchHistory", () => {
     });
 
     const saved = JSON.parse(
-      window.localStorage.getItem("weather-recent") || "[]",
+      window.localStorage.getItem(STORAGE_KEYS.RECENT) || "[]",
     );
     expect(saved).toHaveLength(1);
     expect(saved[0].id).toBe("tokyo-tokyo-japan");
@@ -209,7 +210,7 @@ describe("useSearchHistory", () => {
   });
 
   it("should handle corrupted localStorage", () => {
-    window.localStorage.setItem("weather-recent", "broken json");
+    window.localStorage.setItem(STORAGE_KEYS.RECENT, "broken json");
     recentStore.reset();
     const { result } = renderHook(() => useSearchHistory());
 

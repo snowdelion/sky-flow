@@ -2,7 +2,7 @@ import { http, HttpResponse } from "msw";
 import { CITY_BASE_DATA } from "../mocks/data/cities";
 
 export const handlers = [
-  http.get("https://geocoding-api.open-meteo.com/v1/search", ({ request }) => {
+  http.get("/api/geocoding", ({ request }) => {
     const url = new URL(request.url);
     const name = url.searchParams.get("name");
 
@@ -21,7 +21,7 @@ export const handlers = [
     return HttpResponse.json({ results: [] }, { status: 200 });
   }),
 
-  http.get("https://api.open-meteo.com/v1/forecast", ({ request }) => {
+  http.get("/api/forecast", ({ request }) => {
     const url = new URL(request.url);
     const city = url.searchParams.get("city");
     const region = url.searchParams.get("region");
@@ -79,6 +79,25 @@ export const handlers = [
     }));
 
     return HttpResponse.json(count === 1 ? forecasts[0] : forecasts);
+  }),
+
+  http.get("/api/search", ({ request }) => {
+    const url = new URL(request.url);
+    const latitudes = url.searchParams.get("latitude")?.split(",") ?? [];
+    const count = Math.max(latitudes.length, 1);
+
+    const results = Array.from({ length: count }, () => ({
+      current: {
+        temperature_2m: -2,
+        time: new Date().toISOString(),
+        weather_code: 0,
+      },
+      current_units: {
+        temperature_2m: "°C",
+      },
+    }));
+
+    return HttpResponse.json(results);
   }),
 ];
 

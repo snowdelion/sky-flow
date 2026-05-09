@@ -1,20 +1,22 @@
 "use client";
 import { useCallback, useMemo, useSyncExternalStore } from "react";
+import { STORAGE_KEYS } from "@/shared/config/constants";
 import { StorageStore } from "@/shared/lib";
 import { type CityData, isFoundCity, isNotFoundCity } from "@/shared/types";
 import { formatCityDisplay } from "../lib/formatCityDisplay";
+import { generateCityId } from "../lib/generateCityId";
 import { HistorySchema } from "./schema";
 import { History, HistoryItem } from "./types";
 import { useSearchStore } from "./useSearchStore";
 
 export const recentStore = new StorageStore(
-  "weather-recent",
+  STORAGE_KEYS.RECENT,
   8,
   HistorySchema,
   [],
 );
 export const favoriteStore = new StorageStore(
-  "weather-favorite",
+  STORAGE_KEYS.FAVORITE,
   100,
   HistorySchema,
   [],
@@ -112,15 +114,3 @@ export function useSearchHistory() {
     [recent, favorites, addCity, toggleFavorite, removeCity, removeFavorite],
   );
 }
-
-const generateCityId = (city: string, region?: string, country?: string) => {
-  const baseId = city.toLowerCase();
-  const regionId = region
-    ? `${baseId}-${region.toLowerCase().replace(/\s+/g, "-")}`
-    : baseId;
-  const id = country
-    ? `${regionId}-${country.toLowerCase().replace(/\s+/g, "-")}`
-    : regionId;
-
-  return id;
-};

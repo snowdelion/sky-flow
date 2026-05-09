@@ -1,5 +1,6 @@
 import { act } from "@testing-library/react";
-import { DEFAULT_CITY_DATA } from "@/pages-flat/weather/model/constants";
+import { DEFAULT_CITY_DATA } from "@/pages-flat/weather/lib/constants";
+import { STORAGE_KEYS } from "@/shared/config/constants";
 import { createCityData } from "@/shared/lib/testing";
 import { useSearchStore } from "../useSearchStore";
 
@@ -68,7 +69,7 @@ describe("useSearchStore", () => {
     });
 
     const storage = JSON.parse(
-      window.localStorage.getItem("weather-search") as string,
+      window.localStorage.getItem(STORAGE_KEYS.SEARCH) as string,
     );
 
     expect(storage).toEqual({
