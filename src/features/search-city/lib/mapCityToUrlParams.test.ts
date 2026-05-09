@@ -1,6 +1,6 @@
 import { createCityData } from "@/shared/lib/testing";
 import type { CityData } from "@/shared/types";
-import { mapCityToUrlParams } from "../mapCityToUrlParams";
+import { mapCityToUrlParams } from "./mapCityToUrlParams";
 
 describe("mapCityToUrlParams", () => {
   it("should create all params", () => {

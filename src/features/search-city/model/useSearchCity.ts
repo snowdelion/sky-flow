@@ -9,19 +9,24 @@ export function useSearchCity() {
   const [delayValue, { isPending }] = useDebounce(inputValue, 500);
   const isDebouncing = isPending();
 
-  const { data, isFetching: isGeoFetching } = useGeoQuery(delayValue);
+  const {
+    data,
+    isFetching: isGeoFetching,
+    isError: isGeoError,
+  } = useGeoQuery(delayValue);
 
   const units = useSettingsStore((s) => s.units);
-  const { data: resultData, isFetching: isDelayFetching } = useSearchQuery(
-    data || { results: [] },
-    units,
-  );
+  const {
+    data: resultData,
+    isFetching: isDelayFetching,
+    isError: isSearchError,
+  } = useSearchQuery(data || EMPTY_GEO, units);
 
+  const isError = isGeoError || isSearchError;
   const shouldSearchSkeleton =
     (isDebouncing || isDelayFetching || isGeoFetching) && !!inputValue.trim();
 
-  return {
-    shouldSearchSkeleton,
-    resultData,
-  };
+  return { shouldSearchSkeleton, resultData, isError };
 }
+
+const EMPTY_GEO = { results: [] };

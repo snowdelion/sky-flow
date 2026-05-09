@@ -39,6 +39,7 @@ describe("SearchDropdown", () => {
     vi.mocked(useSearchCity).mockReturnValue({
       resultData: [],
       shouldSearchSkeleton: false,
+      isError: false,
     });
     const { container } = renderWithClient(
       <SearchDropdown inputRef={inputRef} dropdownRef={dropdownRef} />,
@@ -52,6 +53,7 @@ describe("SearchDropdown", () => {
     vi.mocked(useSearchCity).mockReturnValue({
       resultData: [],
       shouldSearchSkeleton: false,
+      isError: false,
     });
     renderWithClient(
       <SearchDropdown inputRef={inputRef} dropdownRef={dropdownRef} />,
@@ -65,6 +67,7 @@ describe("SearchDropdown", () => {
     vi.mocked(useSearchCity).mockReturnValue({
       resultData: [],
       shouldSearchSkeleton: true,
+      isError: false,
     });
     renderWithClient(
       <SearchDropdown inputRef={inputRef} dropdownRef={dropdownRef} />,

@@ -1,13 +1,18 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { RefObject, useCallback, useMemo } from "react";
-import { useGeoQuery, useSearchHistory } from "@/entities/location";
-import { useSearchState } from "@/entities/location";
+import {
+  useGeoQuery,
+  useSearchHistory,
+  useSearchStore,
+} from "@/entities/location";
 import { type CityData, isFoundCity } from "@/shared/types";
-import { mapCityToUrlParams } from "./mapCityToUrlParams";
+import { mapCityToUrlParams } from "../lib/mapCityToUrlParams";
 
 export function useSearchActions() {
-  const { setInputValue, setIsOpen, inputValue } = useSearchState();
+  const setInputValue = useSearchStore((s) => s.setInputValue);
+  const setIsOpen = useSearchStore((s) => s.setIsOpen);
+  const inputValue = useSearchStore((s) => s.inputValue);
 
   const { addCity } = useSearchHistory();
   const router = useRouter();

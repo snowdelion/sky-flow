@@ -18,7 +18,7 @@ export function SearchDropdown({
   const setIsOpen = useSearchStore((s) => s.setIsOpen);
 
   const { handleChangeTab } = useSearchHandlers();
-  const { resultData, shouldSearchSkeleton } = useSearchCity();
+  const { resultData, shouldSearchSkeleton, isError } = useSearchCity();
 
   if (!isOpen) return null;
 
@@ -35,7 +35,7 @@ export function SearchDropdown({
     if (shouldSearchSkeleton) return <SearchResultsSkeleton />;
 
     if (!resultData || resultData.length === 0) {
-      return <SearchPlaceholder inputValue={inputValue} />;
+      return <SearchPlaceholder inputValue={inputValue} isError={isError} />;
     } else {
       return (
         <div
