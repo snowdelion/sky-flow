@@ -1,5 +1,5 @@
 // --- api/ ---
-export { fetchGeoData } from "./api/location.api";
+export { fetchGeoData } from "./api/fetchGeoData";
 export { useGeoQuery } from "./model/useGeoQuery";
 
 // --- model/ ---
@@ -19,4 +19,4 @@ export {
   favoriteStore,
   recentStore,
 } from "./model/useSearchHistory";
-export { useSearchStore, useSearchState } from "./model/useSearchStore";
+export { useSearchStore } from "./model/useSearchStore";

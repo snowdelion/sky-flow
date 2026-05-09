@@ -1,14 +1,19 @@
 import { ZodError } from "zod";
 import { AppError } from "./app-error";
+import type { ErrorCode } from "./error-codes";
+import { ERROR_CODES } from "./error-codes";
 
-export function handleApiError(error: unknown) {
+export function handleApiError(
+  error: unknown,
+  errorCode: ErrorCode = ERROR_CODES.UNKNOWN,
+) {
   if (error instanceof Error && error.name === "AbortError") throw error;
   if (error instanceof ZodError) throwZodErrors(error);
   if (error instanceof AppError) throw error;
 
   const message =
     error instanceof Error ? error.message : "Unexpected error...";
-  throw new AppError("UNKNOWN_ERROR", message);
+  throw new AppError(errorCode, message);
 }
 
 const ERROR_MESSAGES: Record<number, string> = {
@@ -20,7 +25,7 @@ const ERROR_MESSAGES: Record<number, string> = {
 
 export function throwResponseErrors(
   status: number,
-  errorCode: string = "FETCH_FAILED",
+  errorCode: ErrorCode = ERROR_CODES.UNKNOWN,
 ) {
   if (status >= 500 && status <= 504)
     throw new AppError(
@@ -33,11 +38,14 @@ export function throwResponseErrors(
   throw new AppError(errorCode, message);
 }
 
-export function throwZodErrors(error: ZodError) {
+function throwZodErrors(error: ZodError) {
   const issue = error.issues[0];
   const message = `${issue.path.join(".")}: ${issue.message}`.replace(
     /invalid input: /i,
     "",
   );
-  throw new AppError("VALIDATION_ERROR", `Data validation failed: ${message}`);
+  throw new AppError(
+    ERROR_CODES.VALIDATION,
+    `Data validation failed: ${message}`,
+  );
 }

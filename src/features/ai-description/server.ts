@@ -1,2 +1,2 @@
 import "server-only";
-export { getAiConfig } from "./model/getAiConfig";
+export { getAiConfig } from "./lib/getAiConfig";

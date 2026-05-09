@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { AppError } from "@/shared/api";
-import { fetchGeoData } from "../../api/location.api";
+import { AppError, ERROR_CODES } from "@/shared/api";
+import { fetchGeoData } from "../../api/fetchGeoData";
 import { useGeoQuery } from "../useGeoQuery";
 
 // --- 1. mocks ---
-vi.mock("../../api/location.api", () => ({
+vi.mock("../../api/fetchGeoData.ts", () => ({
   fetchGeoData: vi.fn(),
 }));
 
@@ -52,7 +52,7 @@ describe("useGeoQuery", () => {
 
   it("should handle API errors", async () => {
     const error = new AppError(
-      "FORECAST_FAILED",
+      ERROR_CODES.FORECAST,
       "Server is temporarily unaavailable...",
     );
     vi.mocked(fetchGeoData).mockRejectedValue(error);

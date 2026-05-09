@@ -1,13 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { AppError } from "@/shared/api";
+import { AppError, ERROR_CODES } from "@/shared/api";
 import { DEFAULT_UNITS } from "@/shared/config/constants";
 import { createGeoData, createResultsMocks } from "@/shared/lib/testing";
 import { useSearchQuery } from "../useSearchQuery";
 
 // --- 1. mocks ---
 const fetchSearchResults = vi.hoisted(() => vi.fn());
-vi.mock("@/entities/weather/api/weather.api", () => ({
+vi.mock("@/entities/weather/api/fetchSearchResults.ts", () => ({
   fetchSearchResults,
 }));
 
@@ -45,8 +45,8 @@ describe("useSearchQuery", () => {
 
   it("should handle API error", async () => {
     const error = new AppError(
-      "FORECAST_FAILED",
-      "Server is temporarily unaavailable...",
+      ERROR_CODES.FORECAST,
+      "Server is temporarily unavailable...",
     );
     fetchSearchResults.mockRejectedValue(error);
     const { result } = renderHookWithClient(() =>

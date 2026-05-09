@@ -1,14 +1,14 @@
 import { useCompletion } from "@ai-sdk/react";
 import { useCallback, useMemo, useState } from "react";
-import { AppError } from "@/shared/api";
-import { parseErrorCode } from "./parseErrorCode";
-import { type AiErrorCode, AiRequestsSchema, type RequestData } from "./types";
+import { AppError, ERROR_CODES } from "@/shared/api";
+import { parseErrorCode } from "../lib/parseErrorCode";
+import { AiRequestsSchema, type RequestData } from "./types";
 
-const ERROR_MESSAGES: Record<AiErrorCode, string> = {
+const AI_ERROR_MESSAGES = {
   RATE_LIMIT_EXCEEDED: "Too many requests.",
   INVALID_REQUEST_DATA: "Invalid request data.",
-  SERVICE_UNAVAILABLE: "AI service is unavailable.",
-};
+  AI_DESCRIPTION_FAILED: "AI service is unavailable.",
+} as const;
 
 export function useAiDescription(aiRequestData: RequestData | null) {
   const [selectedTab, setSelectedTab] = useState<"weather" | "location" | null>(
@@ -35,8 +35,8 @@ export function useAiDescription(aiRequestData: RequestData | null) {
       if (!validation.success) {
         setValidationError(
           new AppError(
-            "INVALID_REQUEST_DATA",
-            ERROR_MESSAGES.INVALID_REQUEST_DATA,
+            ERROR_CODES.REQUEST_DATA,
+            AI_ERROR_MESSAGES.INVALID_REQUEST_DATA,
           ),
         );
         return;
@@ -53,7 +53,7 @@ export function useAiDescription(aiRequestData: RequestData | null) {
 
     const code = parseErrorCode(error);
 
-    return new AppError(code, ERROR_MESSAGES[code]);
+    return new AppError(code, AI_ERROR_MESSAGES[code]);
   }, [validationError, error]);
 
   return useMemo(

@@ -1,25 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Geo, Units } from "@/shared/types";
-import { fetchSearchResults } from "../../api/weather.api";
+import { fetchSearchResults } from "../../api/fetchSearchResults";
 
 export function useSearchQuery(geoData: Geo, units: Units) {
+  const cityIds = geoData.results.map((city) => city.id).join(",") || "";
+
   return useQuery({
     queryKey: [
       "search",
-      geoData,
+      cityIds,
       units.temperatureUnit,
       units.speedUnit,
       units.precipitationUnit,
     ],
     queryFn: async ({ signal }) => {
-      const timeoutSignal = AbortSignal.timeout(5000);
-      const combinedSignal = AbortSignal.any([signal, timeoutSignal]);
-      return await fetchSearchResults(geoData, units, combinedSignal);
+      return await fetchSearchResults(geoData, units, signal);
     },
 
-    enabled: !!geoData && !!geoData.results && geoData.results.length > 0,
+    enabled: cityIds.length > 0,
 
-    retry: (failureCount) => failureCount < 2,
+    retry: 2,
 
     refetchOnWindowFocus: false,
 

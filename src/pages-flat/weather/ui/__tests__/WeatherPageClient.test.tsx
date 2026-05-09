@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
+import { ERROR_CODES } from "@/shared/api";
 import type { CityData } from "@/shared/types";
 import { useWeatherPage } from "../../model/useWeatherPage";
 import { PageClient } from "../WeatherPageClient";
@@ -60,7 +61,7 @@ describe("WeatherPageClient", () => {
   it("should show NetworkError", () => {
     vi.mocked(useWeatherPage).mockReturnValue({
       isError: true,
-      error: { code: "FORECAST_FAILED", message: "API error" },
+      error: { code: ERROR_CODES.FORECAST, message: "API error" },
       isPending: false,
     } as unknown as WeatherPageReturn);
     renderWithClient(<PageClient cityData={cityData} />);

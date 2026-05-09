@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
 } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { AppError } from "@/shared/api";
+import { AppError, ERROR_CODES } from "@/shared/api";
 import { DEFAULT_UNITS } from "@/shared/config/constants";
 import { createCityData } from "@/shared/lib/testing";
 import { createWeatherData } from "@/shared/lib/testing";
@@ -29,7 +29,7 @@ vi.mock("@tanstack/react-query", async () => {
 });
 
 const fetchForecastData = vi.hoisted(() => vi.fn());
-vi.mock("@/entities/weather/api/weather.api", () => ({
+vi.mock("@/entities/weather/api/fetchForecastData.ts", () => ({
   fetchForecastData,
 }));
 
@@ -56,7 +56,7 @@ describe("useWeatherQuery", () => {
 
   it("should handle API errors", async () => {
     const error = new AppError(
-      "FORECAST_FAILED",
+      ERROR_CODES.FORECAST,
       "Server is temporarily unavailable...",
     );
     fetchForecastData.mockRejectedValue(error);
@@ -67,13 +67,13 @@ describe("useWeatherQuery", () => {
 
     await waitFor(() => expect(result.current.isError).toBe(true));
     expect(result.current.error).toBe(error);
-    expect((result.current.error as AppError).code).toBe("FORECAST_FAILED");
+    expect((result.current.error as AppError).code).toBe(ERROR_CODES.FORECAST);
     expect(fetchForecastData).toHaveBeenCalled();
   });
 
   it("should handle network errors", async () => {
     const error = new AppError(
-      "UNKNOWN_ERROR",
+      ERROR_CODES.UNKNOWN,
       "Check your network connection...",
     );
     fetchForecastData.mockRejectedValue(error);
@@ -83,7 +83,7 @@ describe("useWeatherQuery", () => {
     );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
-    expect((result.current.error as AppError).code).toBe("UNKNOWN_ERROR");
+    expect((result.current.error as AppError).code).toBe(ERROR_CODES.UNKNOWN);
     expect(fetchForecastData).toHaveBeenCalled();
   });
 
@@ -117,14 +117,14 @@ describe("useWeatherQuery", () => {
 
   it("should handle error state", async () => {
     fetchForecastData.mockRejectedValue(
-      new AppError("UNKNOWN_ERROR", "Network error"),
+      new AppError(ERROR_CODES.UNKNOWN, "Network error"),
     );
     const { result } = renderHookWithClient(() =>
       useWeatherQuery(minskCityData, DEFAULT_UNITS),
     );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
-    expect((result.current.error as AppError).code).toBe("UNKNOWN_ERROR");
+    expect((result.current.error as AppError).code).toBe(ERROR_CODES.UNKNOWN);
   });
 
   it("shouldn't run query when city isFoundCity is false", () => {

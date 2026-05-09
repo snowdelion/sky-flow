@@ -1,57 +1,58 @@
 import { AppError } from "./app-error";
+import { ERROR_CODES, type ErrorCode } from "./error-codes";
 import { throwResponseErrors } from "./error-handler";
 
 describe("throwResponseErrors", () => {
   const cases: TestCase[] = [
     {
       status: 400,
-      code: "GEOCODING_FAILED",
+      code: ERROR_CODES.GEOCODING,
       message: "Invalid search query...",
     },
     {
       status: 403,
-      code: "GEOCODING_FAILED",
+      code: ERROR_CODES.GEOCODING,
       message: "API authentication failed. Try again later...",
     },
     {
       status: 429,
-      code: "GEOCODING_FAILED",
+      code: ERROR_CODES.GEOCODING,
       message: "Too many requests. Wait a moment and try again...",
     },
     {
       status: 500,
-      code: "GEOCODING_FAILED",
+      code: ERROR_CODES.GEOCODING,
       message: "Service is temporarily unavailable. Try again later...",
     },
     {
       status: 1000,
-      code: "GEOCODING_FAILED",
+      code: ERROR_CODES.GEOCODING,
       message: "Failed to fetch data (status: 1000).",
     },
 
     {
       status: 400,
-      code: "FORECAST_FAILED",
+      code: ERROR_CODES.FORECAST,
       message: "Invalid search query...",
     },
     {
       status: 403,
-      code: "FORECAST_FAILED",
+      code: ERROR_CODES.FORECAST,
       message: "API authentication failed. Try again later...",
     },
     {
       status: 429,
-      code: "FORECAST_FAILED",
+      code: ERROR_CODES.FORECAST,
       message: "Too many requests. Wait a moment and try again...",
     },
     {
       status: 500,
-      code: "FORECAST_FAILED",
+      code: ERROR_CODES.FORECAST,
       message: "Service is temporarily unavailable. Try again later...",
     },
     {
       status: 1000,
-      code: "FORECAST_FAILED",
+      code: ERROR_CODES.FORECAST,
       message: "Failed to fetch data (status: 1000).",
     },
   ];
@@ -74,6 +75,6 @@ describe("throwResponseErrors", () => {
 
 interface TestCase {
   status: number;
-  code: "GEOCODING_FAILED" | "FORECAST_FAILED";
+  code: ErrorCode;
   message: string;
 }

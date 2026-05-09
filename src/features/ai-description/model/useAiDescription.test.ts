@@ -1,6 +1,7 @@
 import { useCompletion } from "@ai-sdk/react";
 import { act, renderHook } from "@testing-library/react";
-import { useAiDescription } from "../useAiDescription";
+import { ERROR_CODES } from "@/shared/api";
+import { useAiDescription } from "./useAiDescription";
 
 // --- 1. mocks ---
 vi.mock("@ai-sdk/react");
@@ -77,19 +78,19 @@ describe("useAiDescription", () => {
     it("should be null when error is not 429", () => {
       mockUseCompletion({ error: new Error("Internal server error") });
       const { result } = renderHook(() => useAiDescription(VALID_DATA));
-      expect(result.current.error?.code).toBe("SERVICE_UNAVAILABLE");
+      expect(result.current.error?.code).toBe(ERROR_CODES.AI_DESCRIPTION);
     });
 
     it("should return AppError when error message includes 429", () => {
       mockUseCompletion({ error: new Error("429 error") });
       const { result } = renderHook(() => useAiDescription(VALID_DATA));
-      expect(result.current.error?.code).toBe("RATE_LIMIT_EXCEEDED");
+      expect(result.current.error?.code).toBe(ERROR_CODES.RATE_LIMIT);
     });
 
     it("should return AppError when error message includes 'Too many requests'", () => {
       mockUseCompletion({ error: new Error("Too many requests") });
       const { result } = renderHook(() => useAiDescription(VALID_DATA));
-      expect(result.current.error?.code).toBe("RATE_LIMIT_EXCEEDED");
+      expect(result.current.error?.code).toBe(ERROR_CODES.RATE_LIMIT);
     });
   });
 
