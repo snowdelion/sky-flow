@@ -1,4 +1,4 @@
-import { getBaseUrl } from "@/shared/lib";
+import { getBaseUrl } from "@/shared/api";
 import { ERROR_CODES, handleApiError, request } from "@shared/api";
 import { mapToGeoData } from "../model/mapper";
 import { GeoResponseDtoSchema } from "./dto";

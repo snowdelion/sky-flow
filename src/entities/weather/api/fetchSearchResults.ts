@@ -1,6 +1,11 @@
-import { AppError, ERROR_CODES, handleApiError, request } from "@/shared/api";
+import {
+  AppError,
+  ERROR_CODES,
+  handleApiError,
+  request,
+  getBaseUrl,
+} from "@/shared/api";
 import { DEFAULT_UNITS } from "@/shared/config/constants";
-import { getBaseUrl } from "@/shared/lib";
 import type { Geo, GeoItem, Units } from "@/shared/types";
 import { createSearchResultsParams } from "../lib/createSearchResultsParams";
 import { mapToResultsData } from "../model/mapper";
