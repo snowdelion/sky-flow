@@ -4,7 +4,7 @@ import { DEFAULT_UNITS } from "@/shared/config/constants";
 import { getBaseUrl } from "@/shared/lib";
 import { isFoundCity, type CityData } from "@/shared/types";
 import type { Units } from "@/shared/types";
-import { createForecastParams } from "../model/createForecastParams";
+import { createForecastParams } from "../lib/createForecastParams";
 import { mapToForecastData } from "../model/mapper";
 import { WeatherDtoSchema } from "./dto/forecast.dto";
 
