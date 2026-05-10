@@ -1,6 +1,12 @@
 "use client";
-import { type PageErrorProps, WeatherPageError } from "@/pages-flat/weather";
 
-export default function PageError(props: PageErrorProps) {
-  return <WeatherPageError {...props} />;
+import { PageError } from "@/shared/ui";
+
+export default function WeatherPageError({ error, reset }: PageError) {
+  return <PageError message={error.message} reset={reset} />;
 }
+
+type PageError = {
+  error: Error;
+  reset: () => void;
+};
