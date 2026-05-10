@@ -3,7 +3,7 @@ import {
   getAspect,
   getTicks,
   getXTickFormatter,
-} from "../chart.utils";
+} from "./chart.utils";
 
 describe("chart-utils", () => {
   describe("generateTicks", () => {

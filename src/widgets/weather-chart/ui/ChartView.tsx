@@ -15,7 +15,7 @@ import {
   TOOLTIP_CONTENT_STYLE,
   TOOLTIP_CURSOR,
   X_AXIS_TICK,
-} from "../model/constants";
+} from "../lib/constants";
 
 export const ChartView = memo(function ChartView({
   activeData,

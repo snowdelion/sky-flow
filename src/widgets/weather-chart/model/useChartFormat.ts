@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useSettingsStore } from "@/entities/settings";
-import { getAspect, getTicks, getXTickFormatter } from "./chart.utils";
+import { getAspect, getTicks, getXTickFormatter } from "../lib/chart.utils";
 
 export function useChartFormat(
   activeData: ActiveData,
