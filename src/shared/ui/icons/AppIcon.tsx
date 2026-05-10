@@ -1,8 +1,8 @@
 import Image, { type ImageProps } from "next/image";
 import { memo } from "react";
-import { ASSETS } from "../assets";
+import { ASSETS } from "../../assets";
 
-export const CommonIcon = memo(function CommonIcon({
+export const AppIcon = memo(function CommonIcon({
   icon,
   alt,
   ...props

@@ -1,8 +1,8 @@
 import Image, { type ImageProps } from "next/image";
 import { memo } from "react";
-import { ASSETS } from "../assets";
+import { ASSETS } from "../../assets";
 
-export const CommonImage = memo(function CommonImage({
+export const AppImage = memo(function CommonImage({
   image,
   alt = "Background",
   ...props

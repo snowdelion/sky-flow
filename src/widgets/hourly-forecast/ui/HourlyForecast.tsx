@@ -1,6 +1,6 @@
 "use client";
 import type { WeatherHourly, WeatherUnits } from "@/entities/weather";
-import { CommonIcon } from "@/shared/ui/CommonIcon";
+import { AppIcon } from "@/shared/ui";
 import { useHourlyForecast } from "../model/useHourlyForecast";
 import { DaySelector } from "./DaySelector";
 import { HourlyForecastSkeleton } from "./HourlyForecastSkeleton";
@@ -44,7 +44,7 @@ export function HourlyForecast({
               <span className="text-[0.95rem] sm:text-lg md:text-xl lg:text-lg xl:text-xl font-bold tracking-wider lg:tracking-wide whitespace-nowrap">
                 Hourly forecast
               </span>
-              <CommonIcon
+              <AppIcon
                 icon="dropdown"
                 className={`block mt-px lg:hidden w-2.5 h-2.5 sm:w-4 sm:h-4 transition-transform duration-200 ${isHourlyOpen ? "rotate-0" : "rotate-180"}`}
               />
