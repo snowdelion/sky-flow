@@ -1,7 +1,7 @@
 import { ZodError } from "zod";
-import { AppError } from "./app-error";
-import type { ErrorCode } from "./error-codes";
-import { ERROR_CODES } from "./error-codes";
+import { AppError } from "../config/app-error";
+import type { ErrorCode } from "../config/error-codes";
+import { ERROR_CODES } from "../config/error-codes";
 
 export function handleApiError(
   error: unknown,

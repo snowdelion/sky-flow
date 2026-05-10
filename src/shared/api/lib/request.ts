@@ -1,5 +1,5 @@
-import { AppError } from "./app-error";
-import { ERROR_CODES, type ErrorCode } from "./error-codes";
+import { AppError } from "../config/app-error";
+import { ERROR_CODES, type ErrorCode } from "../config/error-codes";
 import { throwResponseErrors } from "./error-handler";
 
 export async function request({

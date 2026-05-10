@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
+import { ERROR_CODES, request } from "@/shared/api/server";
 import { API_CONFIG } from "@/shared/config/constants";
-import { ERROR_CODES, request } from "@shared/api/server";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
