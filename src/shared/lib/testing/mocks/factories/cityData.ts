@@ -1,4 +1,4 @@
-import type { CityData } from "../../../../types/city-data.types";
+import type { CityData } from "../../../../types/city/city-data.types";
 
 export const createCityData = (overrides: CityDataOverrides = {}) => {
   const getCity = (data: CityData, override: Partial<CityData> = {}) => {

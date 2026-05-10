@@ -4,18 +4,14 @@ export {
   type NotFoundCity,
   isFoundCity,
   isNotFoundCity,
-} from "./city-data.types";
+} from "./city/city-data.types";
 
 export {
   FoundCitySchema,
   NotFoundCitySchema,
   CityDataSchema,
-} from "./city-data.schema";
+} from "./city/city-data.schema";
 
-export type {
-  Geo,
-  GeoItem,
-  Units,
-  DailyChartData,
-  HourlyChartData,
-} from "./types";
+export type { Units } from "./common.types";
+
+export type { Geo, GeoItem } from "./geo/geo.types";

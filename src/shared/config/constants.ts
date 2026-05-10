@@ -1,4 +1,4 @@
-import type { Units } from "../types/types";
+import type { Units } from "../types/common.types";
 
 export const API_CONFIG = {
   GEO_BASE_URL: "https://geocoding-api.open-meteo.com",
