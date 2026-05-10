@@ -1,5 +1,6 @@
 import "server-only";
 import { NextResponse } from "next/server";
+import { ERROR_CODES } from "../config/error-codes";
 
 type LimitResult = {
   success: boolean;
@@ -12,7 +13,7 @@ export function createRateLimitResponse(limitResult: LimitResult) {
   const { limit, remaining, reset } = limitResult;
 
   return NextResponse.json(
-    { error: "Too many requests", code: "RATE_LIMIT_EXCEEDED" },
+    { error: "Too many requests", code: ERROR_CODES.RATE_LIMIT },
     {
       status: 429,
       headers: {

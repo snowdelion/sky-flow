@@ -5,7 +5,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import z from "zod";
 import { getAiConfig } from "@/features/ai-description/server";
 import { ERROR_CODES, createRateLimitResponse } from "@/shared/api/server";
-import { checkRatelimit } from "@/shared/lib/ratelimit";
+import { checkRatelimit } from "@/shared/api/server";
 
 const schema = z.object({
   option: z.enum(["location", "weather"]),

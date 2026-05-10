@@ -4,7 +4,7 @@ import type { POST as PostType } from "./route";
 
 // --- 1. mocks ---
 const checkRatelimit = vi.hoisted(() => vi.fn());
-vi.mock("@/shared/lib/ratelimit", () => ({
+vi.mock("@/shared/api/server/checkRatelimit", () => ({
   checkRatelimit,
 }));
 

@@ -3,6 +3,6 @@ export {
   formatHourOfDay,
   getHourNumber,
   capitalizeString,
-} from "./formatters";
-export { StorageStore } from "./storage-store";
-export { useDeviceType } from "./useDeviceType";
+} from "./utils/formatters";
+export { StorageStore } from "./storage/storage-store";
+export { useDeviceType } from "./hooks/useDeviceType";

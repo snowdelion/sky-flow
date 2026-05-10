@@ -3,7 +3,7 @@ import {
   formatDayOfWeek,
   formatHourOfDay,
   getHourNumber,
-} from "../formatters";
+} from "./formatters";
 
 describe("formatters", () => {
   const mockDate = new Date("2026-02-21T12:00:00");
