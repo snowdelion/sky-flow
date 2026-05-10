@@ -3,7 +3,7 @@ import { renderHook } from "@testing-library/react";
 import { useGeoQuery } from "@/entities/location";
 import { useWeatherQuery } from "@/entities/weather";
 import type { CityData } from "@/shared/types";
-import { useWeatherPage } from "../useWeatherPage";
+import { useWeatherPage } from "./useWeatherPage";
 
 // --- 1. mocks ---
 vi.mock("@/entities/location", () => ({ useGeoQuery: vi.fn() }));

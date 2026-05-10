@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import type { CityData } from "@/shared/types";
-import { verifyAndGetCityData } from "../../model/utils";
+import { verifyAndGetCityData } from "../../lib/utils";
 import { generateMetadata, WeatherPage } from "../WeatherPage";
 
 // --- 1. mocks ---
-vi.mock("../../model/utils", () => ({
+vi.mock("../../lib/utils", () => ({
   verifyAndGetCityData: vi.fn(),
 }));
 vi.mock("@/widgets/header", () => ({
@@ -17,6 +17,7 @@ vi.mock("../WeatherPageClient", () => ({
   PageClient: () => <div data-testid="page-client" />,
 }));
 
+// --- 2. tests ---
 describe("WeatherPage component", () => {
   it("should verify city data and render content", async () => {
     const searchParams = Promise.resolve({

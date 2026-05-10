@@ -1,4 +1,4 @@
-import { verifyAndGetCityData, type WeatherParams } from "../utils";
+import { verifyAndGetCityData, type WeatherParams } from "./utils";
 
 // --- 1. mocks ---
 const mockRedirect = vi.hoisted(() => vi.fn());
