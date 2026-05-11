@@ -8,21 +8,34 @@ export async function request({
   errorCode,
   signal,
 }: RequestProps) {
-  const controller = new AbortController();
-  const timerId = setTimeout(() => controller.abort(), timeout);
+  const timeoutSignal = AbortSignal.timeout(timeout);
 
   const combinedSignal = signal
-    ? AbortSignal.any([signal, controller.signal])
-    : controller.signal;
+    ? AbortSignal.any([signal, timeoutSignal])
+    : timeoutSignal;
 
   try {
     const response = await fetch(url, { signal: combinedSignal });
-    if (!response.ok) throwResponseErrors(response.status, errorCode);
+
+    if (!response.ok) {
+      if (response.status === 499)
+        throw new DOMException("Aborted", "AbortError");
+
+      throwResponseErrors(response.status, errorCode);
+    }
 
     return { data: await response.json(), status: response.status };
   } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") {
+    const isTimeout =
+      (error instanceof Error || error instanceof DOMException) &&
+      error.name === "TimeoutError";
+    const isAbort =
+      (error instanceof Error || error instanceof DOMException) &&
+      error.name === "AbortError";
+
+    if (isTimeout || isAbort) {
       if (signal?.aborted) throw error;
+
       throw new AppError(
         ERROR_CODES.TIMEOUT,
         "Check your network connection...",
@@ -30,8 +43,6 @@ export async function request({
     }
 
     throw error;
-  } finally {
-    clearTimeout(timerId);
   }
 }
 

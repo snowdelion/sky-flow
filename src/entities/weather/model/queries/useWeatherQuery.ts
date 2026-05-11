@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { AppError, ERROR_CODES } from "@/shared/api";
+import { queryRetry } from "@/shared/api";
 import { isFoundCity, type Units, type CityData } from "@/shared/types";
 import { fetchForecastData } from "../../api/fetchForecastData";
 
@@ -28,7 +29,7 @@ export function useWeatherQuery(cityData: CityData, units: Units) {
 
     enabled: isEnabled,
 
-    retry: 2,
+    retry: (failureCount, error) => queryRetry(failureCount, error, 2),
 
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
 

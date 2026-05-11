@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { queryRetry } from "@/shared/api";
 import type { Geo, Units } from "@/shared/types";
 import { fetchSearchResults } from "../../api/fetchSearchResults";
 
@@ -19,7 +20,7 @@ export function useSearchQuery(geoData: Geo, units: Units) {
 
     enabled: cityIds.length > 0,
 
-    retry: 2,
+    retry: (failureCount, error) => queryRetry(failureCount, error, 2),
 
     refetchOnWindowFocus: false,
 

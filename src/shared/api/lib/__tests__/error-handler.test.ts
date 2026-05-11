@@ -1,6 +1,6 @@
-import { AppError } from "../config/app-error";
-import { ERROR_CODES, type ErrorCode } from "../config/error-codes";
-import { throwResponseErrors } from "./error-handler";
+import { AppError } from "../../config/app-error";
+import { ERROR_CODES, type ErrorCode } from "../../config/error-codes";
+import { throwResponseErrors } from "../error-handler";
 
 describe("throwResponseErrors", () => {
   const cases: TestCase[] = [

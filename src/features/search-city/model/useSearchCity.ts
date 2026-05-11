@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useDebounce } from "use-debounce";
 import { useSearchStore } from "@/entities/location";
 import { useGeoQuery } from "@/entities/location";
@@ -6,14 +7,21 @@ import { useSearchQuery } from "@/entities/weather";
 
 export function useSearchCity() {
   const inputValue = useSearchStore((s) => s.inputValue);
-  const [delayValue, { isPending }] = useDebounce(inputValue, 500);
+  const [delayValue, { isPending, flush }] = useDebounce(inputValue, 500);
   const isDebouncing = isPending();
 
   const {
     data,
     isFetching: isGeoFetching,
     isError: isGeoError,
+    refetch: geoRefetch,
   } = useGeoQuery(delayValue);
+
+  const refetch = useCallback(async () => {
+    flush();
+    await Promise.resolve();
+    return await geoRefetch({ cancelRefetch: true });
+  }, [flush, geoRefetch]);
 
   const units = useSettingsStore((s) => s.units);
   const {
@@ -26,7 +34,7 @@ export function useSearchCity() {
   const shouldSearchSkeleton =
     (isDebouncing || isDelayFetching || isGeoFetching) && !!inputValue.trim();
 
-  return { shouldSearchSkeleton, resultData, isError };
+  return { shouldSearchSkeleton, resultData, isError, refetch };
 }
 
 const EMPTY_GEO = { results: [] };

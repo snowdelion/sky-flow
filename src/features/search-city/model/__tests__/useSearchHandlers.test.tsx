@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { useSearchStore } from "@/entities/location";
 import { useSearchHandlers } from "../useSearchHandlers";
@@ -38,7 +39,7 @@ describe("useSearchHandlers", () => {
   });
 
   it("should change active tab", () => {
-    const { result } = renderHook(() => useSearchHandlers());
+    const { result } = renderHookWithClient(() => useSearchHandlers());
 
     act(() => result.current.handleChangeTab("favorites"));
     expect(useSearchStore.getState().currentTab).toBe("favorites");
@@ -48,7 +49,7 @@ describe("useSearchHandlers", () => {
   });
 
   it("should handling keydown", async () => {
-    const { result } = renderHook(() => useSearchHandlers());
+    const { result } = renderHookWithClient(() => useSearchHandlers());
     const mockRef = { current: inputElement };
 
     const enterEvent = {
@@ -81,7 +82,7 @@ describe("useSearchHandlers", () => {
       refetch: vi.fn().mockReturnValue({ data: { results: [] } }),
       geoData: { results: [] },
     });
-    const { result } = renderHook(() => useSearchHandlers());
+    const { result } = renderHookWithClient(() => useSearchHandlers());
 
     act(() => useSearchStore.getState().setInputValue("Warsaw"));
 
@@ -96,7 +97,7 @@ describe("useSearchHandlers", () => {
   });
 
   it("should handle input change", () => {
-    const { result } = renderHook(() => useSearchHandlers());
+    const { result } = renderHookWithClient(() => useSearchHandlers());
 
     const changeEvent = {
       target: { value: "Warsaw" },
@@ -108,3 +109,19 @@ describe("useSearchHandlers", () => {
     expect(useSearchStore.getState().isOpen).toBe(true);
   });
 });
+
+// --- 3. render with client ---
+const testQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: 2, retryDelay: 0, gcTime: 0, staleTime: 0 },
+  },
+});
+
+function renderHookWithClient<T>(hook: () => T) {
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={testQueryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+  return renderHook(hook, { wrapper });
+}

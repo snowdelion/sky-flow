@@ -7,7 +7,11 @@ export async function GET(req: Request) {
   const url = `${API_CONFIG.FORECAST_BASE_URL}/v1/forecast?${searchParams.toString()}`;
 
   try {
-    const res = await request({ url, errorCode: ERROR_CODES.FORECAST });
+    const res = await request({
+      url,
+      errorCode: ERROR_CODES.FORECAST,
+      signal: req.signal,
+    });
     return NextResponse.json(res?.data, { status: res?.status });
   } catch {
     return NextResponse.json(

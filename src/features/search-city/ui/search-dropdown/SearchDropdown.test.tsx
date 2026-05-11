@@ -40,7 +40,7 @@ describe("SearchDropdown", () => {
       resultData: [],
       shouldSearchSkeleton: false,
       isError: false,
-    });
+    } as unknown as ReturnType<typeof useSearchCity>);
     const { container } = renderWithClient(
       <SearchDropdown inputRef={inputRef} dropdownRef={dropdownRef} />,
     );
@@ -54,7 +54,7 @@ describe("SearchDropdown", () => {
       resultData: [],
       shouldSearchSkeleton: false,
       isError: false,
-    });
+    } as unknown as ReturnType<typeof useSearchCity>);
     renderWithClient(
       <SearchDropdown inputRef={inputRef} dropdownRef={dropdownRef} />,
     );
@@ -68,7 +68,7 @@ describe("SearchDropdown", () => {
       resultData: [],
       shouldSearchSkeleton: true,
       isError: false,
-    });
+    } as unknown as ReturnType<typeof useSearchCity>);
     renderWithClient(
       <SearchDropdown inputRef={inputRef} dropdownRef={dropdownRef} />,
     );
