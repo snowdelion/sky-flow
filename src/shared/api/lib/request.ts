@@ -1,12 +1,14 @@
+import type { ZodType } from "zod";
 import { type ErrorCode } from "../config/error-codes";
 import { handleApiError, throwResponseErrors } from "./error-handler";
 
-export async function request({
+export async function request<T>({
   url,
   timeout = 8000,
+  schema,
   errorCode,
   signal,
-}: RequestProps) {
+}: RequestProps<T>): Promise<{ data: T; status: number }> {
   const timeoutSignal = AbortSignal.timeout(timeout);
 
   const combinedSignal = !!signal
@@ -23,14 +25,18 @@ export async function request({
       throwResponseErrors(response.status, errorCode);
     }
 
-    return { data: await response.json(), status: response.status };
+    const rawData = await response.json();
+    const data = schema ? schema.parse(rawData) : rawData;
+
+    return { data, status: response.status };
   } catch (error) {
     handleApiError(error, errorCode, { isExternalSignal: !!signal });
   }
 }
 
-type RequestProps = {
+type RequestProps<T> = {
   url: string;
+  schema?: ZodType<T>;
   timeout?: number;
   errorCode?: ErrorCode;
   signal?: AbortSignal;

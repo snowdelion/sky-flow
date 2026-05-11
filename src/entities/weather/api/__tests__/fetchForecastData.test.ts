@@ -38,7 +38,13 @@ describe("fetchForecastData", () => {
 
     await expect(
       fetchForecastData({ cityData, units: DEFAULT_UNITS }),
-    ).rejects.toThrow(/no data/i);
+    ).rejects.toThrow(/validation failed/i);
+    await expect(
+      fetchForecastData({ cityData, units: DEFAULT_UNITS }),
+    ).rejects.toThrow(/expected/i);
+    await expect(
+      fetchForecastData({ cityData, units: DEFAULT_UNITS }),
+    ).rejects.toThrow(/received/i);
   });
 
   it("should catch and handle unexpected errors", async () => {

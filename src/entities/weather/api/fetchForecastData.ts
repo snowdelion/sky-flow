@@ -26,16 +26,14 @@ export async function fetchForecastData({
     const params = createForecastParams(lat, lon, units);
     const url = `${getBaseUrl()}/api/forecast?${params}`;
 
-    const res = await request({ url, signal, errorCode: ERROR_CODES.FORECAST });
+    const response = await request({
+      url,
+      signal,
+      errorCode: ERROR_CODES.FORECAST,
+      schema: WeatherDtoSchema,
+    });
 
-    if (!res?.data)
-      throw new AppError(
-        ERROR_CODES.FORECAST,
-        "No data received from weather API",
-      );
-
-    const result = WeatherDtoSchema.parse(res.data);
-    return mapToForecastData(result, cityData);
+    return mapToForecastData(response.data, cityData);
   } catch (error) {
     handleApiError(error, ERROR_CODES.FORECAST);
   }

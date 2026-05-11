@@ -57,6 +57,12 @@ describe("fetchSearchResults", () => {
 
     await expect(
       fetchSearchResults({ geoData, units: DEFAULT_UNITS }),
-    ).rejects.toThrow(/no data/i);
+    ).rejects.toThrow(/validation failed/i);
+    await expect(
+      fetchSearchResults({ geoData, units: DEFAULT_UNITS }),
+    ).rejects.toThrow(/expected/i);
+    await expect(
+      fetchSearchResults({ geoData, units: DEFAULT_UNITS }),
+    ).rejects.toThrow(/received/i);
   });
 });

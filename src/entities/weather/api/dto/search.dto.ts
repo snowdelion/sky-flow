@@ -17,7 +17,11 @@ export const SearchResultUnitsDtoSchema = z.object({
 export const SearchResultDtoSchema = SearchResultCurrentDtoSchema.extend(
   SearchResultUnitsDtoSchema.shape,
 );
-export const SearchResultsDtoSchema = z.array(SearchResultDtoSchema);
+export const SearchResultsDtoSchema = z.preprocess((value) => {
+  if (typeof value === "object" && !Array.isArray(value)) return [value];
+
+  return value || [];
+}, z.array(SearchResultDtoSchema));
 
 export type SearchResultDto = z.infer<typeof SearchResultCurrentDtoSchema>;
 export type SearchResultsDto = z.infer<typeof SearchResultsDtoSchema>;
