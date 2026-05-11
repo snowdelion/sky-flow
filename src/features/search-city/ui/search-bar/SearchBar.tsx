@@ -1,6 +1,6 @@
 import { useSearchStore } from "@/entities/location";
 import { XIcon } from "@/shared/ui";
-import { CommonIcon } from "@/shared/ui/CommonIcon";
+import { AppIcon } from "@/shared/ui";
 import { useSearchActions } from "../../model/useSearchActions";
 import { SearchInput } from "./SearchInput";
 
@@ -11,7 +11,7 @@ export function SearchBar({ inputRef, isError }: SearchBarProps) {
 
   return (
     <div className="relative z-10 col-start-1 row-start-1 flex items-center w-full group">
-      <CommonIcon
+      <AppIcon
         icon="search"
         className="w-5 h-5 mr-3 cursor-pointer shrink-0"
         alt="Search"

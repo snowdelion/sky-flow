@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { formatCityDisplay } from "@/entities/location";
 import { type WeatherCurrent } from "@/entities/weather";
-import { conditionMapper } from "./conditionMapper";
+import { conditionMapper } from "../lib/conditionMapper";
 
 export function useToday(currentData?: WeatherCurrent) {
   return useMemo(() => {

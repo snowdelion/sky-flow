@@ -1,22 +1,22 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { useShallow } from "zustand/shallow";
-import { DEFAULT_CITY_DATA } from "@/pages-flat/weather/model/constants";
+import { DEFAULT_CITY_DATA } from "@/pages-flat/weather/lib/constants";
+import { STORAGE_KEYS } from "@/shared/config/constants";
 import { FoundCitySchema } from "@/shared/types";
 import type { ActiveTab, SearchStore } from "./types";
 
-const initialState = {
+const INITIAL_STATE = {
   inputValue: "",
   currentTab: "recent" as const,
   isOpen: false,
   _hasHydrated: false,
   lastValidatedCity: DEFAULT_CITY_DATA,
-};
+} as const;
 
 export const useSearchStore = create<SearchStore>()(
   persist(
     (set) => ({
-      ...initialState,
+      ...INITIAL_STATE,
 
       setInputValue: (value: string) => set({ inputValue: value }),
       setCurrentTab: (tab: ActiveTab) => set({ currentTab: tab }),
@@ -28,10 +28,10 @@ export const useSearchStore = create<SearchStore>()(
         if (success) set({ lastValidatedCity: data });
       },
 
-      reset: () => set(initialState),
+      reset: () => set(INITIAL_STATE),
     }),
     {
-      name: "weather-search",
+      name: STORAGE_KEYS.SEARCH,
       partialize: (s) => ({
         lastValidatedCity: s.lastValidatedCity,
       }),
@@ -42,13 +42,3 @@ export const useSearchStore = create<SearchStore>()(
     },
   ),
 );
-
-export const useSearchState = () =>
-  useSearchStore(
-    useShallow((s) => ({
-      setInputValue: s.setInputValue,
-      setCurrentTab: s.setCurrentTab,
-      inputValue: s.inputValue,
-      setIsOpen: s.setIsOpen,
-    })),
-  );

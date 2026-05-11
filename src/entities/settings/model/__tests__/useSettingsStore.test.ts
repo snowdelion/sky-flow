@@ -1,4 +1,4 @@
-import { DEFAULT_UNITS } from "@/shared/config/constants";
+import { DEFAULT_UNITS, STORAGE_KEYS } from "@/shared/config/constants";
 import { useSettingsStore } from "../useSettingsStore";
 
 describe("useSettingsStore", () => {
@@ -50,7 +50,7 @@ describe("useSettingsStore", () => {
     });
 
     const storage = JSON.parse(
-      window.localStorage.getItem("weather-settings") as string,
+      window.localStorage.getItem(STORAGE_KEYS.SETTINGS) as string,
     );
 
     expect(storage).toEqual({

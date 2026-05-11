@@ -14,7 +14,7 @@ export const GeoItemDtoSchema = z
   .strip();
 
 export const GeoResponseDtoSchema = z.object({
-  results: z.array(GeoItemDtoSchema),
+  results: z.array(GeoItemDtoSchema).default([]),
 });
 
 export type GeoItemDto = z.infer<typeof GeoItemDtoSchema>;

@@ -12,7 +12,7 @@ import React, {
 } from "react";
 import { useSearchStore } from "@/entities/location";
 import { DailyForecast } from "@/entities/weather";
-import { CommonIcon } from "@/shared/ui/CommonIcon";
+import { AppIcon } from "@/shared/ui";
 
 export const DaySelector = React.memo(function DaySelector({
   days,
@@ -39,7 +39,7 @@ export const DaySelector = React.memo(function DaySelector({
           className="group flex items-center justify-center gap-1 sm:gap-2 focus:outline-none bg-[hsl(243,23%,30%)] border border-white/10 hover:opacity-80 px-3 sm:px-5 py-2 rounded-lg transition-opacity"
         >
           <span className="text-xs sm:text-base">{currentDay}</span>
-          <CommonIcon
+          <AppIcon
             icon="dropdown"
             className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 mt-0.5 group-data-open:rotate-180 transition-transform duration-200"
           />
@@ -67,7 +67,7 @@ export const DaySelector = React.memo(function DaySelector({
             </div>
 
             {dayName === days[selectedDayIndex].dayName && (
-              <CommonIcon
+              <AppIcon
                 icon="checkmark"
                 className="w-3 sm:w-3.5"
                 alt="Checked"

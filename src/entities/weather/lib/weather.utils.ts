@@ -2,7 +2,7 @@ import {
   formatDayOfWeek,
   formatHourOfDay,
   getHourNumber,
-} from "@shared/lib/formatters";
+} from "@/shared/lib/utils/formatters";
 import type { DailyForecast, format, HourlyItem } from "../model/types/types";
 import type { WeatherHourly } from "../model/types/weather.types";
 

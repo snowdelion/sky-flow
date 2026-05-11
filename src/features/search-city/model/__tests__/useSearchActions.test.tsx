@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useSearchStore } from "@/entities/location";
@@ -66,7 +67,7 @@ describe("useSearchActions", () => {
 
   describe("searchSelectedCity", () => {
     it("should change URL, call addCity and blur", async () => {
-      const { result } = renderHook(() => useSearchActions());
+      const { result } = renderHookWithClient(() => useSearchActions());
       const { berlinCityData } = createCityData();
 
       act(() =>
@@ -91,7 +92,7 @@ describe("useSearchActions", () => {
     });
 
     it("shouldn't call addCity when city not found", async () => {
-      const { result } = renderHook(() => useSearchActions());
+      const { result } = renderHookWithClient(() => useSearchActions());
       const city: CityData = { status: "not-found", city: "123" };
 
       act(() =>
@@ -112,7 +113,7 @@ describe("useSearchActions", () => {
 
       mocks.hooks.useGeoQuery.mockReturnValue({ refetch });
 
-      const { result } = renderHook(() => useSearchActions());
+      const { result } = renderHookWithClient(() => useSearchActions());
 
       await act(() => result.current.searchCityWithName("Berlin"));
 
@@ -120,7 +121,7 @@ describe("useSearchActions", () => {
     });
 
     it("shouldn't navigate when input is empty", async () => {
-      const { result } = renderHook(() => useSearchActions());
+      const { result } = renderHookWithClient(() => useSearchActions());
 
       const spy = vi.spyOn(result.current, "searchSelectedCity");
 
@@ -131,3 +132,19 @@ describe("useSearchActions", () => {
     });
   });
 });
+
+// --- 3. render with client ---
+const testQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: 2, retryDelay: 0, gcTime: 0, staleTime: 0 },
+  },
+});
+
+function renderHookWithClient<T>(hook: () => T) {
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={testQueryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+  return renderHook(hook, { wrapper });
+}

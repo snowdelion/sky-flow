@@ -1,13 +1,16 @@
 import { SearchIcon, FailedSearchIcon } from "@shared/ui";
 
-export function SearchPlaceholder({ inputValue }: { inputValue: string }) {
+export function SearchPlaceholder({
+  inputValue,
+  isError,
+}: SearchPlaceholderProps) {
   const isNotEnoughChars = inputValue.length > 0 && inputValue.length < 2;
 
-  const text = isNotEnoughChars
-    ? `Type at least 2 characters to search...`
-    : inputValue.length <= 50
-      ? `City ${inputValue} not found!`
-      : "City not found!";
+  let message = "City not found!";
+  if (isError) message = "Check your network connection!";
+  else if (isNotEnoughChars)
+    message = "Type at least 2 characters to search...";
+  else if (inputValue.length <= 50) message = `City ${inputValue} not found!`;
 
   return (
     <div
@@ -22,9 +25,14 @@ export function SearchPlaceholder({ inputValue }: { inputValue: string }) {
           <FailedSearchIcon className="w-22 h-22 opacity-50" stroke="#60A5FA" />
         )}
         <span className="text-[#BFDBFE] opacity-75 text-base font-medium tracking-wide text-center">
-          {text}
+          {message}
         </span>
       </div>
     </div>
   );
 }
+
+type SearchPlaceholderProps = {
+  inputValue: string;
+  isError: boolean;
+};

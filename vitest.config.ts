@@ -9,7 +9,10 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
+    css: false,
     globals: true,
+    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    exclude: ["**/node_modules/**", "**/.next/**"],
     setupFiles: [path.resolve(__dirname, "./vitest.setup.ts")],
     alias: {
       "server-only": path.resolve(

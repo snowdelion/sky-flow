@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
+import { ERROR_CODES } from "@/shared/api";
 import type { POST as PostType } from "./route";
 
 // --- 1. mocks ---
 const checkRatelimit = vi.hoisted(() => vi.fn());
-vi.mock("@/shared/lib/ratelimit", () => ({
+vi.mock("@/shared/api/server/checkRatelimit", () => ({
   checkRatelimit,
 }));
 
@@ -50,7 +51,7 @@ const VALID_WEATHER = {
 const VALID_LOCATION = { ...VALID_WEATHER, option: "location" as const };
 
 const createRequest = (body: unknown, ip = "1.2.3.4") =>
-  new NextRequest("http://localhost/api/ai", {
+  new NextRequest("http://localhost:3000/api/ai", {
     method: "POST",
     body: JSON.stringify(body),
     headers: new Headers({
@@ -92,7 +93,7 @@ describe("validation", () => {
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({
       error: "Invalid data",
-      code: "INVALID_REQUEST_DATA",
+      code: ERROR_CODES.REQUEST_DATA,
     });
   });
 
@@ -125,7 +126,7 @@ describe("success", () => {
 describe("error", () => {
   it("should return 500 when body is invalid", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
-    const req = new NextRequest("http://localhost/api/ai", {
+    const req = new NextRequest("http://localhost:3000/api/ai", {
       method: "post",
       body: "invalid",
       headers: new Headers({ "content-type": "application/json" }),
@@ -133,8 +134,8 @@ describe("error", () => {
     const res = await POST(req);
     expect(res.status).toBe(500);
     expect(await res.json()).toEqual({
-      error: "Failed to generate description",
-      code: "INTERNAL_SERVER_ERROR",
+      error: "Internal server error",
+      code: ERROR_CODES.AI_DESCRIPTION,
     });
   });
 });
@@ -146,7 +147,7 @@ describe("rate limit", () => {
     expect(res.status).toBe(429);
     expect(await res.json()).toEqual({
       error: "Too many requests",
-      code: "RATE_LIMIT_EXCEEDED",
+      code: ERROR_CODES.RATE_LIMIT,
     });
   });
 

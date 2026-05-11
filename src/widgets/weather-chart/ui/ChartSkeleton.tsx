@@ -1,4 +1,4 @@
-import { getAspect } from "../model/chart.utils";
+import { getAspect } from "../lib/chart.utils";
 
 export function ChartSkeleton({
   isMobile,

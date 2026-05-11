@@ -3,7 +3,7 @@ import { createForecastData } from "@/shared/lib/testing";
 import { useHourlyForecast } from "./useHourlyForecast";
 
 const mockUseDeviceType = vi.fn();
-vi.mock("@shared/lib/useDeviceType", () => ({
+vi.mock("@shared/lib/hooks/useDeviceType", () => ({
   useDeviceType: () => mockUseDeviceType(),
 }));
 

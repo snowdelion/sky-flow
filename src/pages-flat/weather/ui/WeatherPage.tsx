@@ -1,6 +1,6 @@
 import { Header } from "@/widgets/header";
 import { Search } from "@/features/search-city";
-import { verifyAndGetCityData } from "../model/utils";
+import { verifyAndGetCityData } from "../lib/utils";
 import { PageClient } from "./WeatherPageClient";
 
 export async function WeatherPage({ searchParams }: SearchParams) {

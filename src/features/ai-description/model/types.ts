@@ -22,8 +22,3 @@ export const AiRequestsSchema = z.object({
 });
 
 export type ServerRequestData = z.infer<typeof AiRequestsSchema>;
-
-export type AiErrorCode =
-  | "RATE_LIMIT_EXCEEDED"
-  | "INVALID_REQUEST_DATA"
-  | "SERVICE_UNAVAILABLE";

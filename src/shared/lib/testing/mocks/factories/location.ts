@@ -1,4 +1,4 @@
-import type { Geo, GeoItem } from "../../../../types/types";
+import type { Geo, GeoItem } from "../../../../types/geo/geo.types";
 
 export const createGeoData = (overrides: Partial<GeoItem> = {}): Geo => {
   return {

@@ -1,11 +1,13 @@
 import { RefObject, useCallback, useMemo } from "react";
-import { type ActiveTab } from "@/entities/location";
-import { useSearchState } from "@/entities/location";
+import { useSearchStore, type ActiveTab } from "@/entities/location";
 import { useSearchActions } from "./useSearchActions";
 
 export function useSearchHandlers() {
-  const { setInputValue, setCurrentTab, inputValue, setIsOpen } =
-    useSearchState();
+  const setInputValue = useSearchStore((s) => s.setInputValue);
+  const setCurrentTab = useSearchStore((s) => s.setCurrentTab);
+  const inputValue = useSearchStore((s) => s.inputValue);
+  const setIsOpen = useSearchStore((s) => s.setIsOpen);
+
   const { searchCityWithName } = useSearchActions();
 
   const handleChangeTab = useCallback(

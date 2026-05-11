@@ -4,8 +4,8 @@ import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import z from "zod";
 import { getAiConfig } from "@/features/ai-description/server";
-import { createRateLimitResponse } from "@/shared/api/rate-limit";
-import { checkRatelimit } from "@/shared/lib/ratelimit";
+import { ERROR_CODES, createRateLimitResponse } from "@/shared/api/server";
+import { checkRatelimit } from "@/shared/api/server";
 
 const schema = z.object({
   option: z.enum(["location", "weather"]),
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     if (!result.success)
       return NextResponse.json(
-        { error: "Invalid data", code: "INVALID_REQUEST_DATA" },
+        { error: "Invalid data", code: ERROR_CODES.REQUEST_DATA },
         { status: 400 },
       );
 
@@ -51,8 +51,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        error: "Failed to generate description",
-        code: "INTERNAL_SERVER_ERROR",
+        error: "Internal server error",
+        code: ERROR_CODES.AI_DESCRIPTION,
       },
       { status: 500 },
     );
