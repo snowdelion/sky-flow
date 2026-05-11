@@ -6,14 +6,42 @@ import { ERROR_CODES } from "../config/error-codes";
 export function handleApiError(
   error: unknown,
   errorCode: ErrorCode = ERROR_CODES.UNKNOWN,
-) {
-  if (error instanceof Error && error.name === "AbortError") throw error;
+  { isExternalSignal = false }: { isExternalSignal?: boolean } = {},
+): never {
   if (error instanceof ZodError) throwZodErrors(error);
   if (error instanceof AppError) throw error;
 
-  const message =
-    error instanceof Error ? error.message : "Unexpected error...";
-  throw new AppError(errorCode, message);
+  const isError = error instanceof Error || error instanceof DOMException;
+
+  if (isError) {
+    const isTimeout =
+      error.name === "TimeoutError" ||
+      (error.name === "AbortError" && !isExternalSignal);
+
+    const isExternalAbort = error.name === "AbortError" && isExternalSignal;
+
+    if (isExternalAbort) throw error;
+    if (isTimeout)
+      throw new AppError(
+        ERROR_CODES.TIMEOUT,
+        "Check your network connection...",
+      );
+
+    const messages = [/failed to fetch/i, /network/i, /load/i, /connection/i];
+    const isNetworkError = messages.some((msg) =>
+      msg.test(error.message.toLowerCase()),
+    );
+
+    if (isNetworkError)
+      throw new AppError(
+        ERROR_CODES.NETWORK,
+        "Check your network connection...",
+      );
+
+    throw new AppError(errorCode, error.message);
+  }
+
+  throw new AppError(errorCode, "Unexpected error...");
 }
 
 const ERROR_MESSAGES: Record<number, string> = {

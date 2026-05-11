@@ -1,6 +1,5 @@
-import { AppError } from "../config/app-error";
-import { ERROR_CODES, type ErrorCode } from "../config/error-codes";
-import { throwResponseErrors } from "./error-handler";
+import { type ErrorCode } from "../config/error-codes";
+import { handleApiError, throwResponseErrors } from "./error-handler";
 
 export async function request({
   url,
@@ -10,7 +9,7 @@ export async function request({
 }: RequestProps) {
   const timeoutSignal = AbortSignal.timeout(timeout);
 
-  const combinedSignal = signal
+  const combinedSignal = !!signal
     ? AbortSignal.any([signal, timeoutSignal])
     : timeoutSignal;
 
@@ -26,23 +25,7 @@ export async function request({
 
     return { data: await response.json(), status: response.status };
   } catch (error) {
-    const isTimeout =
-      (error instanceof Error || error instanceof DOMException) &&
-      error.name === "TimeoutError";
-    const isAbort =
-      (error instanceof Error || error instanceof DOMException) &&
-      error.name === "AbortError";
-
-    if (isTimeout || isAbort) {
-      if (signal?.aborted) throw error;
-
-      throw new AppError(
-        ERROR_CODES.TIMEOUT,
-        "Check your network connection...",
-      );
-    }
-
-    throw error;
+    handleApiError(error, errorCode, { isExternalSignal: !!signal });
   }
 }
 

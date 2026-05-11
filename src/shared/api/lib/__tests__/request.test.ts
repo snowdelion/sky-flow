@@ -1,4 +1,5 @@
 import type { NextResponse } from "next/server";
+import { AppError } from "../../config/app-error";
 import { ERROR_CODES } from "../../server";
 import { request } from "../request";
 
@@ -24,6 +25,12 @@ describe("request", () => {
       Object.assign(new Error("Timeout"), { name: "TimeoutError" }),
     );
 
+    await expect(request({ url: "/fetch" })).rejects.toBeInstanceOf(AppError);
+
+    vi.spyOn(global, "fetch").mockRejectedValueOnce(
+      Object.assign(new Error("Timeout"), { name: "TimeoutError" }),
+    );
+
     await expect(
       request({ url: "/fetch", timeout: 8000 }),
     ).rejects.toMatchObject({ code: ERROR_CODES.TIMEOUT });
@@ -36,10 +43,11 @@ describe("request", () => {
       removeEventListener: vi.fn(),
     } as unknown as AbortSignal);
 
-    vi.spyOn(global, "fetch").mockRejectedValueOnce(
-      new DOMException("Aborted", "AbortError"),
-    );
+    const timeoutAbortError = new DOMException("Aborted", "AbortError");
+    vi.spyOn(global, "fetch").mockRejectedValueOnce(timeoutAbortError);
+    await expect(request({ url: "/fetch" })).rejects.toBeInstanceOf(AppError);
 
+    vi.spyOn(global, "fetch").mockRejectedValueOnce(timeoutAbortError);
     await expect(request({ url: "/fetch" })).rejects.toMatchObject({
       code: ERROR_CODES.TIMEOUT,
     });

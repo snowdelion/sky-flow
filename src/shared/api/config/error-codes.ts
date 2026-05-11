@@ -9,6 +9,7 @@ export const ERROR_CODES = {
   UNKNOWN: "UNKNOWN_ERROR",
   VALIDATION: "VALIDATION_ERROR",
   TIMEOUT: "TIMEOUT_ERROR",
+  NETWORK: "NETWORK_ERROR",
 } as const;
 
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
