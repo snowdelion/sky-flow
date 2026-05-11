@@ -7,11 +7,11 @@ import { createForecastParams } from "../lib/createForecastParams";
 import { mapToForecastData } from "../model/mapper";
 import { WeatherDtoSchema } from "./dto/forecast.dto";
 
-export async function fetchForecastData(
-  cityData: CityData,
-  units: Units = DEFAULT_UNITS,
-  signal?: AbortSignal,
-) {
+export async function fetchForecastData({
+  cityData,
+  units = DEFAULT_UNITS,
+  signal,
+}: FetchForecastDataArgs) {
   try {
     if (!isFoundCity(cityData))
       throw new AppError(
@@ -40,3 +40,9 @@ export async function fetchForecastData(
     handleApiError(error, ERROR_CODES.FORECAST);
   }
 }
+
+type FetchForecastDataArgs = {
+  cityData: CityData;
+  units: Units;
+  signal?: AbortSignal;
+};

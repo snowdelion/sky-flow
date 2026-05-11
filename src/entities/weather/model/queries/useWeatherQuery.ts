@@ -24,7 +24,7 @@ export function useWeatherQuery(cityData: CityData, units: Units) {
           "Cannot fetch weather! City coords not found...",
         );
 
-      return await fetchForecastData(cityData, units, signal);
+      return await fetchForecastData({ cityData, units, signal });
     },
 
     enabled: isEnabled,

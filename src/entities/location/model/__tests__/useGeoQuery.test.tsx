@@ -44,10 +44,10 @@ describe("useGeoQuery", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(geoData);
-    expect(fetchGeoData).toHaveBeenCalledWith(
-      "warsaw",
-      expect.any(AbortSignal),
-    );
+    expect(fetchGeoData).toHaveBeenCalledWith({
+      city: "warsaw",
+      signal: expect.any(AbortSignal),
+    });
   });
 
   it("should handle API errors", async () => {

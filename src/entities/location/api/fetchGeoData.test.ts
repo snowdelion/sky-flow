@@ -5,7 +5,7 @@ import { fetchGeoData } from "./fetchGeoData";
 
 describe("fetchGeoData", () => {
   it("should fetch 8 cities with minsk query", async () => {
-    const result = await fetchGeoData("Minsk");
+    const result = await fetchGeoData({ city: "Minsk" });
 
     expect(result?.results).toHaveLength(8);
     expect(result?.results[0].city).toBe("Minsk");
@@ -13,7 +13,9 @@ describe("fetchGeoData", () => {
   });
 
   it("should handle 404 error", async () => {
-    await expect(fetchGeoData("notExist123")).resolves.toEqual({ results: [] });
+    await expect(fetchGeoData({ city: "notExist123" })).resolves.toEqual({
+      results: [],
+    });
   });
 
   it("should throw network error", async () => {
@@ -21,7 +23,7 @@ describe("fetchGeoData", () => {
       http.get("/api/geocoding", () => new HttpResponse(null, { status: 500 })),
     );
 
-    await expect(fetchGeoData("Minsk")).rejects.toMatchObject({
+    await expect(fetchGeoData({ city: "Minsk" })).rejects.toMatchObject({
       name: "AppError",
       code: ERROR_CODES.GEOCODING,
     });
@@ -40,10 +42,10 @@ describe("fetchGeoData", () => {
       ),
     );
 
-    await expect(fetchGeoData("Warsaw")).rejects.toThrow(
+    await expect(fetchGeoData({ city: "Warsaw" })).rejects.toThrow(
       "Data validation failed:",
     );
-    await expect(fetchGeoData("Warsaw")).rejects.toThrow(
+    await expect(fetchGeoData({ city: "Warsaw" })).rejects.toThrow(
       "results.0.name: expected string, received number",
     );
   });

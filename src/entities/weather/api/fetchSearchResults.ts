@@ -11,11 +11,11 @@ import { createSearchResultsParams } from "../lib/createSearchResultsParams";
 import { mapToResultsData } from "../model/mapper";
 import { SearchResultsDtoSchema } from "./dto/search.dto";
 
-export const fetchSearchResults = async (
-  geoData: Geo,
-  units: Units = DEFAULT_UNITS,
-  signal?: AbortSignal,
-) => {
+export const fetchSearchResults = async ({
+  geoData,
+  units = DEFAULT_UNITS,
+  signal,
+}: FetchSearchResultsArgs) => {
   try {
     const onlyLats = geoData.results.map((item: GeoItem) => item.lat).join(",");
     const onlyLons = geoData.results.map((item: GeoItem) => item.lon).join(",");
@@ -41,4 +41,10 @@ export const fetchSearchResults = async (
   } catch (error) {
     handleApiError(error, ERROR_CODES.SEARCH);
   }
+};
+
+type FetchSearchResultsArgs = {
+  geoData: Geo;
+  units: Units;
+  signal?: AbortSignal;
 };

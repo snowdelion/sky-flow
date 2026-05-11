@@ -193,9 +193,9 @@ describe("useWeatherQuery", () => {
       renderHookWithClient(() => useWeatherQuery(minskCityData, DEFAULT_UNITS));
 
       await waitFor(() => expect(fetchForecastData).toHaveBeenCalled());
-
       const call = fetchForecastData.mock.calls[0];
-      expect(call[2]).toBeInstanceOf(AbortSignal);
+
+      expect(call[0].signal).toBeInstanceOf(AbortSignal);
     });
   });
 });

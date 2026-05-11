@@ -15,7 +15,7 @@ export function useSearchQuery(geoData: Geo, units: Units) {
       units.precipitationUnit,
     ],
     queryFn: async ({ signal }) => {
-      return await fetchSearchResults(geoData, units, signal);
+      return await fetchSearchResults({ geoData, units, signal });
     },
 
     enabled: cityIds.length > 0,

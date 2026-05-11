@@ -24,7 +24,7 @@ export async function verifyAndGetCityData(params: WeatherParams) {
   }
 
   const { city, lat, lon, region, country } = params;
-  const geoData = await fetchGeoData(city);
+  const geoData = await fetchGeoData({ city, count: 20 });
 
   if (!geoData?.results?.length)
     return {
@@ -67,6 +67,7 @@ const findMatch = (
   if (query.lat && query.lon) {
     const latNum = Number(query.lat);
     const lonNum = Number(query.lon);
+
     const isValid =
       !isNaN(latNum) &&
       !isNaN(lonNum) &&
@@ -107,13 +108,14 @@ const needsRedirectCheck = (params: WeatherParams, data: FoundCity) => {
 
   if (hasExtraParams) return true;
 
-  return (
+  const isDifferent =
     Number(params.lat) !== data?.lat ||
     Number(params.lon) !== data?.lon ||
     params.region !== data?.region ||
     params.country !== data?.country ||
-    params.code !== data?.code
-  );
+    params.code !== data?.code;
+
+  return isDifferent;
 };
 
 const createCityData = (data: GeoItem) => ({

@@ -9,7 +9,7 @@ export function useGeoQuery(query: string) {
     queryKey: ["location", validatedQuery],
 
     queryFn: async ({ signal }) => {
-      return await fetchGeoData(validatedQuery, signal);
+      return await fetchGeoData({ city: validatedQuery, signal });
     },
 
     enabled: validatedQuery.length > 1,

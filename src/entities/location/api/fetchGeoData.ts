@@ -3,10 +3,14 @@ import { ERROR_CODES, handleApiError, request } from "@shared/api";
 import { mapToGeoData } from "../model/mapper";
 import { GeoResponseDtoSchema } from "./dto";
 
-export async function fetchGeoData(city?: string, signal?: AbortSignal) {
+export async function fetchGeoData({
+  city,
+  signal,
+  count = 8,
+}: FetchGeoDataArgs) {
   try {
     if (!city) return { results: [] };
-    const url = `${getBaseUrl()}/api/geocoding?name=${encodeURIComponent(city)}&count=8&language=en`;
+    const url = `${getBaseUrl()}/api/geocoding?name=${encodeURIComponent(city)}&count=${count}&language=en`;
     const res = await request({
       url,
       errorCode: ERROR_CODES.GEOCODING,
@@ -21,3 +25,9 @@ export async function fetchGeoData(city?: string, signal?: AbortSignal) {
     handleApiError(error, ERROR_CODES.GEOCODING);
   }
 }
+
+type FetchGeoDataArgs = {
+  city?: string;
+  signal?: AbortSignal;
+  count?: number;
+};

@@ -13,7 +13,7 @@ describe("fetchSearchResults", () => {
   const [searchData] = createResultsMocks();
 
   it("should fetch city with search result", async () => {
-    const result = await fetchSearchResults(geoData, DEFAULT_UNITS);
+    const result = await fetchSearchResults({ geoData, units: DEFAULT_UNITS });
 
     expect(result?.[0]).toEqual(searchData[0]);
 
@@ -21,7 +21,10 @@ describe("fetchSearchResults", () => {
   });
 
   it("should return empty array if no results", async () => {
-    const results = await fetchSearchResults({ results: [] }, DEFAULT_UNITS);
+    const results = await fetchSearchResults({
+      geoData: { results: [] },
+      units: DEFAULT_UNITS,
+    });
 
     expect(results).toEqual([]);
   });
@@ -39,7 +42,7 @@ describe("fetchSearchResults", () => {
       ),
     );
 
-    const result = fetchSearchResults(geoData, DEFAULT_UNITS);
+    const result = fetchSearchResults({ geoData, units: DEFAULT_UNITS });
 
     await expect(result).rejects.toThrow("Data validation failed:");
     await expect(result).rejects.toThrow(
@@ -52,8 +55,8 @@ describe("fetchSearchResults", () => {
 
     const geoData = { results: [{ city: "Warsaw", lat: 10, lon: 20 }] } as Geo;
 
-    await expect(fetchSearchResults(geoData, DEFAULT_UNITS)).rejects.toThrow(
-      /no data/i,
-    );
+    await expect(
+      fetchSearchResults({ geoData, units: DEFAULT_UNITS }),
+    ).rejects.toThrow(/no data/i);
   });
 });
