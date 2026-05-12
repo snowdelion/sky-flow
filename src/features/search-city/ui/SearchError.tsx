@@ -14,7 +14,7 @@ export function SearchError({ message }: { message: string }) {
         onClick={() => searchSelectedCity(lastValidatedCity)}
         className="flex items-center gap-2 px-4 py-3 bg-[hsl(243,27%,20%)] hover:bg-[hsl(243,23%,24%)] transition rounded-lg"
       >
-        <AppIcon icon="retry" alt="Retry" />
+        <AppIcon icon="retry" alt="Retry" width={16} />
         <span>Go back</span>
       </button>
     </div>
