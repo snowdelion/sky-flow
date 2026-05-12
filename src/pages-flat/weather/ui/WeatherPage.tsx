@@ -8,14 +8,18 @@ export async function WeatherPage({ searchParams }: SearchParams) {
   const cityData = await verifyAndGetCityData(params);
 
   return (
-    <>
+    <div
+      className={
+        cityData.status === "found" ? "min-h-dvh" : "h-dvh overflow-hidden"
+      }
+    >
       <Header />
 
-      <main className="min-h-screen min-w-62.5 px-4 py-8 md:px-6 lg:px-8 mx-auto">
+      <main className="px-4 py-8 md:px-6 lg:px-8 mx-auto">
         <Search cityData={cityData} />
         <PageClient cityData={cityData} />
       </main>
-    </>
+    </div>
   );
 }
 

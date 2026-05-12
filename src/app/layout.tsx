@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${dmSans.className} antialiased overflow-x-hidden`}
+        className={`${dmSans.className} antialiased`}
         suppressHydrationWarning
       >
         <QueryProvider>{children}</QueryProvider>
