@@ -10,6 +10,10 @@ vi.mock("next/image", async () => {
   return { default: actual.default };
 });
 
+vi.mock("@/shared/lib/hooks/usePreventScroll.ts", () => ({
+  usePreventScroll: vi.fn(),
+}));
+
 // --- 2. setup ---
 const setup = () => {
   const result = renderWithClient(<UnitsSettings />);

@@ -1,26 +1,12 @@
 "use client";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { startTransition, useCallback } from "react";
-import { useSettingsStore } from "@/entities/settings";
 import type { WeatherUnits } from "@/entities/weather";
 import { AppIcon } from "@/shared/ui";
+import { useUnitsSettings } from "./useUnitsSettings";
 
 export default function UnitsSettings() {
-  const units = useSettingsStore((state) => state.units);
-  const setUnits = useSettingsStore((state) => state.setUnits);
-  const reset = useSettingsStore((state) => state.reset);
-
-  const handleSetUnit = useCallback(
-    (unitKey: keyof WeatherUnits, value: string) =>
-      startTransition(() => setUnits({ [unitKey]: value })),
-    [setUnits],
-  );
-
-  const handleReset = useCallback(
-    () => startTransition(() => reset()),
-    [reset],
-  );
+  const { buttonRef, handleReset, handleSetUnit, units } = useUnitsSettings();
 
   return (
     <Menu>
@@ -29,7 +15,9 @@ export default function UnitsSettings() {
         className="border border-white/0 active:border-white/20 rounded-lg"
       >
         <MenuButton
-          id="units-menu-nutton"
+          id="units-menu-button"
+          type="button"
+          ref={buttonRef}
           className="group flex items-center justify-center gap-2 px-2.5 py-2 sm:px-3 border focus:outline-none border-white/10 hover:opacity-80 bg-[hsl(243,23%,24%)] rounded-lg transition-opacity"
         >
           <AppIcon

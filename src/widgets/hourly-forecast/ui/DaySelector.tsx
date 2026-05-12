@@ -9,9 +9,11 @@ import React, {
   type Dispatch,
   startTransition,
   useCallback,
+  useRef,
 } from "react";
 import { useSearchStore } from "@/entities/location";
 import { DailyForecast } from "@/entities/weather";
+import { usePreventScroll } from "@/shared/lib";
 import { AppIcon } from "@/shared/ui";
 
 export const DaySelector = React.memo(function DaySelector({
@@ -21,6 +23,7 @@ export const DaySelector = React.memo(function DaySelector({
   setIsHourlyOpen,
   formattedDates,
 }: DaySelectorProps) {
+  const buttonRef = useRef(null);
   const setIsOpen = useSearchStore(useCallback((s) => s.setIsOpen, []));
   const currentDay = days[selectedDayIndex]?.dayName || days[0].dayName;
 
@@ -28,10 +31,13 @@ export const DaySelector = React.memo(function DaySelector({
     startTransition(() => handleChangeDay(index));
   };
 
+  usePreventScroll(buttonRef);
+
   return (
     <Listbox value={selectedDayIndex} onChange={handleChangeListbox}>
       <div className="relative border border-white/0 active:border-white/20 rounded-lg">
         <ListboxButton
+          ref={buttonRef}
           onClick={() => {
             setIsOpen(false);
             setIsHourlyOpen(true);
