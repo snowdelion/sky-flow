@@ -6,13 +6,24 @@
   }
 }
 
+html {
+  color-scheme: dark;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(243, 23%, 35%) transparent;
+}
+
 body {
   background: linear-gradient(
     to top right,
     hsl(243, 96%, 4%),
     hsl(243, 60%, 18%)
   );
-  min-height: 100vh;
+
+  min-height: 100dvh;
+  width: 100vw;
+
+  overflow-x: hidden;
+
   font-family: Arial, Helvetica, sans-serif;
   color: white;
 }

@@ -1,6 +1,7 @@
 import { useCompletion } from "@ai-sdk/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { AppError, ERROR_CODES } from "@/shared/api";
+import { usePreventScroll } from "@/shared/lib";
 import { parseErrorCode } from "../lib/parseErrorCode";
 import { AiRequestsSchema, type RequestData } from "./types";
 
@@ -56,6 +57,9 @@ export function useAiDescription(aiRequestData: RequestData | null) {
     return new AppError(code, AI_ERROR_MESSAGES[code]);
   }, [validationError, error]);
 
+  const buttonRef = useRef(null);
+  usePreventScroll(buttonRef);
+
   return useMemo(
     () => ({
       selectedTab,
@@ -63,6 +67,7 @@ export function useAiDescription(aiRequestData: RequestData | null) {
       setSelectedTab,
       completion,
       isLoading,
+      buttonRef,
       error: resolvedError,
     }),
     [
@@ -72,6 +77,7 @@ export function useAiDescription(aiRequestData: RequestData | null) {
       completion,
       isLoading,
       resolvedError,
+      buttonRef,
     ],
   );
 }

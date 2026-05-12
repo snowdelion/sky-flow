@@ -20,10 +20,11 @@ export function PageClient({ cityData }: { cityData: CityData }) {
 
   if (isError) {
     const isAppError = error && typeof error === "object" && "code" in error;
-    const message =
-      isAppError && error.code === ERROR_CODES.FORECAST
-        ? error.message
-        : "Check your network connection...";
+    let message = "Check your network connection...";
+
+    if (isAppError && error.code === ERROR_CODES.FORECAST)
+      message = error.message;
+
     return <NetworkError message={message} refetch={refetch} />;
   }
 

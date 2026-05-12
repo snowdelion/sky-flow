@@ -12,11 +12,9 @@ export function useWeatherPage(cityData: CityData) {
     typeof cityData.lat === "number" &&
     typeof cityData.lon === "number";
 
-  const {
-    data: geoData,
-    isFetching: isGeoFetching,
-    isFetched: isGeoFetched,
-  } = useGeoQuery(cityData.city);
+  const { data: geoData, isFetching: isGeoFetching } = useGeoQuery(
+    cityData.city,
+  );
 
   const finalCoords = useMemo(() => {
     if (hasCoords) return { lat: cityData.lat, lon: cityData.lon };
@@ -27,7 +25,7 @@ export function useWeatherPage(cityData: CityData) {
       };
   }, [hasCoords, cityData, geoData]);
 
-  const finalCityData = useMemo<CityData>(() => {
+  const finalCityData = useMemo(() => {
     if (!finalCoords || isNotFoundCity(cityData))
       return { status: "not-found" as const, city: cityData.city };
 
@@ -46,15 +44,14 @@ export function useWeatherPage(cityData: CityData) {
   const {
     data: weatherData,
     isFetching: isWeatherFetching,
-    isFetched: isWeatherFetched,
     isError,
     error,
     refetch,
   } = useWeatherQuery(finalCityData, units);
 
   const isPending =
-    (!hasCoords && !isGeoFetched && isGeoFetching) ||
-    (finalCoords && !isWeatherFetched && isWeatherFetching) ||
+    (!hasCoords && isGeoFetching) ||
+    (finalCoords && isWeatherFetching) ||
     false;
 
   return {

@@ -22,11 +22,12 @@ export function AiDescriptionMenu({
     completion,
     isLoading,
     error,
+    buttonRef,
   } = useAiDescription(aiRequestData);
 
   return (
     <Menu as="div" className="relative flex justify-center">
-      <MenuButton className="focus:outline-none">
+      <MenuButton className="focus:outline-none" ref={buttonRef}>
         {({ open }) => <MoreDetailsAiButton open={open} />}
       </MenuButton>
 

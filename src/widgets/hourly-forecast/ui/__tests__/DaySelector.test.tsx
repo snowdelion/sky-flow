@@ -8,6 +8,10 @@ vi.mock("@/entities/location", () => ({
   useSearchStore: vi.fn((s) => s({ setIsOpen: vi.fn() })),
 }));
 
+vi.mock("@/shared/lib/hooks/usePreventScroll.ts", () => ({
+  usePreventScroll: vi.fn(),
+}));
+
 // --- 2. tests ---
 describe("DaySelector", () => {
   const days = [
