@@ -33,14 +33,11 @@ jobs:
       - name: install dependencies
         run: npm ci
 
-      - name: type check
-        run: npx tsc --noEmit
-
-      - name: run linter
-        run: npm run lint
+      - name: validate
+        run: npm run validate
 
       - name: run tests with coverage
-        run: npm run t:cov
+        run: npm run test:cov
 
       - name: report coverage
         uses: davelosert/vitest-coverage-report-action@v2
@@ -50,4 +47,4 @@ jobs:
           json-final-path: "./coverage/coverage-final.json"
 
       - name: build project
-        run: npm run b
+        run: npm run build
