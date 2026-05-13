@@ -1,5 +1,5 @@
-import type { SearchResult } from "@/entities/weather";
-import { CITY_BASE_DATA } from "../data/cities";
+import type { SearchResult } from "@/entities/weather"
+import { CITY_BASE_DATA } from "../data/cities"
 
 export const createResultsMocks = (overrides: Partial<SearchResult> = {}) => {
   return Object.entries(CITY_BASE_DATA).map(([name, data]) => [
@@ -29,5 +29,5 @@ export const createResultsMocks = (overrides: Partial<SearchResult> = {}) => {
       weatherCode: 0,
       ...overrides,
     },
-  ]);
-};
+  ])
+}

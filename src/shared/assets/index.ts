@@ -13,4 +13,4 @@ export const ASSETS = {
     bgTodayLarge: "/images/bg-today-large.webp",
     bgTodaySmall: "/images/bg-today-small.webp",
   },
-} as const;
+} as const

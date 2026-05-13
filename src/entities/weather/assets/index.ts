@@ -9,4 +9,4 @@ export const WEATHER_ASSETS = {
     storm: "/icons/weather/icon-storm.webp",
     sunny: "/icons/weather/icon-sunny.webp",
   },
-} as const;
+} as const

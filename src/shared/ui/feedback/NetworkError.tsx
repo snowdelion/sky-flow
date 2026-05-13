@@ -1,5 +1,5 @@
-"use client";
-import { AppIcon } from "../icons/AppIcon";
+"use client"
+import { AppIcon } from "../icons/AppIcon"
 
 export function NetworkError({ message, refetch }: NetworkErrorProps) {
   return (
@@ -13,10 +13,10 @@ export function NetworkError({ message, refetch }: NetworkErrorProps) {
         <span>Retry</span>
       </button>
     </div>
-  );
+  )
 }
 
 interface NetworkErrorProps {
-  message: string;
-  refetch: () => void;
+  message: string
+  refetch: () => void
 }

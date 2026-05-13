@@ -1,12 +1,12 @@
-"use client";
-import { useMemo } from "react";
-import { type WeatherDaily } from "@/entities/weather";
-import { useDailyForecast } from "../model/useDailyForecast";
-import { DailyForecastSkeleton } from "./DailyForecastSkeleton";
-import { DailyItem } from "./DailyItem";
+"use client"
+import { useMemo } from "react"
+import { type WeatherDaily } from "@/entities/weather"
+import { useDailyForecast } from "../model/useDailyForecast"
+import { DailyForecastSkeleton } from "./DailyForecastSkeleton"
+import { DailyItem } from "./DailyItem"
 
 export function DailyForecast({ dailyData, isPending }: DailyForecastProps) {
-  const { formattedDays, changeDayIndex } = useDailyForecast(dailyData);
+  const { formattedDays, changeDayIndex } = useDailyForecast(dailyData)
 
   const content = useMemo(
     () => (
@@ -22,7 +22,7 @@ export function DailyForecast({ dailyData, isPending }: DailyForecastProps) {
       </ul>
     ),
     [formattedDays, changeDayIndex],
-  );
+  )
 
   return (
     <section aria-label="Daily Forecast">
@@ -30,17 +30,15 @@ export function DailyForecast({ dailyData, isPending }: DailyForecastProps) {
         <DailyForecastSkeleton />
       ) : (
         <>
-          <h3 className="text-xl font-medium tracking-wide mb-5">
-            Daily forecast
-          </h3>
+          <h3 className="text-xl font-medium tracking-wide mb-5">Daily forecast</h3>
           {content}
         </>
       )}
     </section>
-  );
+  )
 }
 
 export interface DailyForecastProps {
-  dailyData?: WeatherDaily;
-  isPending: boolean;
+  dailyData?: WeatherDaily
+  isPending: boolean
 }

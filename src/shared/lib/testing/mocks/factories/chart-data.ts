@@ -1,7 +1,7 @@
 export const createChartData = () => ({
   dailyChartData: getDailyChartData(),
   hourlyChartData: getHourlyChartData(),
-});
+})
 
 const getDailyChartData = () => [
   ...Array(6).fill({
@@ -12,7 +12,7 @@ const getDailyChartData = () => [
     day: "Sunday",
     temp: 1,
   },
-];
+]
 
 const getHourlyChartData = () => [
   ...Array(23).fill({
@@ -23,4 +23,4 @@ const getHourlyChartData = () => [
     hour: "2 PM",
     temp: 1,
   },
-];
+]

@@ -1,8 +1,8 @@
 export const createMockNavigation = () => {
-  const mockPush = vi.fn();
-  const mockReplace = vi.fn();
-  const mockPrefetch = vi.fn();
-  const mockBack = vi.fn();
+  const mockPush = vi.fn()
+  const mockReplace = vi.fn()
+  const mockPrefetch = vi.fn()
+  const mockBack = vi.fn()
 
   return {
     mockPush,
@@ -19,5 +19,5 @@ export const createMockNavigation = () => {
     pathnameModule: { usePathname: () => "/" },
     searchParamsModule: { useSearchParams: () => new URLSearchParams() },
     redirectModule: { redirect: vi.fn() },
-  };
-};
+  }
+}

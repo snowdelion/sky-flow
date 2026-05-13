@@ -1,20 +1,15 @@
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-} from "@headlessui/react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"
 import React, {
   type SetStateAction,
   type Dispatch,
   startTransition,
   useCallback,
   useRef,
-} from "react";
-import { useSearchStore } from "@/entities/location";
-import { DailyForecast } from "@/entities/weather";
-import { usePreventScroll } from "@/shared/lib";
-import { AppIcon } from "@/shared/ui";
+} from "react"
+import { useSearchStore } from "@/entities/location"
+import { DailyForecast } from "@/entities/weather"
+import { usePreventScroll } from "@/shared/lib"
+import { AppIcon } from "@/shared/ui"
 
 export const DaySelector = React.memo(function DaySelector({
   days,
@@ -23,15 +18,15 @@ export const DaySelector = React.memo(function DaySelector({
   setIsHourlyOpen,
   formattedDates,
 }: DaySelectorProps) {
-  const buttonRef = useRef(null);
-  const setIsOpen = useSearchStore(useCallback((s) => s.setIsOpen, []));
-  const currentDay = days[selectedDayIndex]?.dayName || days[0].dayName;
+  const buttonRef = useRef(null)
+  const setIsOpen = useSearchStore(useCallback((s) => s.setIsOpen, []))
+  const currentDay = days[selectedDayIndex]?.dayName || days[0].dayName
 
   const handleChangeListbox = (index: number) => {
-    startTransition(() => handleChangeDay(index));
-  };
+    startTransition(() => handleChangeDay(index))
+  }
 
-  usePreventScroll(buttonRef);
+  usePreventScroll(buttonRef)
 
   return (
     <Listbox value={selectedDayIndex} onChange={handleChangeListbox}>
@@ -39,8 +34,8 @@ export const DaySelector = React.memo(function DaySelector({
         <ListboxButton
           ref={buttonRef}
           onClick={() => {
-            setIsOpen(false);
-            setIsHourlyOpen(true);
+            setIsOpen(false)
+            setIsHourlyOpen(true)
           }}
           className="group flex items-center justify-center gap-1 sm:gap-2 focus:outline-none bg-[hsl(243,23%,30%)] border border-white/10 hover:opacity-80 px-3 sm:px-5 py-2 rounded-lg transition-opacity"
         >
@@ -73,23 +68,19 @@ export const DaySelector = React.memo(function DaySelector({
             </div>
 
             {dayName === days[selectedDayIndex].dayName && (
-              <AppIcon
-                icon="checkmark"
-                className="w-3 sm:w-3.5"
-                alt="Checked"
-              />
+              <AppIcon icon="checkmark" className="w-3 sm:w-3.5" alt="Checked" />
             )}
           </ListboxOption>
         ))}
       </ListboxOptions>
     </Listbox>
-  );
-});
+  )
+})
 
 interface DaySelectorProps {
-  days: DailyForecast[];
-  selectedDayIndex: number;
-  handleChangeDay: (index: number) => void;
-  setIsHourlyOpen: Dispatch<SetStateAction<boolean>>;
-  formattedDates: string[];
+  days: DailyForecast[]
+  selectedDayIndex: number
+  handleChangeDay: (index: number) => void
+  setIsHourlyOpen: Dispatch<SetStateAction<boolean>>
+  formattedDates: string[]
 }

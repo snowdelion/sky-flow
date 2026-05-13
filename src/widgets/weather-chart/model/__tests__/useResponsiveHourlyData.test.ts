@@ -1,15 +1,15 @@
-import { renderHook } from "@testing-library/react";
-import { useDeviceType } from "@/shared/lib/hooks/useDeviceType";
-import { useResponsiveHourlyData } from "../useResponsiveHourlyData";
+import { renderHook } from "@testing-library/react"
+import { useDeviceType } from "@/shared/lib/hooks/useDeviceType"
+import { useResponsiveHourlyData } from "../useResponsiveHourlyData"
 
 vi.mock("@shared/lib/hooks/useDeviceType", () => ({
   useDeviceType: vi.fn(),
-}));
+}))
 
 describe("useResponsiveHourlyData", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-  });
+    vi.clearAllMocks()
+  })
 
   test.each([
     {
@@ -56,13 +56,10 @@ describe("useResponsiveHourlyData", () => {
       data: Array(8).fill({ hour: "0:00", temp: -2 }),
       expected: 8,
     },
-  ])(
-    "should return expected length for device",
-    ({ device, data, expected }) => {
-      vi.mocked(useDeviceType).mockReturnValue(device);
-      const { result } = renderHook(() => useResponsiveHourlyData(data));
+  ])("should return expected length for device", ({ device, data, expected }) => {
+    vi.mocked(useDeviceType).mockReturnValue(device)
+    const { result } = renderHook(() => useResponsiveHourlyData(data))
 
-      expect(result.current.length).toBe(expected);
-    },
-  );
-});
+    expect(result.current.length).toBe(expected)
+  })
+})

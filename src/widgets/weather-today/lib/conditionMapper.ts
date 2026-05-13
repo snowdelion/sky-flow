@@ -27,4 +27,4 @@ export const conditionMapper: Record<number, string> = {
   95: "storm",
   96: "storm",
   99: "storm",
-};
+}

@@ -17,5 +17,5 @@ export function TodaySkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }

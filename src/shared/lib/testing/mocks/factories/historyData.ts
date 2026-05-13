@@ -1,8 +1,6 @@
-import type { HistoryItem } from "@/entities/location";
+import type { HistoryItem } from "@/entities/location"
 
-export const createHistoryCity = (
-  overrides: Partial<HistoryItem> = {},
-): HistoryItem[] => {
+export const createHistoryCity = (overrides: Partial<HistoryItem> = {}): HistoryItem[] => {
   return [
     {
       ...getWarsawHistory(),
@@ -16,8 +14,8 @@ export const createHistoryCity = (
       ...getMinskHistory(),
       ...overrides,
     },
-  ];
-};
+  ]
+}
 
 const getWarsawHistory = (): HistoryItem => ({
   id: "warsaw-poland-masovian",
@@ -30,7 +28,7 @@ const getWarsawHistory = (): HistoryItem => ({
   timestamp: 1,
   latitude: 52.22977,
   longitude: 21.01178,
-});
+})
 
 const getBerlinHistory = (): HistoryItem => ({
   city: "Berlin",
@@ -43,7 +41,7 @@ const getBerlinHistory = (): HistoryItem => ({
   longitude: 13.41053,
   region: "State of Berlin",
   timestamp: 2,
-});
+})
 
 const getMinskHistory = (): HistoryItem => ({
   city: "Minsk",
@@ -56,4 +54,4 @@ const getMinskHistory = (): HistoryItem => ({
   longitude: 27.56667,
   region: "Minsk City",
   timestamp: 3,
-});
+})

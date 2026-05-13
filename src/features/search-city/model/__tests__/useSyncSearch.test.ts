@@ -1,48 +1,46 @@
-import { act, renderHook } from "@testing-library/react";
-import { useSearchStore } from "@/entities/location";
-import { createCityData } from "@/shared/lib/testing";
-import { useSyncSearch } from "../useSyncSearch";
+import { act, renderHook } from "@testing-library/react"
+import { useSearchStore } from "@/entities/location"
+import { createCityData } from "@/shared/lib/testing"
+import { useSyncSearch } from "../useSyncSearch"
 
 // --- 1. mocks ---
-const mockAddCity = vi.fn();
+const mockAddCity = vi.fn()
 vi.mock("@/entities/location/model/useSearchHistory", () => ({
   useSearchHistory: vi.fn(() => ({
     addCity: mockAddCity,
   })),
-}));
+}))
 
 // --- 2. tests ---
 describe("useSyncSearch", () => {
-  const mockSetIsOpen = vi.fn();
-  const { minskCityData } = createCityData();
+  const mockSetIsOpen = vi.fn()
+  const { minskCityData } = createCityData()
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    act(() => useSearchStore.setState({ _hasHydrated: false }));
+    vi.clearAllMocks()
+    act(() => useSearchStore.setState({ _hasHydrated: false }))
 
-    vi.spyOn(useSearchStore.getState(), "setIsOpen").mockImplementation(
-      mockSetIsOpen,
-    );
-  });
+    vi.spyOn(useSearchStore.getState(), "setIsOpen").mockImplementation(mockSetIsOpen)
+  })
 
   it("shouldn't call addCity if hydrated false", () => {
-    renderHook(() => useSyncSearch(minskCityData));
+    renderHook(() => useSyncSearch(minskCityData))
 
-    expect(mockAddCity).not.toHaveBeenCalled();
-  });
+    expect(mockAddCity).not.toHaveBeenCalled()
+  })
 
   it("should call addCity 1 time after hydration", async () => {
-    const setIsOpen = useSearchStore.getState().setIsOpen;
+    const setIsOpen = useSearchStore.getState().setIsOpen
 
     const { rerender } = renderHook(({ city }) => useSyncSearch(city), {
       initialProps: { city: minskCityData },
-    });
+    })
 
-    await act(() => useSearchStore.setState({ _hasHydrated: true }));
-    rerender({ city: minskCityData });
+    await act(() => useSearchStore.setState({ _hasHydrated: true }))
+    rerender({ city: minskCityData })
 
-    expect(mockAddCity).toHaveBeenCalledTimes(1);
-    expect(mockAddCity).toHaveBeenCalledWith(minskCityData);
-    expect(setIsOpen).toHaveBeenCalledWith(false);
-  });
-});
+    expect(mockAddCity).toHaveBeenCalledTimes(1)
+    expect(mockAddCity).toHaveBeenCalledWith(minskCityData)
+    expect(setIsOpen).toHaveBeenCalledWith(false)
+  })
+})

@@ -1,4 +1,4 @@
-import type { GeoResponseDto } from "../api/dto";
+import type { GeoResponseDto } from "../api/dto"
 
 export const mapToGeoData = (data: GeoResponseDto) => {
   const result = data.results.map((item) => ({
@@ -10,7 +10,7 @@ export const mapToGeoData = (data: GeoResponseDto) => {
     lon: item.longitude,
     timezone: item.timezone,
     id: item.id,
-  }));
+  }))
 
-  return { results: result };
-};
+  return { results: result }
+}

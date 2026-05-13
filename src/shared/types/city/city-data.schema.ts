@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod"
 
 export const FoundCitySchema = z.object({
   status: z.literal("found"),
@@ -8,14 +8,11 @@ export const FoundCitySchema = z.object({
   lon: z.number().min(-180).max(180),
   code: z.string().optional(),
   region: z.string().optional(),
-});
+})
 
 export const NotFoundCitySchema = z.object({
   status: z.literal("not-found"),
   city: z.string(),
-});
+})
 
-export const CityDataSchema = z.discriminatedUnion("status", [
-  FoundCitySchema,
-  NotFoundCitySchema,
-]);
+export const CityDataSchema = z.discriminatedUnion("status", [FoundCitySchema, NotFoundCitySchema])

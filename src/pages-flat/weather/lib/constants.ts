@@ -1,4 +1,4 @@
-import type { FoundCity } from "@/shared/types";
+import type { FoundCity } from "@/shared/types"
 
 export const DEFAULT_CITY_DATA: FoundCity = {
   status: "found",
@@ -8,4 +8,4 @@ export const DEFAULT_CITY_DATA: FoundCity = {
   country: "Belarus",
   lat: 53.9,
   lon: 27.56667,
-};
+}

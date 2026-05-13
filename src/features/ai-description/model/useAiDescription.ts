@@ -1,64 +1,59 @@
-import { useCompletion } from "@ai-sdk/react";
-import { useCallback, useMemo, useRef, useState } from "react";
-import { AppError, ERROR_CODES } from "@/shared/api";
-import { usePreventScroll } from "@/shared/lib";
-import { parseErrorCode } from "../lib/parseErrorCode";
-import { AiRequestsSchema, type RequestData } from "./types";
+import { useCompletion } from "@ai-sdk/react"
+import { useCallback, useMemo, useRef, useState } from "react"
+import { AppError, ERROR_CODES } from "@/shared/api"
+import { usePreventScroll } from "@/shared/lib"
+import { parseErrorCode } from "../lib/parseErrorCode"
+import { AiRequestsSchema, type RequestData } from "./types"
 
 const AI_ERROR_MESSAGES = {
   RATE_LIMIT_EXCEEDED: "Too many requests.",
   INVALID_REQUEST_DATA: "Invalid request data.",
   AI_DESCRIPTION_FAILED: "AI service is unavailable.",
-} as const;
+} as const
 
 export function useAiDescription(aiRequestData: RequestData | null) {
-  const [selectedTab, setSelectedTab] = useState<"weather" | "location" | null>(
-    null,
-  );
-  const [validationError, setValidationError] = useState<AppError | null>(null);
+  const [selectedTab, setSelectedTab] = useState<"weather" | "location" | null>(null)
+  const [validationError, setValidationError] = useState<AppError | null>(null)
 
   const { completion, complete, isLoading, error, stop } = useCompletion({
     api: "/api/ai",
-  });
+  })
 
   const handleTabSelect = useCallback(
     async (tab: "weather" | "location") => {
-      if (!aiRequestData) return;
-      setValidationError(null);
-      stop();
-      setSelectedTab(tab);
+      if (!aiRequestData) return
+      setValidationError(null)
+      stop()
+      setSelectedTab(tab)
 
       const validation = AiRequestsSchema.safeParse({
         ...aiRequestData,
         option: tab,
-      });
+      })
 
       if (!validation.success) {
         setValidationError(
-          new AppError(
-            ERROR_CODES.REQUEST_DATA,
-            AI_ERROR_MESSAGES.INVALID_REQUEST_DATA,
-          ),
-        );
-        return;
+          new AppError(ERROR_CODES.REQUEST_DATA, AI_ERROR_MESSAGES.INVALID_REQUEST_DATA),
+        )
+        return
       }
 
-      await complete("", { body: validation.data });
+      await complete("", { body: validation.data })
     },
     [aiRequestData, stop, complete],
-  );
+  )
 
   const resolvedError = useMemo(() => {
-    if (validationError) return validationError;
-    if (!error) return null;
+    if (validationError) return validationError
+    if (!error) return null
 
-    const code = parseErrorCode(error);
+    const code = parseErrorCode(error)
 
-    return new AppError(code, AI_ERROR_MESSAGES[code]);
-  }, [validationError, error]);
+    return new AppError(code, AI_ERROR_MESSAGES[code])
+  }, [validationError, error])
 
-  const buttonRef = useRef(null);
-  usePreventScroll(buttonRef);
+  const buttonRef = useRef(null)
+  usePreventScroll(buttonRef)
 
   return useMemo(
     () => ({
@@ -70,14 +65,6 @@ export function useAiDescription(aiRequestData: RequestData | null) {
       buttonRef,
       error: resolvedError,
     }),
-    [
-      selectedTab,
-      handleTabSelect,
-      setSelectedTab,
-      completion,
-      isLoading,
-      resolvedError,
-      buttonRef,
-    ],
-  );
+    [selectedTab, handleTabSelect, setSelectedTab, completion, isLoading, resolvedError, buttonRef],
+  )
 }

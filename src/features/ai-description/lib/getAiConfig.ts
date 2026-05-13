@@ -1,6 +1,6 @@
-import "server-only";
-import type { ServerRequestData } from "../model/types";
-import { getAiPrompt } from "./getAiPrompt";
+import "server-only"
+import type { ServerRequestData } from "../model/types"
+import { getAiPrompt } from "./getAiPrompt"
 
 export function getAiConfig(data: ServerRequestData) {
   const optionConfig: OptionConfig = {
@@ -14,20 +14,20 @@ export function getAiConfig(data: ServerRequestData) {
       prompt: getAiPrompt(data),
       temperature: 0.7,
     },
-  };
+  }
 
-  return optionConfig[data.option];
+  return optionConfig[data.option]
 }
 
 type OptionConfig = {
   location: {
-    system: string;
-    prompt: string;
-    temperature: number;
-  };
+    system: string
+    prompt: string
+    temperature: number
+  }
   weather: {
-    system: string;
-    prompt: string;
-    temperature: number;
-  };
-};
+    system: string
+    prompt: string
+    temperature: number
+  }
+}

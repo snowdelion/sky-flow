@@ -1,9 +1,9 @@
-import path from "path";
-import { fileURLToPath } from "url";
-import react from "@vitejs/plugin-react";
-import { defineConfig } from "vitest/config";
+import path from "path"
+import { fileURLToPath } from "url"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vitest/config"
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [react()],
@@ -15,10 +15,7 @@ export default defineConfig({
     exclude: ["**/node_modules/**", "**/.next/**"],
     setupFiles: [path.resolve(__dirname, "./vitest.setup.ts")],
     alias: {
-      "server-only": path.resolve(
-        __dirname,
-        "./src/shared/lib/testing/mocks/empty.ts",
-      ),
+      "server-only": path.resolve(__dirname, "./src/shared/lib/testing/mocks/empty.ts"),
       "@": path.resolve(__dirname, "./src"),
       "@shared": path.resolve(__dirname, "./src/shared"),
       "@entities": path.resolve(__dirname, "./src/entities"),
@@ -43,6 +40,6 @@ export default defineConfig({
       ],
     },
   },
-});
+})
 
-process.env.TZ = "UTC";
+process.env.TZ = "UTC"

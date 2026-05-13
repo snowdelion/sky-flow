@@ -1,10 +1,4 @@
-export function FailedSearchIcon({
-  className,
-  stroke,
-}: {
-  className?: string;
-  stroke?: string;
-}) {
+export function FailedSearchIcon({ className, stroke }: { className?: string; stroke?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,5 +17,5 @@ export function FailedSearchIcon({
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
     </svg>
-  );
+  )
 }

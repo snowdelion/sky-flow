@@ -1,29 +1,22 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import nextPlugin from "@next/eslint-plugin-next";
-import importPlugin from "eslint-plugin-import";
-import reactPlugin from "eslint-plugin-react";
-import hooksPlugin from "eslint-plugin-react-hooks";
-import tseslint from "typescript-eslint";
+import { dirname } from "path"
+import { fileURLToPath } from "url"
+import { FlatCompat } from "@eslint/eslintrc"
+import nextPlugin from "@next/eslint-plugin-next"
+import importPlugin from "eslint-plugin-import"
+import reactPlugin from "eslint-plugin-react"
+import hooksPlugin from "eslint-plugin-react-hooks"
+import tseslint from "typescript-eslint"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-});
+})
 
 const eslintConfig = [
   {
-    ignores: [
-      ".next/**",
-      "node_modules/**",
-      "dist/**",
-      "build/**",
-      "out/**",
-      "next-env.d.ts",
-    ],
+    ignores: [".next/**", "node_modules/**", "dist/**", "build/**", "out/**", "next-env.d.ts"],
   },
 
   ...compat.extends("next/core-web-vitals"),
@@ -54,14 +47,7 @@ const eslintConfig = [
       "import/order": [
         "warn",
         {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
-          ],
+          groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
           "newlines-between": "always",
           alphabetize: { order: "asc", caseInsensitive: true },
         },
@@ -106,6 +92,6 @@ const eslintConfig = [
       "@conarti/feature-sliced/public-api": "error",
     },
   }),
-];
+]
 
-export default eslintConfig;
+export default eslintConfig

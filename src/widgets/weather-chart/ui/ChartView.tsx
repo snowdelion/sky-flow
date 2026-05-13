@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react"
 import {
   Area,
   AreaChart,
@@ -7,15 +7,15 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
-import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
+} from "recharts"
+import type { ValueType } from "recharts/types/component/DefaultTooltipContent"
 import {
   AREA_DOT,
   ARIA_ACTIVE_DOT,
   TOOLTIP_CONTENT_STYLE,
   TOOLTIP_CURSOR,
   X_AXIS_TICK,
-} from "../lib/constants";
+} from "../lib/constants"
 
 export const ChartView = memo(function ChartView({
   activeData,
@@ -30,15 +30,15 @@ export const ChartView = memo(function ChartView({
       bottom: 0,
     }),
     [isMobile],
-  );
+  )
 
   const tooltipFormatter = useCallback(
     (value: ValueType | undefined) => {
-      const numValue = typeof value === "number" ? value : 0;
-      return [`${numValue}${formatters.currentUnit}`, "Temperature"];
+      const numValue = typeof value === "number" ? value : 0
+      return [`${numValue}${formatters.currentUnit}`, "Temperature"]
     },
     [formatters.currentUnit],
-  );
+  )
 
   return (
     <ResponsiveContainer
@@ -48,11 +48,7 @@ export const ChartView = memo(function ChartView({
       initialDimension={{ width: 1, height: 1 }}
     >
       <AreaChart data={activeData} margin={chartMargin}>
-        <CartesianGrid
-          strokeDasharray={"7 7"}
-          vertical={false}
-          stroke="#ffffff30"
-        />
+        <CartesianGrid strokeDasharray={"7 7"} vertical={false} stroke="#ffffff30" />
 
         <XAxis
           dataKey={formatters.dataKey}
@@ -102,8 +98,8 @@ export const ChartView = memo(function ChartView({
         <ChartGradient />
       </AreaChart>
     </ResponsiveContainer>
-  );
-});
+  )
+})
 
 const ChartGradient = memo(function ChartGradient() {
   return (
@@ -113,24 +109,24 @@ const ChartGradient = memo(function ChartGradient() {
         <stop offset="98%" stopColor="#3b82f6" stopOpacity={0} />
       </linearGradient>
     </defs>
-  );
-});
+  )
+})
 
 interface ChartViewProps {
-  activeData: ActiveData;
+  activeData: ActiveData
   formatters: {
-    handleXAxisTickFormat: (value: string) => string;
-    yTicks: number[];
-    yDomain: number[];
-    currentUnit: string;
-    dataKey: string;
-    aspect: number;
-  };
-  isMobile: boolean;
+    handleXAxisTickFormat: (value: string) => string
+    yTicks: number[]
+    yDomain: number[]
+    currentUnit: string
+    dataKey: string
+    aspect: number
+  }
+  isMobile: boolean
 }
 
 type ActiveData = {
-  temp: number;
-  day?: string;
-  hour?: string;
-}[];
+  temp: number
+  day?: string
+  hour?: string
+}[]

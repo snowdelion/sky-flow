@@ -1,17 +1,13 @@
-"use client";
-import { useMemo } from "react";
-import type { WeatherCurrent, WeatherUnits } from "@/entities/weather";
-import { DetailsSkeleton } from "./DetailsSkeleton";
+"use client"
+import { useMemo } from "react"
+import type { WeatherCurrent, WeatherUnits } from "@/entities/weather"
+import { DetailsSkeleton } from "./DetailsSkeleton"
 
-export function Details({
-  currentData,
-  forecastUnits,
-  isPending,
-}: DetailsProps) {
+export function Details({ currentData, forecastUnits, isPending }: DetailsProps) {
   const details = useMemo(() => {
-    if (!currentData || !forecastUnits) return [];
-    return formatDetails(currentData, forecastUnits);
-  }, [currentData, forecastUnits]);
+    if (!currentData || !forecastUnits) return []
+    return formatDetails(currentData, forecastUnits)
+  }, [currentData, forecastUnits])
 
   return (
     <section aria-label="Details" className="mb-10">
@@ -20,10 +16,7 @@ export function Details({
       {isPending || !currentData || !forecastUnits ? (
         <DetailsSkeleton />
       ) : (
-        <ul
-          role="list"
-          className="grid grid-cols-2 sm:grid-cols-4 gap-3 xl:gap-4"
-        >
+        <ul role="list" className="grid grid-cols-2 sm:grid-cols-4 gap-3 xl:gap-4">
           {details.map(({ title, value, unit }) => (
             <li
               key={title}
@@ -44,14 +37,14 @@ export function Details({
         </ul>
       )}
     </section>
-  );
+  )
 }
 
 const formatDetails = (data: WeatherCurrent, units: WeatherUnits) => {
-  const { feelsLike, humidity, speed, precipitation } = data;
+  const { feelsLike, humidity, speed, precipitation } = data
 
-  const currentToFixed = units.precipitationUnit === "mm" ? 1 : 3;
-  const currentPrecipUnit = units.precipitationUnit === "mm" ? "mm" : "in";
+  const currentToFixed = units.precipitationUnit === "mm" ? 1 : 3
+  const currentPrecipUnit = units.precipitationUnit === "mm" ? "mm" : "in"
 
   return [
     {
@@ -71,16 +64,14 @@ const formatDetails = (data: WeatherCurrent, units: WeatherUnits) => {
     },
     {
       title: "Precipitation",
-      value: precipitation
-        .toFixed(precipitation === 0 ? 0 : currentToFixed)
-        .toString(),
+      value: precipitation.toFixed(precipitation === 0 ? 0 : currentToFixed).toString(),
       unit: currentPrecipUnit,
     },
-  ];
-};
+  ]
+}
 
 interface DetailsProps {
-  currentData?: WeatherCurrent;
-  forecastUnits?: WeatherUnits;
-  isPending: boolean;
+  currentData?: WeatherCurrent
+  forecastUnits?: WeatherUnits
+  isPending: boolean
 }

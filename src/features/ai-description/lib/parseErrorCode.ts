@@ -1,14 +1,13 @@
-import { ERROR_CODES } from "@/shared/api";
+import { ERROR_CODES } from "@/shared/api"
 
 export function parseErrorCode(error: Error) {
-  const msg = error.message;
+  const msg = error.message
 
   if (msg.startsWith("{"))
     try {
-      const parsed = JSON.parse(msg);
-      if (parsed.code === ERROR_CODES.RATE_LIMIT) return ERROR_CODES.RATE_LIMIT;
-      if (parsed.code === ERROR_CODES.REQUEST_DATA)
-        return ERROR_CODES.REQUEST_DATA;
+      const parsed = JSON.parse(msg)
+      if (parsed.code === ERROR_CODES.RATE_LIMIT) return ERROR_CODES.RATE_LIMIT
+      if (parsed.code === ERROR_CODES.REQUEST_DATA) return ERROR_CODES.REQUEST_DATA
     } catch {}
 
   if (
@@ -16,14 +15,10 @@ export function parseErrorCode(error: Error) {
     msg.includes("Too many requests") ||
     msg.includes(ERROR_CODES.RATE_LIMIT)
   )
-    return ERROR_CODES.RATE_LIMIT;
+    return ERROR_CODES.RATE_LIMIT
 
-  if (
-    msg.includes("400") ||
-    msg.includes("Invalid data") ||
-    msg.includes(ERROR_CODES.REQUEST_DATA)
-  )
-    return ERROR_CODES.REQUEST_DATA;
+  if (msg.includes("400") || msg.includes("Invalid data") || msg.includes(ERROR_CODES.REQUEST_DATA))
+    return ERROR_CODES.REQUEST_DATA
 
-  return ERROR_CODES.AI_DESCRIPTION;
+  return ERROR_CODES.AI_DESCRIPTION
 }

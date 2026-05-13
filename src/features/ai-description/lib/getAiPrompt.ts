@@ -1,13 +1,12 @@
-import "server-only";
-import type { ServerRequestData } from "../model/types";
+import "server-only"
+import type { ServerRequestData } from "../model/types"
 
 export function getAiPrompt(data: ServerRequestData) {
-  const { city, country, region, lat, lon, option, temperature, condition } =
-    data;
+  const { city, country, region, lat, lon, option, temperature, condition } = data
 
-  const parts = [city, region !== city && region, country !== city && country];
-  const location = parts.filter(Boolean).join(", ");
-  const coords = `${lat} latitude and ${lon} longitude`;
+  const parts = [city, region !== city && region, country !== city && country]
+  const location = parts.filter(Boolean).join(", ")
+  const coords = `${lat} latitude and ${lon} longitude`
 
   const locationPrompt = `
      You are an friendly expert local guide and urban historian. 
@@ -15,7 +14,7 @@ export function getAiPrompt(data: ServerRequestData) {
      Focus on quirky history, hidden architecture, or unusual local traditions.
      Type in lively and conversational style (as if talking to a friend).
      Keep it to 2-3 engaging sentences in English. 
-     Use a friendly emoji at the end.`.trim();
+     Use a friendly emoji at the end.`.trim()
 
   const weatherPrompt = `
      You are a friendly meteorologist.
@@ -24,12 +23,12 @@ export function getAiPrompt(data: ServerRequestData) {
      It's ${temperature}°C now, it's ${condition} outside.
      Type in lively and conversational style (as if talking to a friend).
      Give some advice on the current weather.
-     Use friendly emoji at the end.`.trim();
+     Use friendly emoji at the end.`.trim()
 
   const prompts = {
     location: locationPrompt,
     weather: weatherPrompt,
-  };
+  }
 
-  return prompts[option];
+  return prompts[option]
 }

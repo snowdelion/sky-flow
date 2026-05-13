@@ -1,10 +1,7 @@
-"use client";
-import { AppIcon } from "../icons/AppIcon";
+"use client"
+import { AppIcon } from "../icons/AppIcon"
 
-export function PageError({
-  message = "Unexpected error...",
-  reset,
-}: PageErrorProps) {
+export function PageError({ message = "Unexpected error...", reset }: PageErrorProps) {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-15">
@@ -18,10 +15,10 @@ export function PageError({
         </button>
       </div>
     </div>
-  );
+  )
 }
 
 export interface PageErrorProps {
-  message?: string;
-  reset: () => void;
+  message?: string
+  reset: () => void
 }

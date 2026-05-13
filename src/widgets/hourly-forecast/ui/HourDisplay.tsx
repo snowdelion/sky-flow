@@ -1,24 +1,24 @@
-import { memo } from "react";
+import { memo } from "react"
 
 export const HourDisplay = memo(function HourDisplay({
   hourItem,
   hourFormat,
 }: {
-  hourItem: string;
-  hourFormat: "12" | "24";
+  hourItem: string
+  hourFormat: "12" | "24"
 }) {
   if (hourFormat === "12") {
-    const hours = hourItem.replace(/[a-z]/gi, "").trim();
-    const chars = hourItem.replace(/[0-9]/g, "").trim();
+    const hours = hourItem.replace(/[a-z]/gi, "").trim()
+    const chars = hourItem.replace(/[0-9]/g, "").trim()
     return (
       <div className="flex items-center gap-1.5 text-lg">
         <span>{hours}</span>
         <span className="text-white/50">{chars}</span>
       </div>
-    );
+    )
   } else {
-    const [h, min] = hourItem.split(":");
-    const currentHour = parseInt(h, 10).toString();
+    const [h, min] = hourItem.split(":")
+    const currentHour = parseInt(h, 10).toString()
 
     return (
       <div className="flex items-center gap-0.75 text-lg">
@@ -29,6 +29,6 @@ export const HourDisplay = memo(function HourDisplay({
 
         <span className="text-white/50 font-normal">{min}</span>
       </div>
-    );
+    )
   }
-});
+})

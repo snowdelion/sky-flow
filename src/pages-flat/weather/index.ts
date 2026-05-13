@@ -1,4 +1,1 @@
-export {
-  WeatherPage,
-  generateMetadata as generateWeatherMetadata,
-} from "./ui/WeatherPage";
+export { WeatherPage, generateMetadata as generateWeatherMetadata } from "./ui/WeatherPage"

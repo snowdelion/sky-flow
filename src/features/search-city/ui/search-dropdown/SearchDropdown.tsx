@@ -1,26 +1,26 @@
-import { useSearchStore } from "@/entities/location";
-import { useSearchCity } from "../../model/useSearchCity";
-import { useSearchHandlers } from "../../model/useSearchHandlers";
-import { SearchPlaceholder } from "./search-results/SearchPlaceholder";
-import { SearchResultCity } from "./search-results/SearchResultCity";
-import { SearchResultsSkeleton } from "./search-results/SearchResultsSkeleton";
-import { SearchTabs } from "./search-tabs/SearchTabs";
+import { useSearchStore } from "@/entities/location"
+import { useSearchCity } from "../../model/useSearchCity"
+import { useSearchHandlers } from "../../model/useSearchHandlers"
+import { SearchPlaceholder } from "./search-results/SearchPlaceholder"
+import { SearchResultCity } from "./search-results/SearchResultCity"
+import { SearchResultsSkeleton } from "./search-results/SearchResultsSkeleton"
+import { SearchTabs } from "./search-tabs/SearchTabs"
 
 export function SearchDropdown({
   inputRef,
   dropdownRef,
 }: {
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  dropdownRef: React.RefObject<HTMLDivElement | null>;
+  inputRef: React.RefObject<HTMLInputElement | null>
+  dropdownRef: React.RefObject<HTMLDivElement | null>
 }) {
-  const isOpen = useSearchStore((s) => s.isOpen);
-  const inputValue = useSearchStore((s) => s.inputValue);
-  const setIsOpen = useSearchStore((s) => s.setIsOpen);
+  const isOpen = useSearchStore((s) => s.isOpen)
+  const inputValue = useSearchStore((s) => s.inputValue)
+  const setIsOpen = useSearchStore((s) => s.setIsOpen)
 
-  const { handleChangeTab } = useSearchHandlers();
-  const { resultData, shouldSearchSkeleton, isError } = useSearchCity();
+  const { handleChangeTab } = useSearchHandlers()
+  const { resultData, shouldSearchSkeleton, isError } = useSearchCity()
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const renderContent = () => {
     if (inputValue.trim().length === 0)
@@ -30,12 +30,12 @@ export function SearchDropdown({
           inputRef={inputRef}
           dropdownRef={dropdownRef}
         />
-      );
+      )
 
-    if (shouldSearchSkeleton) return <SearchResultsSkeleton />;
+    if (shouldSearchSkeleton) return <SearchResultsSkeleton />
 
     if (!resultData || resultData.length === 0) {
-      return <SearchPlaceholder inputValue={inputValue} isError={isError} />;
+      return <SearchPlaceholder inputValue={inputValue} isError={isError} />
     } else {
       return (
         <div
@@ -50,9 +50,9 @@ export function SearchDropdown({
             ))}
           </ul>
         </div>
-      );
+      )
     }
-  };
+  }
 
   return (
     <div
@@ -61,12 +61,12 @@ export function SearchDropdown({
       onKeyDown={(e) => e.key === "Escape" && setIsOpen(false)}
       onFocus={() => setIsOpen(true)}
       onBlur={(e) => {
-        if (e.relatedTarget?.closest('[role="listbox"]')) return;
-        setIsOpen(false);
+        if (e.relatedTarget?.closest('[role="listbox"]')) return
+        setIsOpen(false)
       }}
       onPointerDown={(e) => e.stopPropagation()}
     >
       {renderContent()}
     </div>
-  );
+  )
 }

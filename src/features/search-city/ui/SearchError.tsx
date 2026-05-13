@@ -1,11 +1,11 @@
-"use client";
-import { useSearchStore } from "@/entities/location";
-import { AppIcon } from "@/shared/ui";
-import { useSearchActions } from "../model/useSearchActions";
+"use client"
+import { useSearchStore } from "@/entities/location"
+import { AppIcon } from "@/shared/ui"
+import { useSearchActions } from "../model/useSearchActions"
 
 export function SearchError({ message }: { message: string }) {
-  const lastValidatedCity = useSearchStore((s) => s.lastValidatedCity);
-  const { searchSelectedCity } = useSearchActions();
+  const lastValidatedCity = useSearchStore((s) => s.lastValidatedCity)
+  const { searchSelectedCity } = useSearchActions()
 
   return (
     <div className="flex flex-col items-center gap-10">
@@ -18,5 +18,5 @@ export function SearchError({ message }: { message: string }) {
         <span>Go back</span>
       </button>
     </div>
-  );
+  )
 }

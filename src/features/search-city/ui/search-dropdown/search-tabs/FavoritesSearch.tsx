@@ -1,21 +1,21 @@
-import React, { useCallback, useMemo } from "react";
-import { useSearchHistory, type SearchTabProps } from "@/entities/location";
-import { isFoundCity } from "@/shared/types";
-import { FavoriteIcon } from "@shared/ui";
-import { useSearchActions } from "../../../model/useSearchActions";
+import React, { useCallback, useMemo } from "react"
+import { useSearchHistory, type SearchTabProps } from "@/entities/location"
+import { isFoundCity } from "@/shared/types"
+import { FavoriteIcon } from "@shared/ui"
+import { useSearchActions } from "../../../model/useSearchActions"
 
 export const FavoritesSearch = React.memo(function FavoritesSearch({
   data,
   inputRef,
   dropdownRef,
 }: SearchTabProps) {
-  const { searchSelectedCity } = useSearchActions();
-  const { removeFavorite } = useSearchHistory();
+  const { searchSelectedCity } = useSearchActions()
+  const { removeFavorite } = useSearchHistory()
 
   const displayName = useMemo(
     () => data.displayName ?? `${data.city}, ${data.country}`,
     [data.city, data.country, data.displayName],
-  );
+  )
 
   const handleClick = useCallback(() => {
     const cityData = {
@@ -26,10 +26,10 @@ export const FavoritesSearch = React.memo(function FavoritesSearch({
       lon: data.longitude,
       region: data.region,
       code: data.code,
-    };
+    }
 
-    if (isFoundCity(cityData)) searchSelectedCity(cityData, inputRef);
-  }, [data, searchSelectedCity, inputRef]);
+    if (isFoundCity(cityData)) searchSelectedCity(cityData, inputRef)
+  }, [data, searchSelectedCity, inputRef])
 
   return (
     <li
@@ -54,9 +54,9 @@ export const FavoritesSearch = React.memo(function FavoritesSearch({
         aria-label="Remove from favorites"
         tabIndex={-1}
         onPointerDown={(e) => {
-          e.preventDefault();
-          inputRef.current?.blur();
-          dropdownRef.current?.focus();
+          e.preventDefault()
+          inputRef.current?.blur()
+          dropdownRef.current?.focus()
         }}
         onClick={() => removeFavorite(data.id)}
         className="flex items-center opacity-70"
@@ -67,5 +67,5 @@ export const FavoritesSearch = React.memo(function FavoritesSearch({
         />
       </button>
     </li>
-  );
-});
+  )
+})

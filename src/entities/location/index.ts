@@ -1,10 +1,10 @@
 // --- api/ ---
-export { fetchGeoData } from "./api/fetchGeoData";
-export { useGeoQuery } from "./model/useGeoQuery";
+export { fetchGeoData } from "./api/fetchGeoData"
+export { useGeoQuery } from "./model/useGeoQuery"
 
 // --- model/ ---
-export { formatCityDisplay } from "./lib/formatCityDisplay";
-export { HistorySchema, HistoryItemSchema } from "./model/schema";
+export { formatCityDisplay } from "./lib/formatCityDisplay"
+export { HistorySchema, HistoryItemSchema } from "./model/schema"
 
 export {
   type HistoryItem,
@@ -12,11 +12,7 @@ export {
   type SearchTabProps,
   type ActiveTab,
   type SearchStore,
-} from "./model/types";
+} from "./model/types"
 
-export {
-  useSearchHistory,
-  favoriteStore,
-  recentStore,
-} from "./model/useSearchHistory";
-export { useSearchStore } from "./model/useSearchStore";
+export { useSearchHistory, favoriteStore, recentStore } from "./model/useSearchHistory"
+export { useSearchStore } from "./model/useSearchStore"

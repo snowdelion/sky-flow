@@ -1,10 +1,8 @@
-import { useDeviceType } from "@/shared/lib/hooks/useDeviceType";
+import { useDeviceType } from "@/shared/lib/hooks/useDeviceType"
 
 export function SearchResultsSkeleton() {
-  const { isDesktopXl } = useDeviceType();
-  const skeletonResults = isDesktopXl
-    ? [0, 1, 2, 3, 4, 5, 6, 7]
-    : [0, 1, 2, 3, 4];
+  const { isDesktopXl } = useDeviceType()
+  const skeletonResults = isDesktopXl ? [0, 1, 2, 3, 4, 5, 6, 7] : [0, 1, 2, 3, 4]
 
   return (
     <div
@@ -29,5 +27,5 @@ export function SearchResultsSkeleton() {
         ))}
       </ul>
     </div>
-  );
+  )
 }

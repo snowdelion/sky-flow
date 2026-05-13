@@ -1,5 +1,5 @@
-import { CloudMoonIcon } from "@shared/ui";
-import UnitsSettings from "./UnitsSettings";
+import { CloudMoonIcon } from "@shared/ui"
+import UnitsSettings from "./UnitsSettings"
 
 export function Header() {
   return (
@@ -24,5 +24,5 @@ export function Header() {
 
       <UnitsSettings />
     </header>
-  );
+  )
 }

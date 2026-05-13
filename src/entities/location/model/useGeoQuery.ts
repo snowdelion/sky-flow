@@ -1,15 +1,15 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { queryRetry } from "@/shared/api";
-import { fetchGeoData } from "../api/fetchGeoData";
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import { queryRetry } from "@/shared/api"
+import { fetchGeoData } from "../api/fetchGeoData"
 
 export function useGeoQuery(query: string) {
-  const validatedQuery = query?.trim().toLowerCase();
+  const validatedQuery = query?.trim().toLowerCase()
 
   return useQuery({
     queryKey: ["location", validatedQuery],
 
     queryFn: async ({ signal }) => {
-      return await fetchGeoData({ city: validatedQuery, signal });
+      return await fetchGeoData({ city: validatedQuery, signal })
     },
 
     enabled: validatedQuery.length > 1,
@@ -23,5 +23,5 @@ export function useGeoQuery(query: string) {
 
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
-  });
+  })
 }

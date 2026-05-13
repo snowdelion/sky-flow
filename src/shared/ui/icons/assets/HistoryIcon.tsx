@@ -16,5 +16,5 @@ export function HistoryIcon({ className }: { className?: string }) {
       <path d="M3 3v5h5" />
       <path d="M12 7v5l4 2" />
     </svg>
-  );
+  )
 }

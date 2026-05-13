@@ -1,26 +1,26 @@
-import React, { useCallback, useMemo } from "react";
-import { useSearchHistory, type SearchTabProps } from "@/entities/location";
-import { isFoundCity } from "@/shared/types";
-import { FavoriteIcon, XIcon } from "@shared/ui";
-import { useSearchActions } from "../../../model/useSearchActions";
+import React, { useCallback, useMemo } from "react"
+import { useSearchHistory, type SearchTabProps } from "@/entities/location"
+import { isFoundCity } from "@/shared/types"
+import { FavoriteIcon, XIcon } from "@shared/ui"
+import { useSearchActions } from "../../../model/useSearchActions"
 
 export const RecentSearch = React.memo(function RecentSearch({
   data,
   inputRef,
   dropdownRef,
 }: SearchTabProps) {
-  const { searchSelectedCity } = useSearchActions();
+  const { searchSelectedCity } = useSearchActions()
 
-  const { toggleFavorite, removeCity } = useSearchHistory();
+  const { toggleFavorite, removeCity } = useSearchHistory()
 
   const displayName = useMemo(
     () => data.displayName ?? `${data.city}, ${data.country}`,
     [data.city, data.country, data.displayName],
-  );
+  )
 
   const handleFavoriteIcon = useCallback(() => {
-    toggleFavorite(data.id);
-  }, [toggleFavorite, data.id]);
+    toggleFavorite(data.id)
+  }, [toggleFavorite, data.id])
 
   const handleClick = useCallback(() => {
     const cityData = {
@@ -31,10 +31,10 @@ export const RecentSearch = React.memo(function RecentSearch({
       lon: data.longitude,
       region: data.region,
       code: data.code,
-    };
+    }
 
-    if (isFoundCity(cityData)) searchSelectedCity(cityData, inputRef);
-  }, [data, searchSelectedCity, inputRef]);
+    if (isFoundCity(cityData)) searchSelectedCity(cityData, inputRef)
+  }, [data, searchSelectedCity, inputRef])
 
   return (
     <li
@@ -71,9 +71,9 @@ export const RecentSearch = React.memo(function RecentSearch({
           aria-label="Remove from history"
           tabIndex={-1}
           onPointerDown={(e) => {
-            e.preventDefault();
-            inputRef.current?.blur();
-            dropdownRef.current?.focus();
+            e.preventDefault()
+            inputRef.current?.blur()
+            dropdownRef.current?.focus()
           }}
           onClick={() => removeCity(data.id)}
         >
@@ -81,5 +81,5 @@ export const RecentSearch = React.memo(function RecentSearch({
         </button>
       </div>
     </li>
-  );
-});
+  )
+})
