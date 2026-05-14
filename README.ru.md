@@ -50,7 +50,7 @@
 
 ## Структура:
 
-[**_Больше про архитектуру_**](ARCHITECTURE.MD)
+[**_Больше про архитектуру_**](ARCHITECTURE.md)
 
 <details>
 <summary><b>Feature-Sliced Design (FSD) структура</b></summary>
