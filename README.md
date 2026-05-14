@@ -50,7 +50,7 @@
 
 ## Structure:
 
-[**_More about architecture_**](ARCHITECTURE.MD)
+[**_More about architecture_**](ARCHITECTURE.md)
 
 <details>
 <summary><b>Feature-Sliced Design (FSD) structure</b></summary>
