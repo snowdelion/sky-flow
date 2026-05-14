@@ -20,11 +20,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: gitleaks check
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -33,8 +28,16 @@ jobs:
       - name: install dependencies
         run: npm ci
 
+      - name: gitleaks check
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: validate
         run: npm run validate
+
+      - name: build project
+        run: npm run build
 
       - name: run tests with coverage
         run: npm run test:cov
@@ -45,6 +48,3 @@ jobs:
         with:
           json-summary-path: "./coverage/coverage-summary.json"
           json-final-path: "./coverage/coverage-final.json"
-
-      - name: build project
-        run: npm run build
