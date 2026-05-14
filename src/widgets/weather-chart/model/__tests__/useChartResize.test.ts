@@ -1,34 +1,34 @@
-import { act, renderHook } from "@testing-library/react";
-import { useChartResize } from "../useChartResize";
+import { act, renderHook } from "@testing-library/react"
+import { useChartResize } from "../useChartResize"
 
 describe("useChartResize", () => {
   beforeEach(() => {
-    vi.useFakeTimers();
-  });
+    vi.useFakeTimers()
+  })
 
   afterEach(() => {
-    vi.useRealTimers();
-  });
+    vi.useRealTimers()
+  })
 
   it("should initially return false", () => {
-    const { result } = renderHook(() => useChartResize());
-    expect(result.current).toBe(false);
-  });
+    const { result } = renderHook(() => useChartResize())
+    expect(result.current).toBe(false)
+  })
 
   it("should set isResizing to true when window resizes", () => {
-    const { result } = renderHook(() => useChartResize());
-    act(() => window.dispatchEvent(new Event("resize")));
-    expect(result.current).toBe(true);
-  });
+    const { result } = renderHook(() => useChartResize())
+    act(() => window.dispatchEvent(new Event("resize")))
+    expect(result.current).toBe(true)
+  })
 
   it("should set isResizing to false after delay", () => {
-    const delay = 150;
-    const { result } = renderHook(() => useChartResize(delay));
+    const delay = 150
+    const { result } = renderHook(() => useChartResize(delay))
 
-    act(() => window.dispatchEvent(new Event("resize")));
-    expect(result.current).toBe(true);
+    act(() => window.dispatchEvent(new Event("resize")))
+    expect(result.current).toBe(true)
 
-    act(() => vi.advanceTimersByTime(delay));
-    expect(result.current).toBe(false);
-  });
-});
+    act(() => vi.advanceTimersByTime(delay))
+    expect(result.current).toBe(false)
+  })
+})

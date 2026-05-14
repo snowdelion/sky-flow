@@ -1,4 +1,4 @@
-import { SparklesIcon } from "@/shared/ui";
+import { SparklesIcon } from "@/shared/ui"
 
 export function MoreDetailsAiButton({ open }: { open: boolean }) {
   return (
@@ -19,5 +19,5 @@ export function MoreDetailsAiButton({ open }: { open: boolean }) {
         stop2="#ec4899"
       />
     </div>
-  );
+  )
 }

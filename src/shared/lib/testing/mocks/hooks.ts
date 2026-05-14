@@ -1,7 +1,7 @@
 export const createMockHooks = () => {
-  const mockAddCity = vi.fn();
-  const mockToggleFavorites = vi.fn();
-  const removeCity = vi.fn();
+  const mockAddCity = vi.fn()
+  const mockToggleFavorites = vi.fn()
+  const removeCity = vi.fn()
 
   return {
     mockAddCity,
@@ -17,5 +17,5 @@ export const createMockHooks = () => {
         favorites: [],
       }),
     },
-  };
-};
+  }
+}

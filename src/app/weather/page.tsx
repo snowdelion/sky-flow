@@ -1,4 +1,4 @@
-import { generateWeatherMetadata, WeatherPage } from "@/pages-flat/weather";
+import { generateWeatherMetadata, WeatherPage } from "@/pages-flat/weather"
 
-export const generateMetadata = generateWeatherMetadata;
-export default WeatherPage;
+export const generateMetadata = generateWeatherMetadata
+export default WeatherPage

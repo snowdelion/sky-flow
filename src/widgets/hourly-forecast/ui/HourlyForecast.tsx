@@ -1,16 +1,12 @@
-"use client";
-import type { WeatherHourly, WeatherUnits } from "@/entities/weather";
-import { AppIcon } from "@/shared/ui";
-import { useHourlyForecast } from "../model/useHourlyForecast";
-import { DaySelector } from "./DaySelector";
-import { HourlyForecastSkeleton } from "./HourlyForecastSkeleton";
-import HourlyItem from "./HourlyItem";
+"use client"
+import type { WeatherHourly, WeatherUnits } from "@/entities/weather"
+import { AppIcon } from "@/shared/ui"
+import { useHourlyForecast } from "../model/useHourlyForecast"
+import { DaySelector } from "./DaySelector"
+import { HourlyForecastSkeleton } from "./HourlyForecastSkeleton"
+import HourlyItem from "./HourlyItem"
 
-export function HourlyForecast({
-  hourlyData,
-  forecastUnits,
-  isPending,
-}: HourlyForecastProps) {
+export function HourlyForecast({ hourlyData, forecastUnits, isPending }: HourlyForecastProps) {
   const {
     hoursRef,
     days,
@@ -23,13 +19,10 @@ export function HourlyForecast({
     isDesk,
     selectedDay,
     formattedDates,
-  } = useHourlyForecast(hourlyData);
+  } = useHourlyForecast(hourlyData)
 
   return (
-    <section
-      aria-label="Hourly Forecast"
-      className="w-full lg:max-w-82 xl:min-w-96 xl:max-w-96"
-    >
+    <section aria-label="Hourly Forecast" className="w-full lg:max-w-82 xl:min-w-96 xl:max-w-96">
       {isPending || !hourlyData || !forecastUnits ? (
         <HourlyForecastSkeleton />
       ) : (
@@ -76,11 +69,11 @@ export function HourlyForecast({
         </div>
       )}
     </section>
-  );
+  )
 }
 
 interface HourlyForecastProps {
-  hourlyData?: WeatherHourly;
-  forecastUnits?: WeatherUnits;
-  isPending: boolean;
+  hourlyData?: WeatherHourly
+  forecastUnits?: WeatherUnits
+  isPending: boolean
 }

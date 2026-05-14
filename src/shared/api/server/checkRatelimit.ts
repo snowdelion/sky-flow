@@ -1,10 +1,10 @@
-import "server-only";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
+import "server-only"
+import { Ratelimit } from "@upstash/ratelimit"
+import { Redis } from "@upstash/redis"
 
-const redis = Redis.fromEnv();
+const redis = Redis.fromEnv()
 
-const cache = new Map();
+const cache = new Map()
 const multipliers = {
   shortTerm: new Ratelimit({
     redis,
@@ -24,16 +24,16 @@ const multipliers = {
     prefix: "sky-flow:ai:24h",
     ephemeralCache: cache,
   }),
-};
+}
 
 export async function checkRatelimit(identifier: string) {
   const results = [
     await multipliers.shortTerm.limit(identifier),
     await multipliers.mediumTerm.limit(identifier),
     await multipliers.longTerm.limit(identifier),
-  ];
+  ]
 
-  const blocked = results.find((item) => !item.success);
+  const blocked = results.find((item) => !item.success)
 
   if (blocked)
     return {
@@ -41,7 +41,7 @@ export async function checkRatelimit(identifier: string) {
       limit: blocked.limit,
       remaining: blocked.remaining,
       reset: blocked.reset,
-    };
+    }
 
-  return results[results.length - 1];
+  return results[results.length - 1]
 }

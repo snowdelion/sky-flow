@@ -1,13 +1,6 @@
-export function ChartTabs({
-  tabData,
-  currentChartTab,
-  setCurrentChartTab,
-}: ChartTabsProps) {
+export function ChartTabs({ tabData, currentChartTab, setCurrentChartTab }: ChartTabsProps) {
   return (
-    <ul
-      role="tablist"
-      className="flex justify-between w-full items-center mt-5"
-    >
+    <ul role="tablist" className="flex justify-between w-full items-center mt-5">
       {tabData.map((tab, index) => (
         <li
           key={`${tab}-${index}`}
@@ -32,11 +25,11 @@ export function ChartTabs({
         </li>
       ))}
     </ul>
-  );
+  )
 }
 
 interface ChartTabsProps {
-  tabData: string[];
-  currentChartTab: string;
-  setCurrentChartTab: React.Dispatch<React.SetStateAction<string>>;
+  tabData: string[]
+  currentChartTab: string
+  setCurrentChartTab: React.Dispatch<React.SetStateAction<string>>
 }

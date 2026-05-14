@@ -73,4 +73,4 @@ export const CITY_BASE_DATA = {
       timezone: "Asia/Krasnoyarsk",
     },
   },
-};
+}

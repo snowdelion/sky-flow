@@ -2,17 +2,22 @@
   "name": "sky-flow",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
-    "d": "next dev --turbo",
-    "b": "next build",
+    "dev": "next dev --turbo",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "t": "vitest",
-    "t:ui": "vitest --ui",
-    "t:cov": "vitest --coverage",
-    "t:ci": "vitest --coverage --run",
-    "t:run": "vitest run",
-    "t:rel": "vitest related",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "typecheck": "npx tsc --noEmit",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
+    "validate": "npm run typecheck && npm run prettier:check && npm run lint",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:cov": "vitest --coverage --run",
+    "test:run": "vitest run",
+    "test:rel": "vitest related",
     "prepare": "husky"
   },
   "dependencies": {
@@ -73,7 +78,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "npx prettier --write",
+      "prettier:write",
       "eslint --fix"
     ]
   }

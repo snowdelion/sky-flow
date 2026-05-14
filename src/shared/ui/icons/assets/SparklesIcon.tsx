@@ -1,5 +1,5 @@
-import { Sparkles } from "lucide-react";
-import { CSSProperties, useId } from "react";
+import { Sparkles } from "lucide-react"
+import { CSSProperties, useId } from "react"
 
 export function SparklesIcon({
   size = 20,
@@ -8,7 +8,7 @@ export function SparklesIcon({
   stop1 = "#ffffff",
   stop2 = "#ffffff",
 }: SparklesIconProps) {
-  const id = useId();
+  const id = useId()
 
   return (
     <>
@@ -50,20 +50,20 @@ export function SparklesIcon({
         }}
       />
     </>
-  );
+  )
 }
 
 interface SparklesIconProps {
-  size?: number;
-  className?: string;
-  style?: SparkleStyles;
-  stop1?: string;
-  stop2?: string;
-  stop1Hover?: string;
-  stop2Hover?: string;
+  size?: number
+  className?: string
+  style?: SparkleStyles
+  stop1?: string
+  stop2?: string
+  stop1Hover?: string
+  stop2Hover?: string
 }
 
 interface SparkleStyles extends CSSProperties {
-  "--s1"?: string;
-  "--s2"?: string;
+  "--s1"?: string
+  "--s2"?: string
 }

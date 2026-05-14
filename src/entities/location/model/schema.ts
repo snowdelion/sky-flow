@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod"
 
 export const HistoryItemSchema = z.object({
   id: z
@@ -14,6 +14,6 @@ export const HistoryItemSchema = z.object({
   timestamp: z.number().positive(),
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
-});
+})
 
-export const HistorySchema = z.array(HistoryItemSchema);
+export const HistorySchema = z.array(HistoryItemSchema)

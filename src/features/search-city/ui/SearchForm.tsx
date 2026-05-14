@@ -1,12 +1,12 @@
-import { useRef } from "react";
-import { useSearchHandlers } from "../model/useSearchHandlers";
-import { SearchBar } from "./search-bar/SearchBar";
-import { SearchDropdown } from "./search-dropdown/SearchDropdown";
+import { useRef } from "react"
+import { useSearchHandlers } from "../model/useSearchHandlers"
+import { SearchBar } from "./search-bar/SearchBar"
+import { SearchDropdown } from "./search-dropdown/SearchDropdown"
 
 export function SearchForm({ isError }: SearchFormProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const { handleSubmit } = useSearchHandlers();
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const { handleSubmit } = useSearchHandlers()
 
   return (
     <form
@@ -30,9 +30,9 @@ export function SearchForm({ isError }: SearchFormProps) {
         Search
       </button>
     </form>
-  );
+  )
 }
 
 interface SearchFormProps {
-  isError: boolean;
+  isError: boolean
 }

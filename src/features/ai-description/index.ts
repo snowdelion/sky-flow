@@ -1,1 +1,1 @@
-export { AiDescriptionMenu } from "./ui/AiDescriptionMenu";
+export { AiDescriptionMenu } from "./ui/AiDescriptionMenu"

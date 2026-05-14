@@ -1,6 +1,6 @@
-import type { Geo, FoundCity } from "@/shared/types";
-import { type WeatherDto } from "../api/dto/forecast.dto";
-import { SearchResultsDto } from "../api/dto/search.dto";
+import type { Geo, FoundCity } from "@/shared/types"
+import { type WeatherDto } from "../api/dto/forecast.dto"
+import { SearchResultsDto } from "../api/dto/search.dto"
 
 export const mapToForecastData = (data: WeatherDto, cityData: FoundCity) => ({
   current: {
@@ -37,14 +37,11 @@ export const mapToForecastData = (data: WeatherDto, cityData: FoundCity) => ({
     speedUnit: data.current_units.wind_speed_10m,
     precipitationUnit: data.current_units.precipitation,
   },
-});
+})
 
-export const mapToResultsData = (
-  searchData: SearchResultsDto,
-  GeoData: Geo,
-) => {
+export const mapToResultsData = (searchData: SearchResultsDto, GeoData: Geo) => {
   return GeoData.results.map((item, index) => {
-    const weather = searchData[index];
+    const weather = searchData[index]
 
     return {
       region: item?.region,
@@ -57,6 +54,6 @@ export const mapToResultsData = (
       temperature: weather?.current?.temperature_2m,
       temperatureUnit: weather?.current_units?.temperature_2m,
       weatherCode: weather?.current?.weather_code,
-    };
-  });
-};
+    }
+  })
+}

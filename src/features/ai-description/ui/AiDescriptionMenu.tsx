@@ -1,29 +1,12 @@
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-} from "@headlessui/react";
-import { ChevronLeft } from "lucide-react";
-import type { RequestData } from "../model/types";
-import { useAiDescription } from "../model/useAiDescription";
-import { MoreDetailsAiButton } from "./MoreDetailsAiButton";
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react"
+import { ChevronLeft } from "lucide-react"
+import type { RequestData } from "../model/types"
+import { useAiDescription } from "../model/useAiDescription"
+import { MoreDetailsAiButton } from "./MoreDetailsAiButton"
 
-export function AiDescriptionMenu({
-  aiRequestData,
-}: {
-  aiRequestData: RequestData | null;
-}) {
-  const {
-    selectedTab,
-    handleTabSelect,
-    setSelectedTab,
-    completion,
-    isLoading,
-    error,
-    buttonRef,
-  } = useAiDescription(aiRequestData);
+export function AiDescriptionMenu({ aiRequestData }: { aiRequestData: RequestData | null }) {
+  const { selectedTab, handleTabSelect, setSelectedTab, completion, isLoading, error, buttonRef } =
+    useAiDescription(aiRequestData)
 
   return (
     <Menu as="div" className="relative flex justify-center">
@@ -53,8 +36,8 @@ export function AiDescriptionMenu({
                 {() => (
                   <button
                     onClick={(e) => {
-                      e.preventDefault();
-                      handleTabSelect("location");
+                      e.preventDefault()
+                      handleTabSelect("location")
                     }}
                     className="relative text-lg font-semibold transition-all duration-200 outline-none group"
                   >
@@ -72,8 +55,8 @@ export function AiDescriptionMenu({
                 {() => (
                   <button
                     onClick={(e) => {
-                      e.preventDefault();
-                      handleTabSelect("weather");
+                      e.preventDefault()
+                      handleTabSelect("weather")
                     }}
                     className="relative text-lg font-semibold transition-all duration-200 outline-none group"
                   >
@@ -94,9 +77,7 @@ export function AiDescriptionMenu({
                 onClick={() => setSelectedTab(null)}
               >
                 <ChevronLeft size={18} />
-                <span className="text-xs uppercase tracking-wider font-bold">
-                  Back
-                </span>
+                <span className="text-xs uppercase tracking-wider font-bold">Back</span>
               </button>
 
               {isLoading && !completion && (
@@ -110,11 +91,7 @@ export function AiDescriptionMenu({
                 </div>
               )}
 
-              {completion && (
-                <p className="text-sm leading-relaxed text-white/90">
-                  {completion}
-                </p>
-              )}
+              {completion && <p className="text-sm leading-relaxed text-white/90">{completion}</p>}
 
               {error && (
                 <p className="text-sm text-red-400/90 bg-red-400/10 p-2 rounded-lg">
@@ -126,5 +103,5 @@ export function AiDescriptionMenu({
         </MenuItems>
       </Transition>
     </Menu>
-  );
+  )
 }

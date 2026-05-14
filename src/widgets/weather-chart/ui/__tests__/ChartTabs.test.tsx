@@ -1,10 +1,10 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { ChartTabs } from "../ChartTabs";
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { ChartTabs } from "../ChartTabs"
 
 describe("ChartTabs", () => {
-  const tabData = ["Daily", "Hourly"];
-  const setCurrentChartTab = vi.fn();
+  const tabData = ["Daily", "Hourly"]
+  const setCurrentChartTab = vi.fn()
 
   it("should render all tabs from tabData", () => {
     render(
@@ -13,12 +13,12 @@ describe("ChartTabs", () => {
         currentChartTab="daily"
         setCurrentChartTab={setCurrentChartTab}
       />,
-    );
+    )
 
-    expect(screen.getByText("Daily")).toBeInTheDocument();
-    expect(screen.getByText("Hourly")).toBeInTheDocument();
-    expect(screen.getAllByRole("tab")).toHaveLength(2);
-  });
+    expect(screen.getByText("Daily")).toBeInTheDocument()
+    expect(screen.getByText("Hourly")).toBeInTheDocument()
+    expect(screen.getAllByRole("tab")).toHaveLength(2)
+  })
 
   it("should call setCurrentChartTab with lowercase value on click", async () => {
     render(
@@ -27,10 +27,10 @@ describe("ChartTabs", () => {
         currentChartTab="daily"
         setCurrentChartTab={setCurrentChartTab}
       />,
-    );
+    )
 
-    const hourlyTab = screen.getByRole("tab", { name: /hourly chart/i });
-    await userEvent.setup().click(hourlyTab);
-    expect(setCurrentChartTab).toHaveBeenCalledWith("hourly");
-  });
-});
+    const hourlyTab = screen.getByRole("tab", { name: /hourly chart/i })
+    await userEvent.setup().click(hourlyTab)
+    expect(setCurrentChartTab).toHaveBeenCalledWith("hourly")
+  })
+})

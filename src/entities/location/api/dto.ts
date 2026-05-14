@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const GeoItemDtoSchema = z
   .object({
@@ -11,11 +11,11 @@ export const GeoItemDtoSchema = z
     timezone: z.string().optional(),
     id: z.number().min(0).int(),
   })
-  .strip();
+  .strip()
 
 export const GeoResponseDtoSchema = z.object({
   results: z.array(GeoItemDtoSchema).default([]),
-});
+})
 
-export type GeoItemDto = z.infer<typeof GeoItemDtoSchema>;
-export type GeoResponseDto = z.infer<typeof GeoResponseDtoSchema>;
+export type GeoItemDto = z.infer<typeof GeoItemDtoSchema>
+export type GeoResponseDto = z.infer<typeof GeoResponseDtoSchema>

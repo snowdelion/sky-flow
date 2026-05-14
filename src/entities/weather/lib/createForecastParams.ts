@@ -1,10 +1,6 @@
-import type { Units } from "@/shared/types";
+import type { Units } from "@/shared/types"
 
-export const createForecastParams = (
-  lat: number,
-  lon: number,
-  units: Units,
-) => {
+export const createForecastParams = (lat: number, lon: number, units: Units) => {
   const params = new URLSearchParams({
     latitude: lat.toString(),
     longitude: lon.toString(),
@@ -21,7 +17,7 @@ export const createForecastParams = (
     temperature_unit: units.temperatureUnit,
     wind_speed_unit: units.speedUnit,
     precipitation_unit: units.precipitationUnit,
-  });
+  })
 
-  return params.toString();
-};
+  return params.toString()
+}

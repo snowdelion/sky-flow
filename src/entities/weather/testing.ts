@@ -1,8 +1,8 @@
-export { default as drizzleIcon } from "./assets/icon-drizzle.webp";
-export { default as fogIcon } from "./assets/icon-fog.webp";
-export { default as overcastIcon } from "./assets/icon-overcast.webp";
-export { default as partlyCloudyIcon } from "./assets/icon-partly-cloudy.webp";
-export { default as rainIcon } from "./assets/icon-rain.webp";
-export { default as snowIcon } from "./assets/icon-snow.webp";
-export { default as stormIcon } from "./assets/icon-storm.webp";
-export { default as sunnyIcon } from "./assets/icon-sunny.webp";
+export { default as drizzleIcon } from "./assets/icon-drizzle.webp"
+export { default as fogIcon } from "./assets/icon-fog.webp"
+export { default as overcastIcon } from "./assets/icon-overcast.webp"
+export { default as partlyCloudyIcon } from "./assets/icon-partly-cloudy.webp"
+export { default as rainIcon } from "./assets/icon-rain.webp"
+export { default as snowIcon } from "./assets/icon-snow.webp"
+export { default as stormIcon } from "./assets/icon-storm.webp"
+export { default as sunnyIcon } from "./assets/icon-sunny.webp"

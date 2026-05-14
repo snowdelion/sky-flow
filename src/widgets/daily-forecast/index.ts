@@ -1,2 +1,2 @@
-export { DailyForecast } from "./ui/DailyForecast";
-export { DailyForecastSkeleton } from "./ui/DailyForecastSkeleton";
+export { DailyForecast } from "./ui/DailyForecast"
+export { DailyForecastSkeleton } from "./ui/DailyForecastSkeleton"

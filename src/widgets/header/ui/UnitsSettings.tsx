@@ -1,19 +1,16 @@
-"use client";
+"use client"
 
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import type { WeatherUnits } from "@/entities/weather";
-import { AppIcon } from "@/shared/ui";
-import { useUnitsSettings } from "./useUnitsSettings";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react"
+import type { WeatherUnits } from "@/entities/weather"
+import { AppIcon } from "@/shared/ui"
+import { useUnitsSettings } from "./useUnitsSettings"
 
 export default function UnitsSettings() {
-  const { buttonRef, handleReset, handleSetUnit, units } = useUnitsSettings();
+  const { buttonRef, handleReset, handleSetUnit, units } = useUnitsSettings()
 
   return (
     <Menu>
-      <div
-        aria-label="Units"
-        className="border border-white/0 active:border-white/20 rounded-lg"
-      >
+      <div aria-label="Units" className="border border-white/0 active:border-white/20 rounded-lg">
         <MenuButton
           id="units-menu-button"
           type="button"
@@ -45,8 +42,8 @@ export default function UnitsSettings() {
               role="button"
               aria-label="default option"
               onClick={(e) => {
-                e.stopPropagation();
-                handleReset();
+                e.stopPropagation()
+                handleReset()
               }}
               className="w-full items-center text-start px-3 mt-2 -mb-2 py-3 hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl cursor-pointer"
             >
@@ -56,13 +53,8 @@ export default function UnitsSettings() {
         </div>
 
         {MENU_OPTIONS.map((group) => (
-          <div
-            key={group.id}
-            className="mt-4 mx-2 border-b border-white/10 last:border-b-0"
-          >
-            <h2 className="text-xs sm:text-sm text-white/70 ml-3">
-              {group.title}
-            </h2>
+          <div key={group.id} className="mt-4 mx-2 border-b border-white/10 last:border-b-0">
+            <h2 className="text-xs sm:text-sm text-white/70 ml-3">{group.title}</h2>
 
             {group.options.map((option) => (
               <MenuItem key={option.value}>
@@ -70,19 +62,15 @@ export default function UnitsSettings() {
                   role="button"
                   aria-label={`${option.value} option`}
                   onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleSetUnit(group.unit, option.value);
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleSetUnit(group.unit, option.value)
                   }}
                   className="w-full flex justify-between items-center hover:bg-[hsl(243,23%,30%)] active:bg-[hsl(243,23%,24%)] transition-colors rounded-xl px-3 my-1.75 py-1.75 cursor-pointer"
                 >
                   <span className="text-sm sm:text-base">{option.label}</span>
                   {units[group.unit] === option.value && (
-                    <AppIcon
-                      icon="checkmark"
-                      className="w-3 sm:w-3.5"
-                      alt="Checked"
-                    />
+                    <AppIcon icon="checkmark" className="w-3 sm:w-3.5" alt="Checked" />
                   )}
                 </button>
               </MenuItem>
@@ -91,7 +79,7 @@ export default function UnitsSettings() {
         ))}
       </MenuItems>
     </Menu>
-  );
+  )
 }
 
 const MENU_OPTIONS = [
@@ -131,4 +119,4 @@ const MENU_OPTIONS = [
       { label: "24-hour", value: "24" },
     ],
   },
-];
+]

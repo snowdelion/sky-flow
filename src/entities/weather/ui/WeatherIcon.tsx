@@ -1,12 +1,9 @@
-import Image, { type ImageProps } from "next/image";
-import { memo } from "react";
-import { WEATHER_ASSETS } from "../assets";
+import Image, { type ImageProps } from "next/image"
+import { memo } from "react"
+import { WEATHER_ASSETS } from "../assets"
 
-export const WeatherIcon = memo(function WeatherIcon({
-  code,
-  ...props
-}: WeatherIconProps) {
-  const src = ICON_MAP[code] ?? WEATHER_ASSETS.weather.sunny;
+export const WeatherIcon = memo(function WeatherIcon({ code, ...props }: WeatherIconProps) {
+  const src = ICON_MAP[code] ?? WEATHER_ASSETS.weather.sunny
 
   return (
     <Image
@@ -18,8 +15,8 @@ export const WeatherIcon = memo(function WeatherIcon({
       className={props.className}
       {...props}
     />
-  );
-});
+  )
+})
 
 const ICON_MAP: Record<number, string> = {
   0: WEATHER_ASSETS.weather.sunny,
@@ -50,8 +47,8 @@ const ICON_MAP: Record<number, string> = {
   95: WEATHER_ASSETS.weather.storm,
   96: WEATHER_ASSETS.weather.storm,
   99: WEATHER_ASSETS.weather.storm,
-};
+}
 
 interface WeatherIconProps extends Omit<ImageProps, "src" | "alt"> {
-  code: number;
+  code: number
 }

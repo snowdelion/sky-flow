@@ -1,9 +1,9 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { STORAGE_KEYS } from "@/shared/config/constants";
-import type { Units } from "@/shared/types";
-import { migrateSettings } from "./migrateSettings";
-import type { SettingsStore } from "./types";
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+import { STORAGE_KEYS } from "@/shared/config/constants"
+import type { Units } from "@/shared/types"
+import { migrateSettings } from "./migrateSettings"
+import type { SettingsStore } from "./types"
 
 export const useSettingsStore = create<SettingsStore>()(
   persist(
@@ -18,10 +18,7 @@ export const useSettingsStore = create<SettingsStore>()(
 
       setUnits: (update: Partial<Units> | ((prev: Units) => Units)) =>
         set((state) => ({
-          units:
-            typeof update === "function"
-              ? update(state.units)
-              : { ...state.units, ...update },
+          units: typeof update === "function" ? update(state.units) : { ...state.units, ...update },
         })),
 
       setSelectedDayIndex: (day: number) => set({ selectedDayIndex: day }),
@@ -46,4 +43,4 @@ export const useSettingsStore = create<SettingsStore>()(
       }),
     },
   ),
-);
+)

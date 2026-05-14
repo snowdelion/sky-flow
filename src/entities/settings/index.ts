@@ -1,1 +1,1 @@
-export { useSettingsStore } from "./model/useSettingsStore";
+export { useSettingsStore } from "./model/useSettingsStore"

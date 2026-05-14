@@ -1,9 +1,9 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { DEFAULT_CITY_DATA } from "@/pages-flat/weather/lib/constants";
-import { STORAGE_KEYS } from "@/shared/config/constants";
-import { FoundCitySchema } from "@/shared/types";
-import type { ActiveTab, SearchStore } from "./types";
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+import { DEFAULT_CITY_DATA } from "@/pages-flat/weather/lib/constants"
+import { STORAGE_KEYS } from "@/shared/config/constants"
+import { FoundCitySchema } from "@/shared/types"
+import type { ActiveTab, SearchStore } from "./types"
 
 const INITIAL_STATE = {
   inputValue: "",
@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   isOpen: false,
   _hasHydrated: false,
   lastValidatedCity: DEFAULT_CITY_DATA,
-} as const;
+} as const
 
 export const useSearchStore = create<SearchStore>()(
   persist(
@@ -24,8 +24,8 @@ export const useSearchStore = create<SearchStore>()(
       setHasHydrated: (state) => set({ _hasHydrated: state }),
 
       setLastValidatedCity: (cityData) => {
-        const { data, success } = FoundCitySchema.safeParse(cityData);
-        if (success) set({ lastValidatedCity: data });
+        const { data, success } = FoundCitySchema.safeParse(cityData)
+        if (success) set({ lastValidatedCity: data })
       },
 
       reset: () => set(INITIAL_STATE),
@@ -36,9 +36,9 @@ export const useSearchStore = create<SearchStore>()(
         lastValidatedCity: s.lastValidatedCity,
       }),
       onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
+        state?.setHasHydrated(true)
       },
       version: 1,
     },
   ),
-);
+)

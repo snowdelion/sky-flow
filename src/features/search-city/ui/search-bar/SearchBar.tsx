@@ -1,13 +1,13 @@
-import { useSearchStore } from "@/entities/location";
-import { XIcon } from "@/shared/ui";
-import { AppIcon } from "@/shared/ui";
-import { useSearchActions } from "../../model/useSearchActions";
-import { SearchInput } from "./SearchInput";
+import { useSearchStore } from "@/entities/location"
+import { XIcon } from "@/shared/ui"
+import { AppIcon } from "@/shared/ui"
+import { useSearchActions } from "../../model/useSearchActions"
+import { SearchInput } from "./SearchInput"
 
 export function SearchBar({ inputRef, isError }: SearchBarProps) {
-  const { searchCityWithName } = useSearchActions();
-  const inputValue = useSearchStore((state) => state.inputValue);
-  const setInputValue = useSearchStore((state) => state.setInputValue);
+  const { searchCityWithName } = useSearchActions()
+  const inputValue = useSearchStore((state) => state.inputValue)
+  const setInputValue = useSearchStore((state) => state.setInputValue)
 
   return (
     <div className="relative z-10 col-start-1 row-start-1 flex items-center w-full group">
@@ -19,9 +19,7 @@ export function SearchBar({ inputRef, isError }: SearchBarProps) {
       />
       <SearchInput
         ref={inputRef}
-        placeholder={
-          isError ? "Something went wrong..." : "Search for a place..."
-        }
+        placeholder={isError ? "Something went wrong..." : "Search for a place..."}
       />
 
       {inputValue.length > 0 && (
@@ -34,10 +32,10 @@ export function SearchBar({ inputRef, isError }: SearchBarProps) {
         </button>
       )}
     </div>
-  );
+  )
 }
 
 interface SearchBarProps {
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  isError: boolean;
+  inputRef: React.RefObject<HTMLInputElement | null>
+  isError: boolean
 }

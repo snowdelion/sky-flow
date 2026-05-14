@@ -4,15 +4,15 @@ import type {
   WeatherDaily,
   WeatherHourly,
   WeatherUnits,
-} from "@/entities/weather";
+} from "@/entities/weather"
 
 // --- 1.1 weather data factories ---
 export const createWeatherData = (overrides: Partial<Weather> = {}) => {
   return {
     ...getWeatherData(),
     ...overrides,
-  };
-};
+  }
+}
 
 // --- 1.2 weather data item ---
 const getWeatherData = () => {
@@ -29,8 +29,8 @@ const getWeatherData = () => {
     forecastUnits: {
       ...getUnits(),
     },
-  };
-};
+  }
+}
 
 // --- 2.1 daily/hourly data factories ---
 export const createForecastData = (overrides: WeatherOverrides = {}) => {
@@ -44,8 +44,8 @@ export const createForecastData = (overrides: WeatherOverrides = {}) => {
       ...getHourlyData(),
       ...overrides.hourly,
     } as WeatherHourly,
-  };
-};
+  }
+}
 
 // --- 2.2 daily/hourly data items ---
 const getDailyData = () => ({
@@ -53,12 +53,9 @@ const getDailyData = () => ({
   temperatureMax: Array.from({ length: 8 }, (_, i) => i + 2),
   feelsLikeMin: Array.from({ length: 8 }, (_, i) => i),
   feelsLikeMax: Array.from({ length: 8 }, (_, i) => i + 2),
-  time: Array.from(
-    { length: 8 },
-    (_, i) => `2026-03-${(i + 1).toString().padStart(2, "0")}`,
-  ),
+  time: Array.from({ length: 8 }, (_, i) => `2026-03-${(i + 1).toString().padStart(2, "0")}`),
   weatherCode: Array.from({ length: 8 }, (_, i) => i),
-});
+})
 
 const getHourlyData = () => ({
   temperature: [
@@ -66,27 +63,19 @@ const getHourlyData = () => ({
     ...Array.from({ length: 24 }, (_, i) => i + 1),
   ],
   time: [
-    ...Array.from(
-      { length: 24 },
-      (_, i) => `2026-03-01T${i.toString().padStart(2, "0")}:00Z`,
-    ),
-    ...Array.from(
-      { length: 24 },
-      (_, i) => `2026-03-02T${i.toString().padStart(2, "0")}:00Z`,
-    ),
+    ...Array.from({ length: 24 }, (_, i) => `2026-03-01T${i.toString().padStart(2, "0")}:00Z`),
+    ...Array.from({ length: 24 }, (_, i) => `2026-03-02T${i.toString().padStart(2, "0")}:00Z`),
   ],
   weatherCode: [...Array(24).fill(0), ...Array(24).fill(1)],
-});
+})
 
 // --- 3.1 current weather factory ---
-export const createCurrentWeather = (
-  overrides: Partial<WeatherCurrent> = {},
-) => {
+export const createCurrentWeather = (overrides: Partial<WeatherCurrent> = {}) => {
   return {
     ...getCurrentWeather(),
     ...overrides,
-  };
-};
+  }
+}
 
 // --- 3.2 current weather item ---
 const getCurrentWeather = () => ({
@@ -103,24 +92,24 @@ const getCurrentWeather = () => ({
   time: "2026-03-01T14:00Z",
   weatherCode: 3,
   speed: 10,
-});
+})
 
 // --- 4.1 forecast units factory
 export const createForecastUnits = (overrides: Partial<WeatherUnits> = {}) => {
   return {
     ...getUnits(),
     ...overrides,
-  };
-};
+  }
+}
 
 // --- 4.2 forecast units item ---
 const getUnits = () => ({
   precipitationUnit: "mm" as const,
   speedUnit: "km/h" as const,
   temperatureUnit: "°C" as const,
-});
+})
 
 interface WeatherOverrides {
-  daily?: Partial<WeatherDaily>;
-  hourly?: Partial<WeatherHourly>;
+  daily?: Partial<WeatherDaily>
+  hourly?: Partial<WeatherHourly>
 }

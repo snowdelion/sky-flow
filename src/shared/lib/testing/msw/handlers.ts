@@ -1,35 +1,35 @@
-import { http, HttpResponse } from "msw";
-import { CITY_BASE_DATA } from "../mocks/data/cities";
+import { http, HttpResponse } from "msw"
+import { CITY_BASE_DATA } from "../mocks/data/cities"
 
 export const handlers = [
   http.get("/api/geocoding", ({ request }) => {
-    const url = new URL(request.url);
-    const name = url.searchParams.get("name");
+    const url = new URL(request.url)
+    const name = url.searchParams.get("name")
 
-    if (!name) return HttpResponse.json({ results: [] }, { status: 200 });
+    if (!name) return HttpResponse.json({ results: [] }, { status: 200 })
 
     const cityKey = Object.keys(CITY_RESPONSES).find(
       (key) => key.toLowerCase() === name.toLowerCase(),
-    );
+    )
 
     if (cityKey)
       return HttpResponse.json(
         { results: CITY_RESPONSES[cityKey as keyof typeof CITY_RESPONSES] },
         { status: 200 },
-      );
+      )
 
-    return HttpResponse.json({ results: [] }, { status: 200 });
+    return HttpResponse.json({ results: [] }, { status: 200 })
   }),
 
   http.get("/api/forecast", ({ request }) => {
-    const url = new URL(request.url);
-    const city = url.searchParams.get("city");
-    const region = url.searchParams.get("region");
-    const code = url.searchParams.get("code");
-    const country = url.searchParams.get("country");
-    const latitudes = url.searchParams.get("latitude")?.split(",") ?? [];
-    const longitudes = url.searchParams.get("longitude")?.split(",") ?? [];
-    const count = Math.max(latitudes.length, 1);
+    const url = new URL(request.url)
+    const city = url.searchParams.get("city")
+    const region = url.searchParams.get("region")
+    const code = url.searchParams.get("code")
+    const country = url.searchParams.get("country")
+    const latitudes = url.searchParams.get("latitude")?.split(",") ?? []
+    const longitudes = url.searchParams.get("longitude")?.split(",") ?? []
+    const count = Math.max(latitudes.length, 1)
 
     const forecasts = Array.from({ length: count }, (_, index) => ({
       current: {
@@ -57,10 +57,7 @@ export const handlers = [
         apparent_temperature_min: Array.from({ length: 7 }, () => -4),
         temperature_2m_max: Array.from({ length: 7 }, () => -4),
         temperature_2m_min: Array.from({ length: 7 }, () => -2),
-        time: Array.from(
-          { length: 7 },
-          () => new Date().toISOString().split("T")[0],
-        ),
+        time: Array.from({ length: 7 }, () => new Date().toISOString().split("T")[0]),
         weather_code: Array.from({ length: 7 }, () => 0),
       },
       current_units: {
@@ -76,15 +73,15 @@ export const handlers = [
       timezone: "auto",
       timezone_abbreviation: "MSK",
       utc_offset_seconds: 10800,
-    }));
+    }))
 
-    return HttpResponse.json(count === 1 ? forecasts[0] : forecasts);
+    return HttpResponse.json(count === 1 ? forecasts[0] : forecasts)
   }),
 
   http.get("/api/search", ({ request }) => {
-    const url = new URL(request.url);
-    const latitudes = url.searchParams.get("latitude")?.split(",") ?? [];
-    const count = Math.max(latitudes.length, 1);
+    const url = new URL(request.url)
+    const latitudes = url.searchParams.get("latitude")?.split(",") ?? []
+    const count = Math.max(latitudes.length, 1)
 
     const results = Array.from({ length: count }, () => ({
       current: {
@@ -95,15 +92,13 @@ export const handlers = [
       current_units: {
         temperature_2m: "°C",
       },
-    }));
+    }))
 
-    return HttpResponse.json(results);
+    return HttpResponse.json(results)
   }),
-];
+]
 
-const CITY_RESPONSES: Record<string, mockCityResponse[]> = Object.entries(
-  CITY_BASE_DATA,
-).reduce(
+const CITY_RESPONSES: Record<string, mockCityResponse[]> = Object.entries(CITY_BASE_DATA).reduce(
   (acc, [name, data]) => ({
     ...acc,
     [name]: [
@@ -130,15 +125,15 @@ const CITY_RESPONSES: Record<string, mockCityResponse[]> = Object.entries(
     ],
   }),
   {},
-);
+)
 
 interface mockCityResponse {
-  id: number;
-  name: string;
-  admin1: string;
-  feature_code: string;
-  country: string;
-  latitude: number;
-  longitude: number;
-  timezone: string;
+  id: number
+  name: string
+  admin1: string
+  feature_code: string
+  country: string
+  latitude: number
+  longitude: number
+  timezone: string
 }

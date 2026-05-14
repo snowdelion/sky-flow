@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const WeatherUnitsDtoSchema = z
   .object({
@@ -6,7 +6,7 @@ export const WeatherUnitsDtoSchema = z
     wind_speed_10m: z.enum(["km/h", "mp/h"]),
     precipitation: z.enum(["inch", "mm"]),
   })
-  .strip();
+  .strip()
 
 export const WeatherCurrentDtoSchema = z
   .object({
@@ -18,7 +18,7 @@ export const WeatherCurrentDtoSchema = z
     weather_code: z.number().min(0).max(99),
     wind_speed_10m: z.number().min(0),
   })
-  .strip();
+  .strip()
 
 export const WeatherHourlyDtoSchema = z
   .object({
@@ -26,7 +26,7 @@ export const WeatherHourlyDtoSchema = z
     time: z.array(z.string()),
     weather_code: z.array(z.number().min(0).max(99)),
   })
-  .strip();
+  .strip()
 
 export const WeatherDailyDtoSchema = z
   .object({
@@ -37,7 +37,7 @@ export const WeatherDailyDtoSchema = z
     time: z.array(z.string()),
     weather_code: z.array(z.number().min(0).max(99)),
   })
-  .strip();
+  .strip()
 
 export const WeatherDtoSchema = z
   .object({
@@ -46,10 +46,10 @@ export const WeatherDtoSchema = z
     daily: WeatherDailyDtoSchema,
     current_units: WeatherUnitsDtoSchema,
   })
-  .strip();
+  .strip()
 
-export type WeatherDto = z.infer<typeof WeatherDtoSchema>;
-export type WeatherCurrentDto = z.infer<typeof WeatherCurrentDtoSchema>;
-export type WeatherHourlyDto = z.infer<typeof WeatherHourlyDtoSchema>;
-export type WeatherDailyDto = z.infer<typeof WeatherDailyDtoSchema>;
-export type WeatherUnitsDto = z.infer<typeof WeatherUnitsDtoSchema>;
+export type WeatherDto = z.infer<typeof WeatherDtoSchema>
+export type WeatherCurrentDto = z.infer<typeof WeatherCurrentDtoSchema>
+export type WeatherHourlyDto = z.infer<typeof WeatherHourlyDtoSchema>
+export type WeatherDailyDto = z.infer<typeof WeatherDailyDtoSchema>
+export type WeatherUnitsDto = z.infer<typeof WeatherUnitsDtoSchema>

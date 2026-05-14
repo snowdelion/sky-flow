@@ -1,13 +1,9 @@
-export const queryRetry = (
-  failureCount: number,
-  error: unknown,
-  expectedCount = 2,
-) => {
+export const queryRetry = (failureCount: number, error: unknown, expectedCount = 2) => {
   const isAborted =
     (error instanceof Error && error.name === "AbortError") ||
-    (error instanceof DOMException && error.name === "AbortError");
+    (error instanceof DOMException && error.name === "AbortError")
 
-  if (isAborted) return false;
+  if (isAborted) return false
 
-  return failureCount < expectedCount;
-};
+  return failureCount < expectedCount
+}

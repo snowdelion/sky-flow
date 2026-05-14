@@ -1,6 +1,6 @@
-import type { ZodType } from "zod";
-import { type ErrorCode } from "../config/error-codes";
-import { handleApiError, throwResponseErrors } from "./error-handler";
+import type { ZodType } from "zod"
+import { type ErrorCode } from "../config/error-codes"
+import { handleApiError, throwResponseErrors } from "./error-handler"
 
 export async function request<T>({
   url,
@@ -9,35 +9,32 @@ export async function request<T>({
   errorCode,
   signal,
 }: RequestProps<T>): Promise<{ data: T; status: number }> {
-  const timeoutSignal = AbortSignal.timeout(timeout);
+  const timeoutSignal = AbortSignal.timeout(timeout)
 
-  const combinedSignal = !!signal
-    ? AbortSignal.any([signal, timeoutSignal])
-    : timeoutSignal;
+  const combinedSignal = !!signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal
 
   try {
-    const response = await fetch(url, { signal: combinedSignal });
+    const response = await fetch(url, { signal: combinedSignal })
 
     if (!response.ok) {
-      if (response.status === 499)
-        throw new DOMException("Aborted", "AbortError");
+      if (response.status === 499) throw new DOMException("Aborted", "AbortError")
 
-      throwResponseErrors(response.status, errorCode);
+      throwResponseErrors(response.status, errorCode)
     }
 
-    const rawData = await response.json();
-    const data = schema ? schema.parse(rawData) : rawData;
+    const rawData = await response.json()
+    const data = schema ? schema.parse(rawData) : rawData
 
-    return { data, status: response.status };
+    return { data, status: response.status }
   } catch (error) {
-    handleApiError(error, errorCode, { isExternalSignal: !!signal });
+    handleApiError(error, errorCode, { isExternalSignal: !!signal })
   }
 }
 
 type RequestProps<T> = {
-  url: string;
-  schema?: ZodType<T>;
-  timeout?: number;
-  errorCode?: ErrorCode;
-  signal?: AbortSignal;
-};
+  url: string
+  schema?: ZodType<T>
+  timeout?: number
+  errorCode?: ErrorCode
+  signal?: AbortSignal
+}

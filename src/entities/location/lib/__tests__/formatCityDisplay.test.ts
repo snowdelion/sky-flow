@@ -1,8 +1,8 @@
-import { createCityData } from "@/shared/lib/testing";
-import { formatCityDisplay } from "../formatCityDisplay";
+import { createCityData } from "@/shared/lib/testing"
+import { formatCityDisplay } from "../formatCityDisplay"
 
 describe("formatCityDisplay", () => {
-  const { berlinCityData } = createCityData();
+  const { berlinCityData } = createCityData()
 
   const cases = [
     {
@@ -46,9 +46,9 @@ describe("formatCityDisplay", () => {
       },
       expected: "antarctica island",
     },
-  ];
+  ]
 
   test.each(cases)("should format $name", ({ cityData, expected }) => {
-    expect(formatCityDisplay(cityData)).toBe(expected);
-  });
-});
+    expect(formatCityDisplay(cityData)).toBe(expected)
+  })
+})

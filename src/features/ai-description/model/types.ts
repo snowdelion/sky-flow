@@ -1,14 +1,14 @@
-import z from "zod";
+import z from "zod"
 
 export type RequestData = {
-  city: string;
-  country?: string;
-  region?: string;
-  lat: number;
-  lon: number;
-  temperature?: number;
-  condition?: string;
-};
+  city: string
+  country?: string
+  region?: string
+  lat: number
+  lon: number
+  temperature?: number
+  condition?: string
+}
 
 export const AiRequestsSchema = z.object({
   option: z.enum(["location", "weather"]),
@@ -19,6 +19,6 @@ export const AiRequestsSchema = z.object({
   lon: z.number().min(-180).max(180),
   temperature: z.number().optional(),
   condition: z.string().optional(),
-});
+})
 
-export type ServerRequestData = z.infer<typeof AiRequestsSchema>;
+export type ServerRequestData = z.infer<typeof AiRequestsSchema>

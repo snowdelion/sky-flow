@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod"
 
 export const SearchResultCurrentDtoSchema = z.object({
   current: z.object({
@@ -6,22 +6,22 @@ export const SearchResultCurrentDtoSchema = z.object({
     time: z.string(),
     weather_code: z.number().min(0).max(99),
   }),
-});
+})
 
 export const SearchResultUnitsDtoSchema = z.object({
   current_units: z.object({
     temperature_2m: z.string(),
   }),
-});
+})
 
 export const SearchResultDtoSchema = SearchResultCurrentDtoSchema.extend(
   SearchResultUnitsDtoSchema.shape,
-);
+)
 export const SearchResultsDtoSchema = z.preprocess((value) => {
-  if (typeof value === "object" && !Array.isArray(value)) return [value];
+  if (typeof value === "object" && !Array.isArray(value)) return [value]
 
-  return value || [];
-}, z.array(SearchResultDtoSchema));
+  return value || []
+}, z.array(SearchResultDtoSchema))
 
-export type SearchResultDto = z.infer<typeof SearchResultCurrentDtoSchema>;
-export type SearchResultsDto = z.infer<typeof SearchResultsDtoSchema>;
+export type SearchResultDto = z.infer<typeof SearchResultCurrentDtoSchema>
+export type SearchResultsDto = z.infer<typeof SearchResultsDtoSchema>

@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { AppError, ERROR_CODES } from "@/shared/api";
-import { queryRetry } from "@/shared/api";
-import { isFoundCity, type Units, type CityData } from "@/shared/types";
-import { fetchForecastData } from "../../api/fetchForecastData";
+import { useQuery } from "@tanstack/react-query"
+import { AppError, ERROR_CODES } from "@/shared/api"
+import { queryRetry } from "@/shared/api"
+import { isFoundCity, type Units, type CityData } from "@/shared/types"
+import { fetchForecastData } from "../../api/fetchForecastData"
 
 export function useWeatherQuery(cityData: CityData, units: Units) {
-  const isEnabled = isFoundCity(cityData);
+  const isEnabled = isFoundCity(cityData)
 
   return useQuery({
     queryKey: [
@@ -19,12 +19,9 @@ export function useWeatherQuery(cityData: CityData, units: Units) {
 
     queryFn: async ({ signal }) => {
       if (!isFoundCity(cityData))
-        throw new AppError(
-          ERROR_CODES.FORECAST,
-          "Cannot fetch weather! City coords not found...",
-        );
+        throw new AppError(ERROR_CODES.FORECAST, "Cannot fetch weather! City coords not found...")
 
-      return await fetchForecastData({ cityData, units, signal });
+      return await fetchForecastData({ cityData, units, signal })
     },
 
     enabled: isEnabled,
@@ -37,5 +34,5 @@ export function useWeatherQuery(cityData: CityData, units: Units) {
 
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
-  });
+  })
 }
