@@ -5,6 +5,13 @@ import { validateCityParams } from "../validate-city-params"
 const redirect = vi.hoisted(() => vi.fn())
 vi.mock("next/navigation", () => ({ redirect }))
 
+const { mockGetHeaders } = vi.hoisted(() => ({
+  mockGetHeaders: vi.fn().mockReturnValue(null),
+}))
+vi.mock("next/headers", () => ({
+  headers: async () => ({ get: mockGetHeaders }),
+}))
+
 const getCachedGeoData = vi.hoisted(() => vi.fn())
 vi.mock("../geo-cache", () => ({ getCachedGeoData }))
 
@@ -42,12 +49,13 @@ describe("WeatherPage utils", () => {
     vi.clearAllMocks()
     getCachedGeoData.mockResolvedValue(emptyGeoData)
     findMatch.mockReturnValue(berlinGeoResult)
+    mockGetHeaders.mockReturnValue(null)
   })
 
   it("should return redirect status when no params", async () => {
-    expect(await validateCityParams({ city: "" })).toEqual({
+    expect(await validateCityParams({ city: "", lat: undefined, lon: undefined })).toEqual({
       status: "redirect" as const,
-      url: "/weather?city=Minsk&region=Minsk+City&country=Belarus&code=PPLC&lat=53.9&lon=27.56667",
+      url: "/weather?city=Berlin&region=State+of+berlin&country=Germany&code=PPLC&lat=52.52437&lon=13.41053",
     })
   })
 
@@ -157,5 +165,25 @@ describe("WeatherPage utils", () => {
         lon: "13.41053",
       }),
     )
+  })
+
+  it("should successfully determine city from Vercel IP headers when no params provided", async () => {
+    mockGetHeaders.mockImplementation((key: string) => {
+      const headersMap: Record<string, string> = {
+        "x-vercel-ip-city": "Berlin",
+        "x-vercel-ip-latitude": "52.52437",
+        "x-vercel-ip-longitude": "13.41053",
+        "x-vercel-ip-country": "Germany",
+        "x-vercel-ip-country-region": "State of Berlin",
+      }
+      return headersMap[key] || null
+    })
+
+    const result = await validateCityParams({ city: "", lat: undefined, lon: undefined })
+
+    expect(result).toEqual({
+      status: "redirect",
+      url: "/weather?city=Berlin&region=State+of+Berlin&country=Germany&code=PPLC&lat=52.52437&lon=13.41053",
+    })
   })
 })
