@@ -9,9 +9,11 @@ export async function request<T>({
   errorCode,
   signal,
 }: RequestProps<T>): Promise<{ data: T; status: number }> {
-  const timeoutSignal = AbortSignal.timeout(timeout)
-
-  const combinedSignal = !!signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal
+  const timeoutController = new AbortController()
+  const timeoutId = setTimeout(() => timeoutController.abort(), timeout)
+  const combinedSignal = !!signal
+    ? AbortSignal.any([signal, timeoutController.signal])
+    : timeoutController.signal
 
   try {
     const response = await fetch(url, { signal: combinedSignal })
@@ -27,7 +29,12 @@ export async function request<T>({
 
     return { data, status: response.status }
   } catch (error) {
-    handleApiError(error, errorCode, { isExternalSignal: !!signal })
+    const isTimeout = timeoutController.signal.aborted && (!signal || !signal.aborted)
+    if (isTimeout) throw new DOMException("Timed out", "TimeoutError")
+
+    throw handleApiError(error, errorCode, { isExternalSignal: !!signal })
+  } finally {
+    clearTimeout(timeoutId)
   }
 }
 

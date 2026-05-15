@@ -14,6 +14,7 @@ export default defineConfig({
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
     exclude: ["**/node_modules/**", "**/.next/**"],
     setupFiles: [path.resolve(__dirname, "./vitest.setup.ts")],
+
     alias: {
       "server-only": path.resolve(__dirname, "./src/shared/lib/testing/mocks/empty.ts"),
       "@": path.resolve(__dirname, "./src"),
@@ -22,6 +23,7 @@ export default defineConfig({
       "@features": path.resolve(__dirname, "./src/features"),
       "@widgets": path.resolve(__dirname, "./src/widgets"),
     },
+
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "json-summary", "html", "lcov"],
@@ -38,6 +40,11 @@ export default defineConfig({
         "vite.config.ts",
         "vitest.setup.ts",
       ],
+    },
+
+    env: {
+      UPSTASH_REDIS_REST_URL: "https://upstash.io",
+      UPSTASH_REDIS_REST_TOKEN: "test_token",
     },
   },
 })

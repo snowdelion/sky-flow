@@ -1,11 +1,14 @@
+import { redirect } from "next/navigation"
 import { Header } from "@/widgets/header"
 import { Search } from "@/features/search-city"
-import { verifyAndGetCityData } from "../lib/utils"
+import { validateCityParams } from "../lib/validate-city-params"
 import { PageClient } from "./WeatherPageClient"
 
 export async function WeatherPage({ searchParams }: SearchParams) {
   const params = await searchParams
-  const cityData = await verifyAndGetCityData(params)
+  const cityData = await validateCityParams(params)
+
+  if (cityData?.status === "redirect") redirect(cityData.url)
 
   return (
     <div className={cityData.status === "found" ? "min-h-dvh" : "h-dvh overflow-hidden"}>
