@@ -1,7 +1,15 @@
 import { FoundCity, type Geo, type GeoItem } from "@/shared/types"
-import { createSearchParams, findMatch, needsRedirectCheck, type WeatherParams } from "../utils"
+import {
+  createSearchParams,
+  findMatch,
+  needsRedirectCheck,
+  type WeatherParams,
+  getCityDataFromIP,
+} from "../utils"
 
-// --- 1. mocked data ---
+// --- 1. mocks ---
+const headers = vi.hoisted(() => vi.fn())
+vi.mock("next/headers", () => ({ headers }))
 
 const berlin: GeoItem = {
   id: 1,
@@ -35,7 +43,122 @@ const tokyo: GeoItem = {
 
 const geoData: Geo = { results: [berlin, paris, tokyo] }
 
+const makeHeadersList = (values: Record<string, string | null>) => ({
+  get: (key: string) => values[key] ?? null,
+})
+
 // --- 2. tests ---
+describe("getCityDataFromIP", () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  it("returns all fields when all headers are present", async () => {
+    headers.mockResolvedValue(
+      makeHeadersList({
+        "x-vercel-ip-latitude": "54.6872",
+        "x-vercel-ip-longitude": "25.2797",
+        "x-vercel-ip-city": "Berlin",
+        "x-vercel-ip-country": "Germany",
+        "x-vercel-ip-country-region": "Berlin",
+      }),
+    )
+
+    const result = await getCityDataFromIP()
+
+    expect(result).toEqual({
+      lat: "54.6872",
+      lon: "25.2797",
+      city: "Berlin",
+      country: "Germany",
+      region: "Berlin",
+    })
+  })
+
+  it("returns undefined for missing headers", async () => {
+    headers.mockResolvedValue(makeHeadersList({}))
+
+    const result = await getCityDataFromIP()
+
+    expect(result).toEqual({
+      lat: undefined,
+      lon: undefined,
+      city: undefined,
+      country: undefined,
+      region: undefined,
+    })
+  })
+
+  it("decodes URI-encoded city", async () => {
+    headers.mockResolvedValue(
+      makeHeadersList({
+        "x-vercel-ip-city": "M%C3%BCnchen",
+        "x-vercel-ip-country": null,
+        "x-vercel-ip-country-region": null,
+        "x-vercel-ip-latitude": null,
+        "x-vercel-ip-longitude": null,
+      }),
+    )
+
+    const result = await getCityDataFromIP()
+
+    expect(result.city).toBe("München")
+  })
+
+  it("decodes URI-encoded country and region", async () => {
+    headers.mockResolvedValue(
+      makeHeadersList({
+        "x-vercel-ip-city": null,
+        "x-vercel-ip-country": "S%C3%B6dra",
+        "x-vercel-ip-country-region": "V%C3%A4st",
+        "x-vercel-ip-latitude": null,
+        "x-vercel-ip-longitude": null,
+      }),
+    )
+
+    const result = await getCityDataFromIP()
+
+    expect(result.country).toBe("Södra")
+    expect(result.region).toBe("Väst")
+  })
+
+  it("returns lat and lon as strings without decoding", async () => {
+    headers.mockResolvedValue(
+      makeHeadersList({
+        "x-vercel-ip-latitude": "48.8566",
+        "x-vercel-ip-longitude": "2.3522",
+        "x-vercel-ip-city": null,
+        "x-vercel-ip-country": null,
+        "x-vercel-ip-country-region": null,
+      }),
+    )
+
+    const result = await getCityDataFromIP()
+
+    expect(result.lat).toBe("48.8566")
+    expect(result.lon).toBe("2.3522")
+    expect(result.city).toBeUndefined()
+  })
+
+  it("correctly handles partially filled headers", async () => {
+    headers.mockResolvedValue(
+      makeHeadersList({
+        "x-vercel-ip-city": "Berlin",
+        "x-vercel-ip-country": "TT",
+        "x-vercel-ip-country-region": null,
+        "x-vercel-ip-latitude": null,
+        "x-vercel-ip-longitude": null,
+      }),
+    )
+
+    const result = await getCityDataFromIP()
+
+    expect(result.city).toBe("Berlin")
+    expect(result.country).toBe("TT")
+    expect(result.region).toBeUndefined()
+    expect(result.lat).toBeUndefined()
+    expect(result.lon).toBeUndefined()
+  })
+})
+
 describe("createSearchParams", () => {
   it("sets required params city, lat, lon", () => {
     const params = createSearchParams(berlin as unknown as FoundCity)

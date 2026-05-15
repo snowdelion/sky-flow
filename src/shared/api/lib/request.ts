@@ -8,6 +8,7 @@ export async function request<T>({
   schema,
   errorCode,
   signal,
+  fetchInit = {},
 }: RequestProps<T>): Promise<{ data: T; status: number }> {
   const timeoutController = new AbortController()
   const timeoutId = setTimeout(() => timeoutController.abort(), timeout)
@@ -15,8 +16,16 @@ export async function request<T>({
     ? AbortSignal.any([signal, timeoutController.signal])
     : timeoutController.signal
 
+  const restFetchInit = { ...fetchInit }
+  const mergedHeaders = new Headers(restFetchInit.headers)
+  delete restFetchInit.signal
+
   try {
-    const response = await fetch(url, { signal: combinedSignal })
+    const response = await fetch(url, {
+      ...restFetchInit,
+      signal: combinedSignal,
+      headers: mergedHeaders,
+    })
 
     if (!response.ok) {
       if (response.status === 499) throw new DOMException("Aborted", "AbortError")
@@ -44,4 +53,5 @@ type RequestProps<T> = {
   timeout?: number
   errorCode?: ErrorCode
   signal?: AbortSignal
+  fetchInit?: RequestInit
 }

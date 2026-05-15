@@ -1,3 +1,4 @@
+import { headers } from "next/headers"
 import { FoundCity, type Geo, type GeoItem } from "@/shared/types"
 
 export interface WeatherParams {
@@ -7,6 +8,23 @@ export interface WeatherParams {
   code?: string
   lat?: string
   lon?: string
+}
+
+export const getCityDataFromIP = async () => {
+  const headersList = await headers()
+
+  const lat = headersList.get("x-vercel-ip-latitude") ?? undefined
+  const lon = headersList.get("x-vercel-ip-longitude") ?? undefined
+
+  const rawCity = headersList.get("x-vercel-ip-city") ?? undefined
+  const rawCountry = headersList.get("x-vercel-ip-country") ?? undefined
+  const rawRegion = headersList.get("x-vercel-ip-country-region") ?? undefined
+
+  const city = rawCity ? decodeURIComponent(rawCity) : undefined
+  const country = rawCountry ? decodeURIComponent(rawCountry) : undefined
+  const region = rawRegion ? decodeURIComponent(rawRegion) : undefined
+
+  return { city, country, lat, lon, region }
 }
 
 export const createSearchParams = (data: FoundCity) => {
