@@ -1,4 +1,4 @@
-import type { checkRatelimit as CheckRatelimitType } from "./checkRatelimit"
+import type { checkRatelimit as CheckRatelimitType } from "../checkRatelimit"
 
 // --- 1. mocks ---
 const mockLimit = vi.fn()
@@ -19,7 +19,7 @@ vi.mock("server-only", () => ({}))
 let checkRatelimit: typeof CheckRatelimitType
 
 beforeAll(async () => {
-  const actual = await import("./checkRatelimit")
+  const actual = await import("../checkRatelimit")
   checkRatelimit = actual.checkRatelimit
 })
 

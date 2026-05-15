@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { act, renderHook, waitFor } from "@testing-library/react"
-import { beforeEach, describe, expect, it, vi } from "vitest"
 import { useSearchStore } from "@/entities/location"
 import { createCityData } from "@/shared/lib/testing"
 import { createGeoData } from "@/shared/lib/testing"
@@ -12,6 +11,7 @@ const { mocks } = vi.hoisted(() => {
   const push = vi.fn()
   const addCity = vi.fn()
   const useGeoQuery = vi.fn()
+  const useSearchCity = vi.fn().mockReturnValue({})
 
   return {
     mocks: {
@@ -20,16 +20,18 @@ const { mocks } = vi.hoisted(() => {
         routerModule: () => ({ push: push }),
         pathnameModule: { usePathname: vi.fn(() => "/") },
       },
-      hooks: { useGeoQuery, addCity },
+      hooks: { useGeoQuery, addCity, useSearchCity },
     },
   }
 })
+
 vi.mock("next/navigation", async () => {
   return {
     useRouter: () => mocks.navigation.routerModule(),
     usePathname: mocks.navigation.pathnameModule.usePathname,
   }
 })
+
 vi.mock("@/entities/location", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/entities/location")>()
   return {
@@ -38,6 +40,10 @@ vi.mock("@/entities/location", async (importOriginal) => {
     useGeoQuery: mocks.hooks.useGeoQuery,
   }
 })
+
+vi.mock("../useSearchCity", () => ({
+  useSearchCity: () => mocks.hooks.useSearchCity(),
+}))
 
 // --- 2. tests ---
 describe("useSearchActions", () => {
@@ -105,15 +111,14 @@ describe("useSearchActions", () => {
   describe("searchCityWithName", () => {
     it("should find city with refetch", async () => {
       const geoData = createGeoData()
-      const refetch = vi.fn().mockReturnValue({ data: geoData })
+      const refetch = vi.fn().mockReturnValue(geoData)
 
-      mocks.hooks.useGeoQuery.mockReturnValue({ refetch })
+      mocks.hooks.useSearchCity.mockReturnValue({ refetch })
 
       const { result } = renderHookWithClient(() => useSearchActions())
 
       await act(() => result.current.searchCityWithName("Berlin"))
-
-      expect(refetch).toHaveBeenCalledTimes(1)
+      await waitFor(() => expect(refetch).toHaveBeenCalledTimes(1))
     })
 
     it("shouldn't navigate when input is empty", async () => {

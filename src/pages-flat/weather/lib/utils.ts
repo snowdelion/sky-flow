@@ -1,7 +1,4 @@
-import { redirect } from "next/navigation"
-import { fetchGeoData } from "@/entities/location"
-import { FoundCity, FoundCitySchema, type Geo, type GeoItem } from "@/shared/types"
-import { DEFAULT_CITY_DATA } from "./constants"
+import { FoundCity, type Geo, type GeoItem } from "@/shared/types"
 
 export interface WeatherParams {
   city?: string
@@ -12,36 +9,7 @@ export interface WeatherParams {
   lon?: string
 }
 
-export async function verifyAndGetCityData(params: WeatherParams) {
-  if (!params.city) {
-    const defaultParams = createSearchParams(DEFAULT_CITY_DATA)
-    redirect(`/weather/?${defaultParams.toString()}`)
-  }
-
-  const { city, lat, lon, region, country } = params
-  const geoData = await fetchGeoData({ city, count: 20 })
-
-  if (!geoData?.results?.length)
-    return {
-      status: "not-found" as const,
-      city,
-    }
-
-  const match = findMatch(geoData, { lat, lon, region, country })
-  const { success, data } = FoundCitySchema.safeParse(match)
-
-  if (!success) return { status: "not-found" as const, city }
-
-  const needsRedirect = needsRedirectCheck(params, data)
-  if (needsRedirect) {
-    const params = createSearchParams(data)
-    redirect(`/weather/?${params.toString()}`)
-  }
-
-  return data
-}
-
-const createSearchParams = (data: FoundCity) => {
+export const createSearchParams = (data: FoundCity) => {
   const { city, region, country, code, lat, lon } = data
   const params = new URLSearchParams()
 
@@ -54,7 +22,7 @@ const createSearchParams = (data: FoundCity) => {
   return params
 }
 
-const findMatch = (
+export const findMatch = (
   geoData: Geo,
   query: { lat?: string; lon?: string; region?: string; country?: string },
 ) => {
@@ -92,7 +60,7 @@ const findMatch = (
   return createCityData(results[0])
 }
 
-const needsRedirectCheck = (params: WeatherParams, data: FoundCity) => {
+export const needsRedirectCheck = (params: WeatherParams, data: FoundCity) => {
   const hasExtraParams = Object.keys(params).some(
     (key) => !["city", "region", "country", "code", "lat", "lon"].includes(key),
   )
