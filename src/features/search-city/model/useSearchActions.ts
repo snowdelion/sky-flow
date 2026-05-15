@@ -1,6 +1,6 @@
 "use client"
 import { usePathname, useRouter } from "next/navigation"
-import { RefObject, useCallback, useMemo } from "react"
+import { RefObject, startTransition, useCallback, useMemo } from "react"
 import { useSearchHistory, useSearchStore } from "@/entities/location"
 import { type CityData, isFoundCity } from "@/shared/types"
 import { mapCityToUrlParams } from "../lib/mapCityToUrlParams"
@@ -24,7 +24,7 @@ export function useSearchActions() {
       const params = mapCityToUrlParams(cityData)
       if (isFoundCity(cityData)) addCity(cityData)
 
-      router.push(`${pathname}?${params.toString()}`)
+      startTransition(() => router.push(`${pathname}?${params.toString()}`))
     },
     [addCity, pathname, router, setInputValue, setIsOpen],
   )
