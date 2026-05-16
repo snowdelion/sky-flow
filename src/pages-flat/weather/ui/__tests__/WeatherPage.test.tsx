@@ -4,10 +4,6 @@ import { validateCityParams } from "../../lib/validate-city-params"
 import { generateMetadata, WeatherPage } from "../WeatherPage"
 
 // --- 1. mocks ---
-vi.mock("../../lib/utils", () => ({
-  validateCityParams: vi.fn(),
-}))
-
 vi.mock("../../lib/validate-city-params", () => ({ validateCityParams: vi.fn() }))
 
 vi.mock("@/widgets/header", () => ({
@@ -16,6 +12,9 @@ vi.mock("@/widgets/header", () => ({
 
 vi.mock("@/features/search-city", () => ({
   Search: () => <div data-testid="search" />,
+  SearchError: ({ message }: { message: string }) => (
+    <div data-testid="search-error">Error: {message}</div>
+  ),
 }))
 
 vi.mock("../WeatherPageClient", () => ({
@@ -24,6 +23,8 @@ vi.mock("../WeatherPageClient", () => ({
 
 // --- 2. tests ---
 describe("WeatherPage component", () => {
+  beforeEach(() => vi.clearAllMocks())
+
   it("should verify city data and render content", async () => {
     const searchParams = Promise.resolve({
       city: "Warsaw",
@@ -44,6 +45,20 @@ describe("WeatherPage component", () => {
     expect(screen.getByTestId("header")).toBeInTheDocument()
     expect(screen.getByTestId("search")).toBeInTheDocument()
     expect(screen.getByTestId("page-client")).toBeInTheDocument()
+  })
+
+  it("should show SearchError when city status is 'not-found'", async () => {
+    const searchParams = Promise.resolve({ city: "Unknown" })
+    const notFoundData = { status: "not-found", city: "Unknown" }
+
+    vi.mocked(validateCityParams).mockResolvedValue(notFoundData as CityData)
+
+    const jsx = await WeatherPage({ searchParams })
+    render(jsx)
+
+    expect(screen.getByTestId("search-error")).toBeInTheDocument()
+    expect(screen.getByText("Error: Unknown")).toBeInTheDocument()
+    expect(screen.queryByTestId("page-client")).not.toBeInTheDocument()
   })
 })
 

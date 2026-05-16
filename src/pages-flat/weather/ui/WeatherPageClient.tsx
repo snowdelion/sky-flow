@@ -4,18 +4,13 @@ import { HourlyForecast } from "@/widgets/hourly-forecast"
 import { Chart } from "@/widgets/weather-chart"
 import { Details } from "@/widgets/weather-details"
 import { Today } from "@/widgets/weather-today"
-import { SearchError } from "@/features/search-city"
 import { ERROR_CODES } from "@/shared/api"
-import { isNotFoundCity, type CityData } from "@/shared/types"
+import { type CityData } from "@/shared/types"
 import { NetworkError } from "@/shared/ui"
 import { useWeatherPage } from "../model/useWeatherPage"
 
 export function PageClient({ cityData }: { cityData: CityData }) {
   const { data, isPending, isError, error, refetch, devices } = useWeatherPage(cityData)
-
-  if (isNotFoundCity(cityData)) {
-    return <SearchError message={cityData.city} />
-  }
 
   if (isError) {
     const isAppError = error && typeof error === "object" && "code" in error

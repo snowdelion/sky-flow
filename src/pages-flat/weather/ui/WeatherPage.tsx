@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 import { Header } from "@/widgets/header"
-import { Search } from "@/features/search-city"
+import { Search, SearchError } from "@/features/search-city"
 import { validateCityParams } from "../lib/validate-city-params"
 import { PageClient } from "./WeatherPageClient"
 
@@ -16,7 +16,12 @@ export async function WeatherPage({ searchParams }: SearchParams) {
 
       <main className="px-4 py-8 md:px-6 lg:px-8 mx-auto">
         <Search cityData={cityData} />
-        <PageClient cityData={cityData} />
+
+        {cityData.status === "found" ? (
+          <PageClient cityData={cityData} />
+        ) : (
+          <SearchError message={cityData.city} />
+        )}
       </main>
     </div>
   )
