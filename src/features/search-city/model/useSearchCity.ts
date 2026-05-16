@@ -42,7 +42,7 @@ export function useSearchCity() {
   const shouldSearchSkeleton =
     (isDebouncing || isDelayFetching || isGeoFetching) && !!inputValue.trim()
 
-  return { shouldSearchSkeleton, resultData, isError, refetch }
+  return { shouldSearchSkeleton, resultData: resultData?.slice(0, 8), isError, refetch }
 }
 
 const EMPTY_GEO = { results: [] }
