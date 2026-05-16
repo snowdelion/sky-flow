@@ -12,8 +12,8 @@ vi.mock("next/headers", () => ({
   headers: async () => ({ get: mockGetHeaders }),
 }))
 
-const getCachedGeoData = vi.hoisted(() => vi.fn())
-vi.mock("../geo-cache", () => ({ getCachedGeoData }))
+const fetchGeoData = vi.hoisted(() => vi.fn())
+vi.mock("@/entities/location", () => ({ fetchGeoData }))
 
 const findMatch = vi.hoisted(() => vi.fn())
 vi.mock("../utils", async (importOriginal) => {
@@ -43,11 +43,19 @@ const berlinParams: WeatherParams = {
 
 const emptyGeoData = { results: [{}] }
 
+const ipCountryOnlyHeaders: Record<string, string> = {
+  "x-vercel-ip-country": "Germany",
+}
+
+function setupCountryOnlyHeaders() {
+  mockGetHeaders.mockImplementation((key: string) => ipCountryOnlyHeaders[key] ?? null)
+}
+
 // --- 3. tests ---
-describe("WeatherPage utils", () => {
+describe("validate-city-params", () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    getCachedGeoData.mockResolvedValue(emptyGeoData)
+    fetchGeoData.mockResolvedValue(emptyGeoData)
     findMatch.mockReturnValue(berlinGeoResult)
     mockGetHeaders.mockReturnValue(null)
   })
@@ -60,7 +68,7 @@ describe("WeatherPage utils", () => {
   })
 
   it("should return not-found when geo returns no results", async () => {
-    getCachedGeoData.mockResolvedValue({ results: [] })
+    fetchGeoData.mockResolvedValue({ results: [] })
 
     const result = await validateCityParams({ city: "unknown_city" })
 
@@ -69,7 +77,7 @@ describe("WeatherPage utils", () => {
   })
 
   it("should return not-found when geo returns null", async () => {
-    getCachedGeoData.mockResolvedValue(null)
+    fetchGeoData.mockResolvedValue(null)
 
     const result = await validateCityParams({ city: "unknown_city" })
 
@@ -185,5 +193,137 @@ describe("WeatherPage utils", () => {
       status: "redirect",
       url: "/weather?city=Berlin&region=State+of+Berlin&country=Germany&code=PPLC&lat=52.52437&lon=13.41053",
     })
+  })
+
+  it("redirects via country when there is no city in the IP, but there is a country", async () => {
+    setupCountryOnlyHeaders()
+    fetchGeoData.mockResolvedValue({
+      results: [
+        {
+          city: "Berlin",
+          country: "Germany",
+          region: "Germany",
+          code: "PCLI",
+          lat: 52.52437,
+          lon: 13.41053,
+        },
+      ],
+    })
+
+    const result = await validateCityParams({ city: "", lat: undefined, lon: undefined })
+
+    expect(result.status).toBe("redirect")
+    if (result.status !== "redirect") throw new Error("Expected redirect")
+    expect(result.url).toContain("/weather")
+    expect(result.url).toContain("city=Berlin")
+  })
+
+  it("prefers results with code=PCLI when searching by country", async () => {
+    setupCountryOnlyHeaders()
+    fetchGeoData.mockResolvedValue({
+      results: [
+        {
+          city: "Munich",
+          country: "Germany",
+          region: "Bavaria",
+          code: "PPLA",
+          lat: 48.13743,
+          lon: 11.57549,
+        },
+        {
+          city: "Berlin",
+          country: "Germany",
+          region: "Germany",
+          code: "PCLI",
+          lat: 52.52437,
+          lon: 13.41053,
+        },
+      ],
+    })
+
+    const result = await validateCityParams({ city: "", lat: undefined, lon: undefined })
+
+    expect(result.status).toBe("redirect")
+    if (result.status !== "redirect") throw new Error("Expected redirect")
+    expect(result.url).toContain("city=Berlin")
+  })
+
+  it("takes the first result if PCLI is missing", async () => {
+    setupCountryOnlyHeaders()
+
+    const hamburgGeoItem = {
+      city: "Hamburg",
+      country: "Germany",
+      region: "Hamburg",
+      code: "PPLA",
+      lat: 53.57532,
+      lon: 10.01534,
+    }
+
+    fetchGeoData.mockResolvedValueOnce({
+      results: [
+        { status: "found", ...hamburgGeoItem },
+        {
+          status: "found",
+          city: "Munich",
+          country: "Germany",
+          region: "Bavaria",
+          code: "PPLA",
+          lat: 48.13743,
+          lon: 11.57549,
+        },
+      ],
+    })
+    fetchGeoData.mockResolvedValueOnce({ results: [{ status: "found", ...hamburgGeoItem }] })
+
+    findMatch.mockReturnValue({ status: "found" as const, ...hamburgGeoItem })
+
+    const result = await validateCityParams({ city: "", lat: undefined, lon: undefined })
+
+    expect(result.status).toBe("redirect")
+    if (result.status !== "redirect") throw new Error("Expected redirect")
+    expect(result.url).toContain("city=Hamburg")
+  })
+
+  it("falls into the default redirect if empty results are returned for the country", async () => {
+    setupCountryOnlyHeaders()
+    fetchGeoData.mockResolvedValue({ results: [] })
+
+    const result = await validateCityParams({ city: "", lat: undefined, lon: undefined })
+
+    expect(result.status).toBe("redirect")
+    if (result.status !== "redirect") throw new Error("Expected redirect")
+    expect(result.url).toContain("/weather")
+  })
+
+  it("falls into the default redirect if the country returned null", async () => {
+    setupCountryOnlyHeaders()
+    fetchGeoData.mockResolvedValue(null)
+
+    const result = await validateCityParams({ city: "", lat: undefined, lon: undefined })
+
+    expect(result.status).toBe("redirect")
+    if (result.status !== "redirect") throw new Error("Expected redirect")
+    expect(result.url).toContain("/weather")
+  })
+
+  it("falls into the default redirect if FoundCitySchema does not pass validation for the country", async () => {
+    setupCountryOnlyHeaders()
+    fetchGeoData.mockResolvedValue({
+      results: [
+        {
+          city: undefined,
+          country: undefined,
+          region: undefined,
+          code: undefined,
+          lat: undefined,
+          lon: undefined,
+        },
+      ],
+    })
+
+    const result = await validateCityParams({ city: "", lat: undefined, lon: undefined })
+
+    expect(result.status).toBe("redirect")
   })
 })
