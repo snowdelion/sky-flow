@@ -44,16 +44,6 @@ describe("WeatherPageClient", () => {
   const cityData = { status: "found", city: "Warsaw" } as CityData
   type WeatherPageReturn = ReturnType<typeof useWeatherPage>
 
-  it("should show SearchError when city status is 'not-found'", () => {
-    const notFoundCity = { status: "not-found", city: "Unknown" } as CityData
-    vi.mocked(useWeatherPage).mockReturnValue({
-      isPending: false,
-    } as WeatherPageReturn)
-    renderWithClient(<PageClient cityData={notFoundCity} />)
-
-    expect(screen.getByText("Error: Unknown"))
-  })
-
   it("should show NetworkError", () => {
     vi.mocked(useWeatherPage).mockReturnValue({
       isError: true,

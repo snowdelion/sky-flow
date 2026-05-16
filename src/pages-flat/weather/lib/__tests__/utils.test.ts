@@ -192,27 +192,31 @@ describe("createSearchParams", () => {
 describe("findMatch", () => {
   describe("lat/lon matching", () => {
     it("returns the item whose lat/lon match exactly", () => {
-      const result = findMatch(geoData, { lat: "48.8566", lon: "2.3522" })
+      const result = findMatch(geoData, { lat: 48.8566, lon: 2.3522 })
       expect(result.city).toBe("Paris")
     })
 
     it("falls through to region/country when coords don't match any item", () => {
-      const result = findMatch(geoData, { lat: "0", lon: "0", country: "Japan" })
+      const result = findMatch(geoData, { lat: 0, lon: 0, country: "Japan" })
       expect(result.city).toBe("Tokyo")
     })
 
     it("ignores lat/lon when they are NaN", () => {
-      const result = findMatch(geoData, { lat: "abc", lon: "xyz", region: "Berlin" })
+      const result = findMatch(geoData, {
+        lat: "abc" as unknown as number,
+        lon: "xyz" as unknown as number,
+        region: "Berlin",
+      })
       expect(result.city).toBe("Berlin")
     })
 
     it("ignores lat out of range (-90, 90)", () => {
-      const result = findMatch(geoData, { lat: "91", lon: "0", country: "France" })
+      const result = findMatch(geoData, { lat: 91, lon: 0, country: "France" })
       expect(result.city).toBe("Paris")
     })
 
     it("ignores lon out of range (-180, 180)", () => {
-      const result = findMatch(geoData, { lat: "0", lon: "181", country: "Germany" })
+      const result = findMatch(geoData, { lat: 0, lon: 181, country: "Germany" })
       expect(result.city).toBe("Berlin")
     })
   })

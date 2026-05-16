@@ -1,5 +1,7 @@
 import { headers } from "next/headers"
+import { fetchGeoData } from "@/entities/location"
 import { FoundCity, type Geo, type GeoItem } from "@/shared/types"
+import { DEFAULT_CITY_DATA } from "./constants"
 
 export interface WeatherParams {
   city?: string
@@ -42,23 +44,22 @@ export const createSearchParams = (data: FoundCity) => {
 
 export const findMatch = (
   geoData: Geo,
-  query: { lat?: string; lon?: string; region?: string; country?: string },
+  query: { lat?: number; lon?: number; region?: string; country?: string },
 ) => {
   const { results } = geoData
-  if (query.lat && query.lon) {
-    const latNum = Number(query.lat)
-    const lonNum = Number(query.lon)
-
+  if (query.lat !== undefined && query.lon !== undefined) {
     const isValid =
-      !isNaN(latNum) &&
-      !isNaN(lonNum) &&
-      latNum >= -90 &&
-      latNum <= 90 &&
-      lonNum >= -180 &&
-      lonNum <= 180
+      !isNaN(query.lat) &&
+      !isNaN(query.lon) &&
+      query.lat >= -90 &&
+      query.lat <= 90 &&
+      query.lon >= -180 &&
+      query.lon <= 180
 
     if (isValid) {
-      const match = results.find((item: GeoItem) => item.lat === latNum && item.lon === lonNum)
+      const match = results.find(
+        (item: GeoItem) => item.lat === query.lat && item.lon === query.lon,
+      )
 
       if (match) return createCityData(match)
     }
@@ -93,6 +94,60 @@ export const needsRedirectCheck = (params: WeatherParams, data: FoundCity) => {
     params.code !== data?.code
 
   return isDifferent
+}
+
+export async function findCityFromParamsOrIP(params: WeatherParams) {
+  if (params.city)
+    return {
+      status: "found" as const,
+      city: params.city,
+      lat: Number(params.lat),
+      lon: Number(params.lon),
+      region: params.region,
+      country: params.country,
+    }
+
+  const ipData = await getCityDataFromIP()
+
+  if (ipData.city)
+    return {
+      status: "found" as const,
+      city: ipData.city,
+      lat: Number(ipData.lat),
+      lon: Number(ipData.lon),
+      region: ipData.region,
+      country: ipData.country,
+    }
+
+  if (ipData.country) {
+    const countryData = await fetchGeoData({ city: ipData.country, count: 3 })
+
+    if (countryData?.results?.length) {
+      const match =
+        countryData.results.find((item) => item.code === "PCLI") ?? countryData.results[0]
+
+      return {
+        status: "found" as const,
+        city: match.city,
+        country: match.country,
+        region: match.region,
+        code: match.code,
+        lat: match.lat,
+        lon: match.lon,
+      }
+    }
+  }
+
+  return { status: "redirect" as const }
+}
+
+export function createDefaultRedirect() {
+  const defaultParams = createSearchParams(DEFAULT_CITY_DATA)
+  return { status: "redirect" as const, url: `/weather?${defaultParams.toString()}` }
+}
+
+export function createNotFoundResponse(city: string) {
+  return { status: "not-found" as const, city }
 }
 
 const createCityData = (data: GeoItem) => ({
