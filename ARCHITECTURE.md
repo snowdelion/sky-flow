@@ -39,7 +39,7 @@ SkyFlow is a weather forecast application built with Next.js 15, following Featu
 
 | Route            | Method | Purpose                                          |
 | ---------------- | ------ | ------------------------------------------------ |
-| `/api/ai`        | _POST_ | Groq AI description (streaming)                  |
+| `/api/ai`        | _POST_ | Hugging Face AI description (streaming)          |
 | `/api/geocoding` | _GET_  | City search (proxied)                            |
 | `/api/forecast`  | _GET_  | Weather data (proxied)                           |
 | `/api/search`    | _GET_  | Search results with short weather data (proxied) |
