@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     const config = getAiConfig(result.data)
 
     const streamResult = streamText({
-      model: groq("llama-3.3-70b-versatile"),
+      model: groq("gpt-oss-120b"),
       system: config.system,
       prompt: config.prompt,
       temperature: config.temperature,
