@@ -1,5 +1,5 @@
-import { groq } from "@ai-sdk/groq"
-import { streamText } from "ai"
+import { huggingface } from "@ai-sdk/huggingface"
+import { createUIMessageStreamResponse, streamText, toUIMessageStream } from "ai"
 import { headers } from "next/headers"
 import { type NextRequest, NextResponse } from "next/server"
 import z from "zod"
@@ -38,14 +38,16 @@ export async function POST(req: NextRequest) {
     const config = getAiConfig(result.data)
 
     const streamResult = streamText({
-      model: groq("gpt-oss-120b"),
+      model: huggingface("meta-llama/Llama-3.1-8B-Instruct"),
       system: config.system,
       prompt: config.prompt,
       temperature: config.temperature,
       maxOutputTokens: 150,
     })
 
-    return streamResult.toUIMessageStreamResponse()
+    return createUIMessageStreamResponse({
+      stream: toUIMessageStream(streamResult),
+    })
   } catch (error) {
     console.error(error)
 

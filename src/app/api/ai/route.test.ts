@@ -21,7 +21,7 @@ vi.mock("@upstash/redis", () => ({
   },
 }))
 
-vi.mock("@ai-sdk/groq", () => ({ groq: vi.fn() }))
+vi.mock("@ai-sdk/huggingface", () => ({ huggingface: vi.fn() }))
 
 vi.mock("server-only", () => ({}))
 
@@ -31,8 +31,12 @@ vi.mock("next/headers", () => ({
 
 vi.mock("ai", () => ({
   streamText: vi.fn().mockReturnValue({
-    toUIMessageStreamResponse: () => new Response("mock-stream", { status: 200 }),
+    stream: "mock-stream-object",
   }),
+  toUIMessageStream: vi.fn().mockReturnValue("mock-ui-stream"),
+  createUIMessageStreamResponse: vi
+    .fn()
+    .mockReturnValue(new Response("mock-stream", { status: 200 })),
 }))
 
 // --- 2. setup ---
