@@ -11,7 +11,7 @@
 [![Vitest](https://img.shields.io/badge/Vitest-4.0-4a8f4b?logo=vite&logoColor=white&style=for-the-badge)](https://vitest.dev)
 [![Deployment](https://img.shields.io/badge/Deployed-Vercel-4a8f4b?logo=vercel&logoColor=white&style=for-the-badge)](https://sky-flow-weather.vercel.app/)
 [![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-4a8f4b?logo=github-actions&logoColor=white&style=for-the-badge)](https://github.com/snowicide/sky-flow/actions)
-[![Groq](https://img.shields.io/badge/Groq-LLaMA_3.3-f43e01?style=for-the-badge&logo=stackblitz&logoColor=white)](https://groq.com)
+[![Hugging Face](https://img.shields.io/badge/Hugging_Face-Llama_3.1-6c757d?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co)
 [![Code Style](https://img.shields.io/badge/Code%20Style-Prettier-6c757d?logo=prettier&logoColor=white&style=for-the-badge)](https://prettier.io)
 [![Commitlint](https://img.shields.io/badge/Commitlint-Conventional-6c757d?logo=commitlint&logoColor=white&style=for-the-badge)](https://commitlint.js.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-ff8c00.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
@@ -29,7 +29,7 @@
 - _**Data Fetching:** TanStack Query (React Query) v5_
 - _**Управление состоянием:** Zustand_
 - _**API:** Open-Meteo (Geocoding and Forecast)_
-- _**AI:** Groq (llama 3.3 70B) + Vercel AI SDK (streaming)_
+- _**AI:** Hugging Face Inference API (Llama 3.1 8B Instruct) + Vercel AI SDK (streaming)_
 - _**Тестирование:** Vitest, MSW (Mock Service Worker)_
 - _**Качество кода:** TypeScript, Eslint, Commitlint, Husky, Zod_
 - _**Инфраструктура:** Upstash Redis (Ratelimit)_
